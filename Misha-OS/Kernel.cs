@@ -1,6 +1,4 @@
-﻿
-
-using Cosmos.HAL.Drivers.PCI.Video;
+﻿using Cosmos.HAL.Drivers.PCI.Video;
 using Cosmos.System;
 using Cosmos.System.FileSystem.Listing;
 using Cosmos.System.Graphics;
@@ -30,11 +28,10 @@ namespace MishaOS
             try
             {
                 BootManager.Boot();
-
             }
             catch (Exception ex)
             {
-                BlueScreen.Panic(ex.Message.ToUpper().Replace(" ", "_"), null);
+                BlueScreen.Panic(BlueScreen.GetProperMessage(ex.Message));
             }
         }
 
@@ -43,16 +40,14 @@ namespace MishaOS
             try
             {
                 UiMouse.Update();
-                //TerminalInstance.Update();
-                //DesktopInstance.Update();
-                foreach(Window w in DesktopManager.OpenWindows)
+                foreach (Window w in DesktopManager.OpenWindows)
                 {
                     w.Update();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                BlueScreen.Panic(ex.Message.ToUpper().Replace(" ","_"),null);
+                BlueScreen.Panic(BlueScreen.GetProperMessage(ex.Message));
             }
         }
     }

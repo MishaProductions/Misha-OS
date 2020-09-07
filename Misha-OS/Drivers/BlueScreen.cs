@@ -6,7 +6,11 @@ namespace MishaOS.Drivers
 {
     public static class BlueScreen
     {
-        public static void Panic(string Error,string Source)
+        /// <summary>
+        /// Displays a blue screen and stops the OS.
+        /// </summary>
+        /// <param name="Error"></param>
+        public static void Panic(string Error)
         {
             Display.disp.Disable();
             Console.BackgroundColor = ConsoleColor.DarkBlue;
@@ -18,8 +22,6 @@ namespace MishaOS.Drivers
             Console.WriteLine("A problem has been detected and MishaOS has been shut down to prevent damage to your computer.\n");
 
             Console.WriteLine(Error);
-            if (Source !=null)
-                Console.WriteLine(Source);
             Console.WriteLine(@"
 If this is the first time you've seen this Stop error screen, 
 restart you computer. If this screen appears again follow
@@ -31,5 +33,6 @@ If problems continue, disable or remove any newly installed hardware.
 Disable BIOS memory options such as caching or shadowing.");
             while (true) ;
         }
+        public static string GetProperMessage(string Message) { return Message.ToUpper().Replace(" ", "_"); }
     }
 }
