@@ -1,0 +1,35 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace MishaOS.Drivers
+{
+    public static class BlueScreen
+    {
+        public static void Panic(string Error,string Source)
+        {
+            Display.disp.Disable();
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.CursorVisible = false;
+            Console.Clear();
+            Console.CursorLeft = 0;
+            Console.CursorTop = 0;
+            Console.WriteLine("A problem has been detected and MishaOS has been shut down to prevent damage to your computer.\n");
+
+            Console.WriteLine(Error);
+            if (Source !=null)
+                Console.WriteLine(Source);
+            Console.WriteLine(@"
+If this is the first time you've seen this Stop error screen, 
+restart you computer. If this screen appears again follow
+these steps:
+Check to make sure any new hardware is properly installed.
+If this is a new installation, check your hardware to see if it is 
+compatible with your computer's BIOS.
+If problems continue, disable or remove any newly installed hardware. 
+Disable BIOS memory options such as caching or shadowing.");
+            while (true) ;
+        }
+    }
+}
