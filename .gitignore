@@ -24,3 +24,10 @@ Misha-OS/obj/Debug/netcoreapp2.0/cosmos/Misha-OS.pdb
 Misha-OS/main.map
 Misha-OS/bin/Debug/netcoreapp2.0/cosmos/Misha-OS.bin
 Misha-OS/bin/Debug/netcoreapp2.0/cosmos/Misha-OS.asm
+Misha-OS/bin/Debug/netcoreapp2.0/cosmos/Misha-OS.iso
+Misha-OS/bin/Debug/netcoreapp2.0/cosmos/ISO/syslinux.cfg
+Misha-OS/bin/Debug/netcoreapp2.0/cosmos/ISO/Misha-OS.bin
+Misha-OS/bin/Debug/netcoreapp2.0/cosmos/ISO/mboot.c32
+Misha-OS/bin/Debug/netcoreapp2.0/cosmos/ISO/libcom32.c32
+Misha-OS/bin/Debug/netcoreapp2.0/cosmos/ISO/ldlinux.c32
+Misha-OS/bin/Debug/netcoreapp2.0/cosmos/ISO/isolinux.bin
