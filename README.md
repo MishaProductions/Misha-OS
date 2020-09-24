@@ -7,3 +7,7 @@ For screenshots, look at the Images folder.
 - Terminal App
 - GUI
 - Terminal Commands
+
+# TODO
+ - Double Buffering
+ - Multiple apps open at once
