@@ -25,20 +25,19 @@ namespace MishaOS
         public int height = 600;
         public string CurrentDir = @"0:\";
         public int MaxCols = 0;
-        public Color TitlebarColor = Color.ForestGreen;
         public string typingcommand = "";
         public Cosmos.System.Graphics.Point WindowCLoseP;
         public int StringindexX = 0;
         public int StringindexY = 20;
         public Terminal()
         {
+            this.Text = "Terminal";
             windowP = new Cosmos.System.Graphics.Point(0, 0);
             WindowCLoseP = new Cosmos.System.Graphics.Point(width - 20, 0);
-
             //Get the max cols
             for (int i = 0; i < height; i++)
             {
-                Drawstring(i.ToString(), new Pen(Color.Black), new Pen(Color.DodgerBlue));
+                Drawstring(i.ToString(), new Pen(Color.Black), new Pen(Color.DodgerBlue),true,true,false);
                 if (StringindexY >= height)
                 {
                     MaxCols = i;
@@ -53,6 +52,7 @@ namespace MishaOS
         /// </summary>
         public void ReDraw()
         {
+            
             Cosmos.System.Graphics.Point titleP = new Cosmos.System.Graphics.Point(windowP.X, windowP.Y + 20);
             int WindowTittleBarHeight = 20;
             Display.disp.DrawFilledRectangle(new Pen(TitlebarColor), new Cosmos.System.Graphics.Point(), width, WindowTittleBarHeight);//Top Bar
@@ -103,7 +103,7 @@ namespace MishaOS
                         {
                             this.Close();
                             DesktopManager.CloseWindow(this);
-                            DesktopManager.OpenWindow(Kernel.DesktopInstance);
+                            DesktopManager.OpenWindow(new Desktop());
                         }
                     }
                 }
@@ -145,13 +145,14 @@ namespace MishaOS
             catch { }
         }
         /// <summary>
-        /// Draws a string
+        /// Draws a string.
+        /// For internal use only.
         /// </summary>
         /// <param name="thestring">The String</param>
         /// <param name="black">Black or White?</param>
         /// <param name="newline">Add a new line?</param>
         /// <param name="a">Add right/left peadding</param>
-        public void Drawstring(string thestring, Pen forecolor, Pen backcolor, bool newline = true, bool a = true)
+        public void Drawstring(string thestring, Pen forecolor, Pen backcolor, bool newline = true, bool a = true,bool doDraw=true)
         {
             if (!Enabled)
                 return;
@@ -164,7 +165,8 @@ namespace MishaOS
             else
                 Display.DrawRectangle(StringindexX, StringindexY, 10, 15, backcolor.Color);
             //Now draw the text
-            Display.disp.DrawString(thestring, PCScreenFont.Default, forecolor, new Cosmos.System.Graphics.Point(StringindexX, StringindexY));
+            if (doDraw)
+                Display.disp.DrawString(thestring, PCScreenFont.Default, forecolor, new Cosmos.System.Graphics.Point(StringindexX, StringindexY));
             if (newline)
             {
                 StringindexY += 20;

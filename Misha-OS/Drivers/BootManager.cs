@@ -29,7 +29,7 @@ namespace MishaOS.Drivers
             AfterBootScreen();
         }
         /// <summary>
-        /// Occurs after the boot screen has loaded.
+        /// Occurs after the system has booted.
         /// </summary>
         public static void AfterBootScreen()
         {
@@ -58,9 +58,7 @@ namespace MishaOS.Drivers
         {
             Display.Init();
             UiMouse.Init();
-            Kernel.TerminalInstance = new Terminal();
-            Kernel.DesktopInstance = new Desktop();
-            DesktopManager.OpenWindow(Kernel.DesktopInstance);
+            DesktopManager.OpenWindow(new Desktop());
         }
     }
 }

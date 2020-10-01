@@ -76,8 +76,8 @@ namespace MishaOS
             Console.Clear();
             Console.WriteLine("┌──────────────────────────────────┐");
             Console.WriteLine("|          Setup                   |");
-            Console.WriteLine("|                                  |");
-            Console.WriteLine("|                                  |");
+            Console.WriteLine("|   This might take a few minutes  |");
+            Console.WriteLine("|Depending on the size of the disk.|");
             Console.WriteLine("|                                  |");
             Console.WriteLine("|     Setup is Formating - "+FormatPerCent(progress) + "  %|");
             Console.WriteLine("└──────────────────────────────────┘");
@@ -94,7 +94,11 @@ namespace MishaOS
             Console.WriteLine("|     Setup is Copying - " + FormatPerCent(progress) + "  %|");
             Console.WriteLine("└──────────────────────────────────┘");
         }
-
+        /// <summary>
+        /// Formats a int to a percent that is more human readable.
+        /// </summary>
+        /// <param name="i"></param>
+        /// <returns></returns>
         public string FormatPerCent(int i)
         {
             if (i >= 10)

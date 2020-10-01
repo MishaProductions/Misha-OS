@@ -4,6 +4,7 @@ using Cosmos.System.FileSystem.Listing;
 using Cosmos.System.Graphics;
 using MishaOS.Drivers;
 using MishaOS.Gui;
+using MishaOS.Gui.Windows;
 using MishaOS.TextUI.Commands.All.General;
 using MishaOS.TextUI.Commands.Help;
 using System;
@@ -93,8 +94,8 @@ namespace MishaOS.TextUI.Commands
             }
             else if (cmd.ToLower().StartsWith("exit"))
             {
-                DesktopManager.CloseWindow(Kernel.TerminalInstance);
-                DesktopManager.OpenWindow(Kernel.DesktopInstance);
+                DesktopManager.CloseWindow(g.term);
+                DesktopManager.OpenWindow(new Desktop());
             }
             else if (string.IsNullOrEmpty(cmd))
             {

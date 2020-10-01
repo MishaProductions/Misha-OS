@@ -29,15 +29,13 @@ namespace MishaOS.Gui.Windows
         {
             //Draw Background
             Display.DrawRectangle(0, 0, Display.getWidth(), Display.getHeight(), Color.ForestGreen);
-            //Draw into text
+            //Draw intro text
             Display.disp.DrawString("Misha OS Welcome Screen", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(5, 5));
             Display.disp.DrawString("Select an Application to begin.", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(5, 20));
-            //Draw Terminal
-            Display.disp.DrawString("Terminal", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(TerminalLoc.X + 5, TerminalLoc.Y + 5));
-            Display.disp.DrawRectangle(new Pen(Color.White), TerminalLoc, Display.getWidth(), 20);
-            //Draw Settings
-            Display.disp.DrawString("Settings", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(SettingsLoc.X + 5, SettingsLoc.Y + 5));
-            Display.disp.DrawRectangle(new Pen(Color.White), SettingsLoc, Display.getWidth(), 20);
+
+            AddApp(new Terminal());
+            AddApp(new Settings());
+
         }
 
         public override void Update()
@@ -48,18 +46,38 @@ namespace MishaOS.Gui.Windows
                 if (MouseManager.MouseState == MouseState.Left)
                 {
                     //20 is text size.
-                    if (UiMouse.MouseY >= TerminalLoc.Y && UiMouse.MouseY <= TerminalLoc.Y + 20)
+
+                    //Check if each app was clicked
+                    foreach(AppReference app in apps)
                     {
-                        DesktopManager.CloseWindow(this);
-                        DesktopManager.OpenWindow(Kernel.TerminalInstance);
-                    }
-                    if (UiMouse.MouseY >= SettingsLoc.Y && UiMouse.MouseY <= SettingsLoc.Y + 20)
-                    {
-                        DesktopManager.CloseWindow(this);
-                        DesktopManager.OpenWindow(new Settings());
+                        Window win = app.window;
+                        if (UiMouse.MouseY >= app.loc.Y && UiMouse.MouseY <= app.loc.Y + 20)
+                        {
+                            DesktopManager.CloseWindow(this);
+                            DesktopManager.OpenWindow(win);
+                        }
                     }
                 }
             }
         }
+        public List<AppReference> apps = new List<AppReference>();
+        int AppY = 40;
+        /// <summary>
+        /// Add a app
+        /// </summary>
+        /// <param name="window">TThe window</param>
+        public void AddApp(Window window)
+        {
+            Cosmos.System.Graphics.Point loc = new Cosmos.System.Graphics.Point(0, AppY);
+            Display.disp.DrawString(window.Text, PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(loc.X + 5, loc.Y + 5));
+            Display.disp.DrawRectangle(new Pen(Color.White), loc, Display.getWidth(), 20);
+            apps.Add(new AppReference() { window=window,loc=loc});
+            AppY += 30;
+        }
+    }
+    public class AppReference
+    {
+        public Cosmos.System.Graphics.Point loc;
+        public Window window;
     }
 }

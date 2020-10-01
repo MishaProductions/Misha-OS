@@ -3,6 +3,7 @@ using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Text;
@@ -14,48 +15,44 @@ namespace MishaOS.Gui
         static Canvas c;
         public static void Begin()
         {
-            c = FullScreenCanvas.GetFullScreenCanvas(new Mode(800, 600, ColorDepth.ColorDepth32));
-            c.Clear(Color.DodgerBlue);
-            WelcomeUI();
-            while (KeyboardManager.ReadKey().Key != ConsoleKeyEx.Enter){}
+            try
+            {
+                c = FullScreenCanvas.GetFullScreenCanvas(new Mode(800, 600, ColorDepth.ColorDepth32));
+                c.Clear(Color.DodgerBlue);
+                WelcomeUI();
+                while (KeyboardManager.ReadKey().Key != ConsoleKeyEx.Enter) { }
 
-            //FORMATING SCREEN
-            FormatUI(50);
-            Kernel.FS.Format("0", "FAT32", true);
+                //FORMATING SCREEN
+                FormatUI(50);
+                Kernel.FS.Format("0", "FAT32", true);
 
-            //Write Screen
-            WriteUI(0);
-            Kernel.FS.CreateFile(@"0:\installed.bif");
-            Kernel.FS.SetFileSystemLabel("0", "MishaOS");
+                //Write Screen
+                WriteUI(0);
+                Kernel.FS.CreateFile(@"0:\installed.bif");
+                Kernel.FS.SetFileSystemLabel("0", "MishaOS");
 
-            WriteUI(50);
+                WriteUI(50);
 
-            Kernel.FS.CreateDirectory(@"0:\System");
-            //try
-            //{
-            //    File.WriteAllBytes(@"0:\System\wallp.jpg", Convert.FromBase64String(Images.wallpap));
-            //}
-            //catch
-            //(Exception ex)
-            //{
-            //    DrawString("Fatal Error: "+ex.Message, Color.White, new Cosmos.System.Graphics.Point());
-            //    DrawString("Contiune? y or n" + ex.Message, Color.White, new Cosmos.System.Graphics.Point(0,100));
-            //    string r = KeyboardManager.ReadKey().KeyChar.ToString();
-            //    if (r == "y") { }
-            //    else { Begin(); }
-            //}
-            WriteUI(98);
+                Kernel.FS.CreateDirectory(@"0:\System");
 
-            Cosmos.HAL.Global.PIT.Wait(5000);
+                WriteUI(98);
 
-            WriteUI(99);
+                Cosmos.HAL.Global.PIT.Wait(5000);
 
-            Cosmos.HAL.Global.PIT.Wait(1000);
+                WriteUI(99);
 
-            CompleteUI();
-            while (KeyboardManager.ReadKey().Key != ConsoleKeyEx.Enter) { }
+                Cosmos.HAL.Global.PIT.Wait(1000);
 
-            Power.Reboot();
+                CompleteUI();
+                while (KeyboardManager.ReadKey().Key != ConsoleKeyEx.Enter) { }
+
+                Power.Reboot();
+            }
+            catch(Exception ex)
+            {
+                c.Clear(Color.DodgerBlue);
+                DrawString("Fatal Error: "+ex.Message, Color.White, new Cosmos.System.Graphics.Point(0,0));
+            }
         }
         public static void WelcomeUI()
         {

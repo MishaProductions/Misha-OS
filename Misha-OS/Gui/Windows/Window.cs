@@ -1,6 +1,7 @@
 ﻿using MishaOS.Gui.Windows.Controls;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace MishaOS.Gui.Windows
@@ -10,6 +11,8 @@ namespace MishaOS.Gui.Windows
     /// </summary>
     public class Window
     {
+        public string Text { get; set; } = "Window1";
+        public Color TitlebarColor = Color.ForestGreen;
         public Window()
         {
         }

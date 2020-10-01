@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 using MishaOS;
 using MishaOS.Drivers;
 
@@ -12,7 +13,7 @@ namespace MishaOS.TextUI.Commands.All.General
             Display.disp.Disable();
            // VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x50);
             MIV.MIV.file = cmdline.Replace("edit","");
-            MIV.MIV.StartMIV();
+            MIV.MIV.StartMIV(g);
         }
 
         public void ShowHelp()
@@ -291,8 +292,10 @@ namespace MIV
         {
             for (int i = 0; i < time; i++) ;
         }
-        public static void StartMIV()
+        static GuiConsole gg;
+        public static void StartMIV(GuiConsole g)
         {
+            gg = g;
             Console.WriteLine("Enter file's filename to open:");
             Console.WriteLine("If the specified file does not exist, it will be created.");
             file = Console.ReadLine();
@@ -334,7 +337,7 @@ namespace MIV
             }
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey(true);
-            Kernel.TerminalInstance.Close();
+            g.term.Close();
             BootManager.Boot();
         }
     }

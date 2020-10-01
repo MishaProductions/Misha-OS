@@ -41,6 +41,13 @@ namespace MishaOS.Gui
             }
         }
 
+        /// <summary>
+        /// This will clear the mouse backup, which will fix problems on mouse click
+        /// </summary>
+        public static void ClearBackup()
+        {
+            pixelDatas = new PixelData[8];
+        }
         public static int MouseX { get { return (int)MouseManager.X; } }
         public static int MouseY { get { return (int)MouseManager.Y; } }
         /// <summary>

@@ -1,17 +1,7 @@
-﻿using Cosmos.HAL.Drivers.PCI.Video;
-using Cosmos.System;
-using Cosmos.System.FileSystem.Listing;
-using Cosmos.System.Graphics;
-using MishaOS.Drivers;
+﻿using MishaOS.Drivers;
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Cryptography;
-using System.Text;
 using Sys = Cosmos.System;
 
 namespace MishaOS
@@ -19,10 +9,8 @@ namespace MishaOS
     public class Kernel : Sys.Kernel
     {
         public static Sys.FileSystem.CosmosVFS FS;
-        public static Terminal TerminalInstance;
-        public static Desktop DesktopInstance;
 
-        public static string KernelVersion = "MishaOS Version 0.1";
+        public static string KernelVersion = "MishaOS Version 0.1.5";
         protected override void BeforeRun()
         {
             try

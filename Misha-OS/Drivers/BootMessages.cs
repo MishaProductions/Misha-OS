@@ -2,6 +2,7 @@
 using Cosmos.Debug.Kernel;
 using Cosmos.HAL;
 using System;
+using System.Diagnostics;
 
 namespace MishaOS.Drivers
 {
@@ -19,7 +20,7 @@ namespace MishaOS.Drivers
                 Console.ForegroundColor = old;
                 Console.Write(" ] " + name);
                 Console.WriteLine();
-
+                Kernel.PrintDebug("[FAIL] "+name);
             }
             else
             {
@@ -29,9 +30,9 @@ namespace MishaOS.Drivers
                 Console.ForegroundColor = old;
                 Console.Write(" ] " + name);
                 Console.WriteLine();
+                Kernel.PrintDebug("[OK] " + name);
             }
         }
     }
-
     public enum SystemdPrintType { Ok, Fail }
 }
