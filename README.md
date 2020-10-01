@@ -1,5 +1,5 @@
 # Misha OS
-MishaOS is a operating system written in C# using cosmos.
+MishaOS is a GUI operating system written in C# using cosmos.
 For screenshots, look at the Images folder.
 
 # Features
