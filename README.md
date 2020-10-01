@@ -11,3 +11,4 @@ For screenshots, look at the Images folder.
 # TODO
  - Double Buffering
  - Multiple apps open at once
+ - Add GUI commands to the terminal
