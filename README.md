@@ -1,6 +1,5 @@
 # Misha OS
 MishaOS is a GUI operating system written in C# using cosmos.
-For screenshots, look at the Images folder.
 
 # Features
 - FAT File System
@@ -12,3 +11,8 @@ For screenshots, look at the Images folder.
  - Double Buffering
  - Multiple apps open at once
  - Add GUI commands to the terminal
+
+# Screen shots
+![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/desk.png)
+![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/term.png)
+![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/setting.png)
