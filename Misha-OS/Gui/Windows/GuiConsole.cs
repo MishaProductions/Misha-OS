@@ -26,17 +26,11 @@ namespace MishaOS
         {
             get
             {
-                return Lines[0];
+                return term.Text;
             }
             set
             {
-                int oldX = term.StringindexX;
-                int oldY = term.StringindexY;
-                term.StringindexX = 0;
-                term.StringindexY = 0;
-                Write(value,term.TitlebarColor, Color.White);
-                term.StringindexX = oldX;
-                term.StringindexY = oldY;
+                term.Text = value;
             }
         }
 
@@ -104,7 +98,6 @@ namespace MishaOS
             term.StringindexX = 0;
             term.StringindexY = 0;
             Lines.Clear(); //Clear lines first to prevent loop
-            term.ReDraw();
         }
         /// <summary>
         /// Scolls the screen. This method temporly clears the screen.
@@ -144,7 +137,7 @@ namespace MishaOS
         }
         /// <summary>
         /// Reads a line
-        /// For example, if the user types in "A cow.", then this function will return "A Cow."
+        /// For example, if the user types in "A cow.", then this function will return "A cow."
         /// Do not use this function in the terminal's update function.
         /// </summary>
         /// <returns>The full string</returns>

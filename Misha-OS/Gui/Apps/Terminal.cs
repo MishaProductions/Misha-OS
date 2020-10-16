@@ -5,6 +5,7 @@ using Cosmos.System.Graphics.Fonts;
 using MishaOS.Drivers;
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
+using MishaOS.Gui.Windows.Controls;
 using MishaOS.TextUI.Commands;
 using System;
 using System.Collections.Generic;
@@ -18,27 +19,25 @@ namespace MishaOS
     /// </summary>
     public class Terminal : Window
     {
-        public bool Enabled = true;
         public Cosmos.System.Graphics.Point windowP;
         public GuiConsole console;
-        public int width = 800;
-        public int height = 600;
         public string CurrentDir = @"0:\";
         public int MaxCols = 0;
         public string typingcommand = "";
-        public Cosmos.System.Graphics.Point WindowCLoseP;
+
         public int StringindexX = 0;
         public int StringindexY = 20;
         public Terminal()
         {
-            this.Text = "Terminal";
-            windowP = new Cosmos.System.Graphics.Point(0, 0);
-            WindowCLoseP = new Cosmos.System.Graphics.Point(width - 20, 0);
+            this.Size = new Size(Display.getWidth(), Display.getHeight());
+            this.Text = "Terminal"; //Set title 
+            this.BackgroundColor = Color.Black;
+            this.ForeColor = Color.White;
             //Get the max cols
-            for (int i = 0; i < height; i++)
+            for (int i = 0; i < this.Size.Height; i++)
             {
                 Drawstring(i.ToString(), new Pen(Color.Black), new Pen(Color.DodgerBlue),true,true,false);
-                if (StringindexY >= height)
+                if (StringindexY >= this.Size.Height)
                 {
                     MaxCols = i;
                     //Init the console
@@ -47,44 +46,17 @@ namespace MishaOS
                 }
             }
         }
-        /// <summary>
-        /// Redraws the terminal.
-        /// </summary>
-        public void ReDraw()
-        {
-            
-            Cosmos.System.Graphics.Point titleP = new Cosmos.System.Graphics.Point(windowP.X, windowP.Y + 20);
-            int WindowTittleBarHeight = 20;
-            Display.disp.DrawFilledRectangle(new Pen(TitlebarColor), new Cosmos.System.Graphics.Point(), width, WindowTittleBarHeight);//Top Bar
-            Display.disp.DrawFilledRectangle(new Pen(Color.Black), titleP, width, height);//Contents
-
-
-            //Draw Close Button
-            Display.disp.DrawFilledRectangle(new Pen(Color.Red), WindowCLoseP, 25, WindowTittleBarHeight);
-            Display.disp.DrawString("X", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(width - 20, 0));
-            //End
-
-            console.Title = "Misha OS Terminal - Active"; //Set title 
-            StringindexX = 0;
-            StringindexY = 20;
-        }
         public override void Open()
         {
             base.Open();
-            this.Enabled = true;
+            StringindexX = 0;
+            StringindexY = 20;
 
-
-            ReDraw();
             //Write Terminal info
             console.WriteLine("Misha OS Terminal");
             console.WriteLine("Version: "+Kernel.KernelVersion);
             console.WriteLine("Running on a " + CPU.GetCPUVendorName());
             console.Write(CurrentDir + " ");
-        }
-        public override void Close()
-        {
-            base.Close();
-            Enabled = false; 
         }
         public override void Update()
         {
@@ -93,20 +65,6 @@ namespace MishaOS
             {
                 if (!Enabled)
                     return;
-                //Check if close button is clicked
-                if (IsOpen)
-                {
-                    if (MouseManager.MouseState == MouseState.Left)
-                    {
-                        //20 is text size.
-                        if (UiMouse.MouseY >= WindowCLoseP.Y && UiMouse.MouseY <= WindowCLoseP.Y + 20)
-                        {
-                            this.Close();
-                            DesktopManager.CloseWindow(this);
-                            DesktopManager.OpenWindow(new Desktop());
-                        }
-                    }
-                }
 
                 KeyEvent k;
                 bool IsKeyPressed = KeyboardManager.TryReadKey(out k);
@@ -151,7 +109,7 @@ namespace MishaOS
         /// <param name="thestring">The String</param>
         /// <param name="black">Black or White?</param>
         /// <param name="newline">Add a new line?</param>
-        /// <param name="a">Add right/left peadding</param>
+        /// <param name="a">Add right/left padding</param>
         public void Drawstring(string thestring, Pen forecolor, Pen backcolor, bool newline = true, bool a = true,bool doDraw=true)
         {
             if (!Enabled)
@@ -161,12 +119,24 @@ namespace MishaOS
                 StringindexX = 0;
             //Clear the area of the text first, than draw the string
             if (newline)
-                Display.DrawRectangle(StringindexX, StringindexY, windowP.X, 15, backcolor.Color);
+            {
+                Control c = new Control() { Location = new System.Drawing.Point(StringindexX, StringindexY), Size = new Size(windowP.X, 15), BackgroundColor = backcolor.Color };
+                this.Controls.Add(c);
+            }
             else
-                Display.DrawRectangle(StringindexX, StringindexY, 10, 15, backcolor.Color);
+            {
+                Control c = new Control() { Location = new System.Drawing.Point(StringindexX, StringindexY), Size = new Size(10, 15), BackgroundColor = backcolor.Color };
+                this.Controls.Add(c);
+            }
             //Now draw the text
             if (doDraw)
-                Display.disp.DrawString(thestring, PCScreenFont.Default, forecolor, new Cosmos.System.Graphics.Point(StringindexX, StringindexY));
+            {
+                Label lbl = new Label();
+                lbl.Location = new System.Drawing.Point(StringindexX, StringindexY);
+                lbl.Text = thestring;
+                lbl.ForeColor = forecolor.Color;
+                this.Controls.Add(lbl);
+            }
             if (newline)
             {
                 StringindexY += 20;
@@ -177,5 +147,7 @@ namespace MishaOS
                     StringindexX += 10;
             }
         }
+        void a() { b(); }
+        void b() { a(); }
     }
 }

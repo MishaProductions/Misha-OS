@@ -1,42 +1,102 @@
 ﻿using Cosmos.System;
 using Cosmos.System.Graphics;
+using MishaOS.Drivers;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace MishaOS.Gui.Windows.Controls
 {
+    /// <summary>
+    /// A class that represents a basic box.
+    /// </summary>
     public class Control
     {
-      //  public event EventHandler OnClick;
-       // public Point Location = new Point(0,0);
-      //  public System.Drawing.Size Size = new System.Drawing.Size(100,10);
-        //public bool Enabled = true;
+        public Color BackgroundColor = Color.White;
+        public Color ForeColor = Color.Black;
+        private System.Drawing.Point _Loc;
+        public System.Drawing.Point Location
+        {
+            get
+            {
+                return _Loc;
+            }
+            set
+            {
+                int newX = value.X;
+                int newY = value.Y;
+
+                //if (value.Y <= -1)
+                //{
+                //    newY = 0;
+                //}
+                //if (value.X <= -1)
+                //{
+                //    newX = 0;
+                //}
+
+                //if (_ParrentWindow != null)
+                //{
+                //    //if (value.Y > _ParrentWindow.Size.Height)
+                //    //{
+                //    //    newY = _ParrentWindow.Size.Height - 1;
+                //    //}
+                //    //if (value.X > _ParrentWindow.Size.Width)
+                //    //{
+                //    //    newX = _ParrentWindow.Size.Width - 1;
+                //    //}
+                //}
+                _Loc = new System.Drawing.Point(newX,newY);
+            }
+        }
+        public Size Size = new Size(10, 10);
+
+        public bool DrawDefaultSquare = true;
+
+        public bool Enabled = true;
+
+        public bool HasFocus = true;
+
+        /// <summary>
+        /// For internal use only.
+        /// </summary>
+        public Window _ParrentWindow;
+        public Window ParrentWindow { get { return _ParrentWindow; } }
+
+        public List<Control> Controls = new List<Control>();
         public Control()
         {
-           // Draw();
+            Draw();
         }
-        public void Click()
+
+
+        /// <summary>
+        /// Draw function
+        /// </summary>
+        public virtual void Draw()
         {
-          //  OnClick.Invoke(this,new EventArgs());
+            //Draw the default square
+            if (DrawDefaultSquare)
+                Display.DrawRectangle(Location.X, Location.Y, Size.Width, Size.Height, BackgroundColor);
+
+            //Draw all the controls in this control
+            foreach (Control d in Controls)
+            {
+                d.Draw();
+            }
         }
-        public virtual void Draw() { }
         /// <summary>
         /// Main control loop function
         /// </summary>
         public virtual void Update()
         {
-            //if (!Enabled) return;
-            //if (MouseManager.MouseState == MouseState.Left)
-            //{
-            //    if (UiMouse.MouseY >= Location.Y && UiMouse.MouseY <= Location.Y + Size.Height)
-            //    {
-            //        if (UiMouse.MouseX >= Location.X && UiMouse.MouseX <= Location.X + Size.Width)
-            //        {
-            //            Click();
-            //        }
-            //    }
-            //}
+            //Update all controls
+            foreach (Control d in Controls)
+            {
+                d.Update();
+                d._ParrentWindow = this.ParrentWindow;
+            }
         }
     }
 }

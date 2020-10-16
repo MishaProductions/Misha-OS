@@ -2,6 +2,7 @@
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using System;
+using System.Linq;
 using Sys = Cosmos.System;
 
 namespace MishaOS
@@ -10,7 +11,7 @@ namespace MishaOS
     {
         public static Sys.FileSystem.CosmosVFS FS;
 
-        public static string KernelVersion = "MishaOS Version 0.1.5";
+        public static string KernelVersion = "MishaOS Version 0.3";
         protected override void BeforeRun()
         {
             try
@@ -28,9 +29,11 @@ namespace MishaOS
             try
             {
                 UiMouse.Update();
+                DesktopManager.Update();
                 foreach (Window w in DesktopManager.OpenWindows)
                 {
-                    w.Update();
+                    if (w!=null)
+                        w.UpdateAll();
                 }
             }
             catch (Exception ex)
