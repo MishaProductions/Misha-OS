@@ -12,7 +12,7 @@ namespace MishaOS.Drivers
         /// <param name="Error"></param>
         public static void Panic(string Error)
         {
-            Display.disp.Disable();
+            Display.Disable();
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.ForegroundColor = ConsoleColor.White;
             Console.CursorVisible = false;

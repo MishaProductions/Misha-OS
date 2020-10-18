@@ -64,7 +64,7 @@ namespace MishaOS.TextUI.Commands
             }
             else if (cmd.ToLower().StartsWith("setup"))
             {
-                Display.disp.Disable();
+                Display.Disable();
                 
                 new Setup(Kernel.FS).StartSetup();
             }

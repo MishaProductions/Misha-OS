@@ -22,7 +22,7 @@ namespace MishaOS.Gui.Windows
         private System.Drawing.Point loc = new System.Drawing.Point(0, 20);
         int tmp_CtlCount = 0;
         //20 is titlebar height.
-        public System.Drawing.Point Location { get { return loc; } set { loc = new System.Drawing.Point(value.X, value.Y + 20); } }
+        public new System.Drawing.Point Location { get { return loc; } set { loc = new System.Drawing.Point(value.X, value.Y + 20); } }
         public new bool Enabled
         {
             get { return base.Enabled; }
@@ -76,10 +76,10 @@ namespace MishaOS.Gui.Windows
             tmp_CtlCount = Controls.Count;
             //Draw title bar here
             Display.DrawRectangle(this.Location.X, this.Location.Y-20, this.Size.Width, 20, this.TitlebarColor);
-            Display.disp.DrawString(Text, PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(this.Location.X, this.Location.Y - 20));
+            Display.DrawString(Text,new Pen(Color.White), this.Location.X, this.Location.Y - 20);
             //Draw Close button
             Display.DrawRectangle(this.Location.X+this.Size.Width-CloseWidth,this.Location.Y-20,CloseWidth,CloseHeight,Color.Red);
-            Display.disp.DrawString("X", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(this.Location.X+ this.Size.Width - CloseWidth, this.Location.Y - 20));
+            Display.DrawString("X", new Pen(Color.White), this.Location.X+ this.Size.Width - CloseWidth, this.Location.Y - 20);
         }
         /// <summary>
         /// Closes the window.

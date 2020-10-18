@@ -23,7 +23,7 @@ namespace MishaOS.Gui.Windows.Controls
             }
         }
 
-        public System.Drawing.Point Location
+        public new System.Drawing.Point Location
         {
             get
             {
@@ -48,11 +48,10 @@ namespace MishaOS.Gui.Windows.Controls
             if (this.ParrentWindow !=null)
             {
                 base.Draw();
-                Display.disp.DrawString(
+                Display.DrawString(
                 Text,
-                PCScreenFont.Default,
                 new Cosmos.System.Graphics.Pen(this.ForeColor),
-                new Cosmos.System.Graphics.Point(this.Location.X, this.Location.Y));
+                this.Location.X, this.Location.Y);
             }
         }
     }

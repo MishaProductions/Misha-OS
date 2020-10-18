@@ -15,6 +15,16 @@ namespace MishaOS.Drivers
 {
     public class BootManager
     {
+
+        public static bool IsBootedInVM
+        {
+            get
+            {
+                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null || 
+                    Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.Bochs, Cosmos.HAL.DeviceID.BGA) != null ||
+                    Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VirtualBox, Cosmos.HAL.DeviceID.VBVGA) != null;
+            }
+        }
         static bool StartedFS = false;
         public static void Boot()
         {
@@ -49,7 +59,6 @@ namespace MishaOS.Drivers
                 boot.DrawFilledRectangle(new Pen(Color.DodgerBlue), new Cosmos.System.Graphics.Point(), 800, barHeight);
                 boot.DrawFilledRectangle(new Pen(Color.DodgerBlue), new Cosmos.System.Graphics.Point(0, 600 - barHeight), 800, barHeight);
                 boot.DrawString("-----MishaOS Debug Screen-----", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0, 0));
-
             }
             boot.DrawFilledRectangle(new Pen(Color.DeepSkyBlue), new Cosmos.System.Graphics.Point(0, barHeight + 20), 800, 20);
             boot.DrawString("MishaOS is loading" + dots, PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0,barHeight+20));
@@ -101,6 +110,7 @@ namespace MishaOS.Drivers
             Display.Init();
             UiMouse.Init();
             DesktopManager.OpenWindow(new Desktop());
+            Display.Render();
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Cosmos.System;
 using Cosmos.System.Graphics;
+using Cosmos.System.Graphics.Fonts;
+using MishaOS.Gui.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,23 +11,43 @@ namespace MishaOS.Drivers
 {
     public static class Display
     {
-        public static Canvas disp;
-        static int ScreenWidth = 800;
-        static int ScreenHeight = 600;
+        private static BufferedCanvas disp;
+        public static int ScreenWidth = 800;
+        public static int ScreenHeight = 600;
 
-        static public void setPixel(int x, int y, Color c)
+
+
+        #region Methods
+
+        #region Draw/Clear Methods
+        public static void Clear(Color col)
         {
-            disp.DrawPoint(new Pen(c),new Cosmos.System.Graphics.Point(x,y));
+            disp.Clear(col);
         }
-        public static int getWidth()
+        public static void Render()
         {
-            return ScreenWidth;
+            disp.Render();
+        }
+        public static void DrawRectangle(int x, int y, int Width, int Height, Color col)
+        {
+            disp.DrawFilledRectangle(new Pen(col),new Cosmos.System.Graphics.Point(x,y),Width,Height);
+        }
+        public static void DrawString(string str, Pen pen, int x, int y)
+        {
+            disp.DrawString(str,PCScreenFont.Default,pen,new Cosmos.System.Graphics.Point(x,y));
+        }
+        public static void setPixel(int x, int y, Color c)
+        {
+            disp.DrawPoint(new Pen(c),x,y);
+        }
+        #endregion
+
+        public static void Disable()
+        {
+            disp.Disable();
         }
 
-        public static  int getHeight()
-        {
-            return ScreenHeight;
-        }
+
         /// <summary>
         /// Loads the display driver.
         /// </summary>
@@ -33,12 +55,10 @@ namespace MishaOS.Drivers
         {
             MouseManager.ScreenHeight = (uint)ScreenHeight;
             MouseManager.ScreenWidth = (uint)ScreenWidth;
-            disp = FullScreenCanvas.GetFullScreenCanvas(new Mode(ScreenWidth, ScreenHeight, ColorDepth.ColorDepth32));
-            disp.Clear(Color.DodgerBlue);
+            disp = new BufferedCanvas(new Mode(ScreenWidth, ScreenHeight, ColorDepth.ColorDepth32));
+            
+            Clear(Color.DodgerBlue);
         }
-        public static void DrawRectangle(int x, int y,int Width,int Height,Color col)
-        {
-            disp.DrawFilledRectangle(new Pen(col),new Cosmos.System.Graphics.Point(x,y),Width,Height);
-        }
+        #endregion
     }
 }

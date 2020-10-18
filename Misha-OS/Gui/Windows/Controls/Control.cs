@@ -27,26 +27,26 @@ namespace MishaOS.Gui.Windows.Controls
                 int newX = value.X;
                 int newY = value.Y;
 
-                //if (value.Y <= -1)
-                //{
-                //    newY = 0;
-                //}
-                //if (value.X <= -1)
-                //{
-                //    newX = 0;
-                //}
+                if (value.Y <= -1)
+                {
+                    newY = 0;
+                }
+                if (value.X <= -1)
+                {
+                    newX = 0;
+                }
 
-                //if (_ParrentWindow != null)
-                //{
-                //    //if (value.Y > _ParrentWindow.Size.Height)
-                //    //{
-                //    //    newY = _ParrentWindow.Size.Height - 1;
-                //    //}
-                //    //if (value.X > _ParrentWindow.Size.Width)
-                //    //{
-                //    //    newX = _ParrentWindow.Size.Width - 1;
-                //    //}
-                //}
+                if (_ParrentWindow != null)
+                {
+                    if (value.Y > _ParrentWindow.Size.Height)
+                    {
+                        newY = _ParrentWindow.Size.Height - 1;
+                    }
+                    if (value.X > _ParrentWindow.Size.Width)
+                    {
+                        newX = _ParrentWindow.Size.Width - 1;
+                    }
+                }
                 _Loc = new System.Drawing.Point(newX,newY);
             }
         }

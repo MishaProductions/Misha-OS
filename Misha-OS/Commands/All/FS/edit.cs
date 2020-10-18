@@ -10,7 +10,7 @@ namespace MishaOS.TextUI.Commands.All.General
     {
         public void Execute(GuiConsole g, string cmdline)
         {
-            Display.disp.Disable();
+            Display.Disable();
            // VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x50);
             MIV.MIV.file = cmdline.Replace("edit","");
             MIV.MIV.StartMIV(g);

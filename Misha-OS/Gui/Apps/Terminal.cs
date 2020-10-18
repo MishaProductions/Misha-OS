@@ -29,7 +29,7 @@ namespace MishaOS
         public int StringindexY = 20;
         public Terminal()
         {
-            this.Size = new Size(Display.getWidth(), Display.getHeight());
+            this.Size = new Size(Display.ScreenWidth, Display.ScreenHeight);
             this.Text = "Terminal"; //Set title 
             this.BackgroundColor = Color.Black;
             this.ForeColor = Color.White;

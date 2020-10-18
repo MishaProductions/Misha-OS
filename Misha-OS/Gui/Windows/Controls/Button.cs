@@ -52,12 +52,10 @@ namespace MishaOS.Gui.Windows.Controls
             int height = this.Size.Height;
             int x = this.Location.X;
             int y = this.Location.Y;
-            Point loc = new Point(width / 2, y);
-            Display.disp.DrawString(
+            Display.DrawString(
                 Text,
-                PCScreenFont.Default,
                 new Cosmos.System.Graphics.Pen(this.ForeColor),
-                loc);
+                width / 2, y);
         }
 
         public override void Update()

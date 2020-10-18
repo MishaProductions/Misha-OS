@@ -12,8 +12,6 @@ namespace MishaOS.Gui
     /// </summary>
     public static class UiMouse
     {
-        static int OldX = 0;
-        static int OldY = 0;
         /// <summary>
         /// Copied from https://github.com/nifanfa/Cosmos-GUI-Sample
         /// </summary>
@@ -40,7 +38,7 @@ namespace MishaOS.Gui
                 0,0,0,0,0,0,0,1,1,0,0,0
             };
 
-        private static List<PixelData> pixelDatas = new List<PixelData>(); 
+        private static List<PixelData> pixelDatas = new List<PixelData>();
         /// <summary>
         /// Updates the mouse.
         /// </summary>
@@ -49,21 +47,12 @@ namespace MishaOS.Gui
 
             int NewX = (int)MouseManager.X;
             int NewY = (int)MouseManager.Y;
-            if (NewX != OldX | NewY != OldY)
+            try
             {
-                try
-                {
-                    //Restore the backup First
-                    RestoreBackup();
-
-                    //Paint New Mouse
-                    DrawMouse(NewX, NewY);
-                }
-                catch { }
-
-                OldX = NewX;
-                OldY = NewY;
+                //Paint New Mouse
+                DrawMouse(NewX, NewY);
             }
+            catch { }
         }
 
         /// <summary>
@@ -75,6 +64,8 @@ namespace MishaOS.Gui
         }
         public static int MouseX { get { return (int)MouseManager.X; } }
         public static int MouseY { get { return (int)MouseManager.Y; } }
+
+        public static MouseState MouseState { get { return MouseManager.MouseState; } }
         /// <summary>
         /// Backs up the mouse, then draws it.
         /// </summary>
@@ -83,41 +74,7 @@ namespace MishaOS.Gui
 
         private static void DrawMouse(int x, int y)
         {
-            int i = 0;
-            for (uint h = 0; h < 19; h++)
-            {
-                for (uint w = 0; w < 12; w++)
-                {
-                    if (cursor[h * 12 + w] == 1)
-                    {
-                        pixelDatas.Add(GetPixelData((int)w + x, (int)h + y));
-                        Display.setPixel((int)w + x, (int)h + y, Color.Black);
-                    }
-                    if (cursor[h * 12 + w] == 2)
-                    {
-                        pixelDatas.Add(GetPixelData((int)w + x, (int)h + y));
-                        Display.setPixel((int)w + x, (int)h + y,Color.White);
-                    }
-                    i++;
-                }
-                i++;
-            }
-        }
-        /// <summary>
-        /// Restore the old pixels as if the mouse was not there.
-        /// </summary>
-        private static void RestoreBackup()
-        {
-            foreach (PixelData pix in pixelDatas)
-            {
-                Display.disp.DrawPoint(new Cosmos.System.Graphics.Pen(pix.color), pix.x, pix.y);
-            }
-        }
-
-        private static PixelData GetPixelData(int x, int y)
-        {
-            Color c = Display.disp.GetPointColor(x, y);
-            return new PixelData() { x = x, y = y, color = c };
+            ImageUtil.DrawImage(cursor,x,y,12,19);
         }
         /// <summary>
         /// Inits the mouse.
@@ -131,10 +88,12 @@ namespace MishaOS.Gui
         }
     }
 
-    public class PixelData { public int x = 0; public int y = 0; public Color color = Color.Black;
+    public class PixelData
+    {
+        public int x = 0; public int y = 0; public Color color = Color.Black;
         public override string ToString()
         {
-            return "X: "+x+" Y: "+y+" Color: "+color.ToString();
+            return "X: " + x + " Y: " + y + " Color: " + color.ToString();
         }
     }
 }

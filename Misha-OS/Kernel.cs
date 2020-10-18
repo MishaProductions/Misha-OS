@@ -2,6 +2,7 @@
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using System;
+using System.Drawing;
 using System.Linq;
 using Sys = Cosmos.System;
 
@@ -11,7 +12,7 @@ namespace MishaOS
     {
         public static Sys.FileSystem.CosmosVFS FS;
 
-        public static string KernelVersion = "MishaOS Version 0.3";
+        public static string KernelVersion = "MishaOS Version 0.35 (Unstable)";
         protected override void BeforeRun()
         {
             try
@@ -28,13 +29,18 @@ namespace MishaOS
         {
             try
             {
-                UiMouse.Update();
+                Display.Clear(Color.DodgerBlue);
                 DesktopManager.Update();
                 foreach (Window w in DesktopManager.OpenWindows)
                 {
-                    if (w!=null)
+                    if (w != null)
+                    {
                         w.UpdateAll();
+                        w.Draw();
+                    }
                 }
+                UiMouse.Update();
+                Display.Render();
             }
             catch (Exception ex)
             {
