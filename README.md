@@ -6,9 +6,10 @@ MishaOS is a GUI operating system written in C# using cosmos.
 - Terminal App
 - GUI
 - Terminal Commands
+- Double Buffering
 
 # TODO
- - Double Buffering
+ - Faster Double Buffering
  - Multiple apps open at once
  - Add GUI commands to the terminal
 
