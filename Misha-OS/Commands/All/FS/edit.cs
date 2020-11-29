@@ -2,13 +2,15 @@
 using System.IO;
 using System.Runtime.CompilerServices;
 using MishaOS;
+using MishaOS.Commands;
 using MishaOS.Drivers;
+using MishaOS.Gui.Windows;
 
 namespace MishaOS.TextUI.Commands.All.General
 {
     class edit : ICommand
     {
-        public void Execute(GuiConsole g, string cmdline)
+        public void Execute(IGuiConsole g, string cmdline)
         {
             Display.Disable();
            // VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x50);
@@ -292,8 +294,8 @@ namespace MIV
         {
             for (int i = 0; i < time; i++) ;
         }
-        static GuiConsole gg;
-        public static void StartMIV(GuiConsole g)
+        static IGuiConsole gg;
+        public static void StartMIV(IGuiConsole g)
         {
             gg = g;
             Console.WriteLine("Enter file's filename to open:");
@@ -337,7 +339,11 @@ namespace MIV
             }
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey(true);
-            g.term.Close();
+            if (g.term is Window)
+            {
+                (g.term as Window).Close();
+            }
+
             BootManager.Boot();
         }
     }

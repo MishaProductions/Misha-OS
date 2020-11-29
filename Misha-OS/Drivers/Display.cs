@@ -12,8 +12,8 @@ namespace MishaOS.Drivers
     public static class Display
     {
         private static BufferedCanvas disp;
-        public static int ScreenWidth = 800;
-        public static int ScreenHeight = 600;
+        public static int ScreenWidth = 640;
+        public static int ScreenHeight = 480;
 
 
 
@@ -41,10 +41,17 @@ namespace MishaOS.Drivers
             disp.DrawPoint(new Pen(c),x,y);
         }
         #endregion
-
+        /// <summary>
+        /// Disables the grapics, returning to textmode.
+        /// </summary>
         public static void Disable()
         {
             disp.Disable();
+        }
+
+        public static void DisplayD()
+        {
+            disp.Display();
         }
 
 

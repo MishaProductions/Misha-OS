@@ -38,7 +38,7 @@ namespace MishaOS.Gui.Windows.Controls
                 }
             }
         }
-
+        public override bool DrawDefaultSquare { get { return false; } set { } }
         public Label()
         {
             this.DrawDefaultSquare = false;

@@ -2,6 +2,7 @@
 using Cosmos.System;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
+using MishaOS.Commands;
 using MishaOS.Drivers;
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
@@ -20,8 +21,7 @@ namespace MishaOS
     public class Terminal : Window
     {
         public Cosmos.System.Graphics.Point windowP;
-        public GuiConsole console;
-        public string CurrentDir = @"0:\";
+        public IGuiConsole console;
         public int MaxCols = 0;
         public string typingcommand = "";
 
@@ -41,7 +41,8 @@ namespace MishaOS
                 {
                     MaxCols = i;
                     //Init the console
-                    console = new GuiConsole(this, MaxCols);
+                    console = new GuiConsole(this, MaxCols) { _term = this };
+                    
                     return;
                 }
             }
@@ -56,7 +57,7 @@ namespace MishaOS
             console.WriteLine("Misha OS Terminal");
             console.WriteLine("Version: "+Kernel.KernelVersion);
             console.WriteLine("Running on a " + CPU.GetCPUVendorName());
-            console.Write(CurrentDir + " ");
+            console.Write(console.CurrentDIR + " ");
         }
         public override void Update()
         {
@@ -77,7 +78,7 @@ namespace MishaOS
                     typingcommand = "";
                     console.WriteLine();//Move down the cursor.
                     CommandParaser.ProcessCommand(console, Command); //Process the command
-                    console.Write(CurrentDir + " ");
+                    console.Write(console.CurrentDIR + " ");
                 }
                 else if (k.Key == ConsoleKeyEx.Spacebar)
                 {
@@ -147,7 +148,5 @@ namespace MishaOS
                     StringindexX += 10;
             }
         }
-        void a() { b(); }
-        void b() { a(); }
     }
 }

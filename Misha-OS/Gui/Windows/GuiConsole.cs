@@ -1,4 +1,5 @@
 ﻿using Cosmos.System;
+using MishaOS.Commands;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -9,11 +10,11 @@ namespace MishaOS
     /// <summary>
     /// A wraper class to Terminal.
     /// </summary>
-    public class GuiConsole
+    public class GuiConsole:IGuiConsole
     {
         public List<string> Lines = new List<string>();
         public Terminal term;
-        private int MaxCols;
+        public int MaxCols { get; set; }
         public GuiConsole(Terminal term, int MaxCols)
         {
             this.term = term;
@@ -34,8 +35,13 @@ namespace MishaOS
             }
         }
 
-        public Color Forecolor = Color.White;
-        public Color BackColor = Color.Black;
+        public Color foreColor { get; set; } = Color.White;
+        public Color backColor { get; set; } = Color.Black;
+
+        public Terminal _term;
+        object IGuiConsole.term { get => _term; set => _term = (Terminal)value; }
+        public string CurrentDIR { get; set; } = @"0:\";
+
         /// <summary>
         /// Writes text to the console.
         /// </summary>
@@ -51,7 +57,7 @@ namespace MishaOS
             catch { }
             foreach (char x in txt)
             {
-                term.Drawstring(x.ToString(), new Cosmos.System.Graphics.Pen(Forecolor), new Cosmos.System.Graphics.Pen(BackColor), false, true);
+                term.Drawstring(x.ToString(), new Cosmos.System.Graphics.Pen(foreColor), new Cosmos.System.Graphics.Pen(backColor), false, true);
             }
             Scoll();
         }
@@ -76,7 +82,7 @@ namespace MishaOS
         public void WriteLine(string txt)
         {
             Lines.Add(txt);
-            term.Drawstring(txt, new Cosmos.System.Graphics.Pen(Forecolor), new Cosmos.System.Graphics.Pen(BackColor));
+            term.Drawstring(txt, new Cosmos.System.Graphics.Pen(foreColor), new Cosmos.System.Graphics.Pen(backColor));
 
             Scoll();
         }
@@ -86,7 +92,7 @@ namespace MishaOS
         public void WriteLine()
         {
             Lines.Add("");
-            term.Drawstring("", new Cosmos.System.Graphics.Pen(Forecolor), new Cosmos.System.Graphics.Pen(BackColor));
+            term.Drawstring("", new Cosmos.System.Graphics.Pen(foreColor), new Cosmos.System.Graphics.Pen(backColor));
 
             Scoll();
         }

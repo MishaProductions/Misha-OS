@@ -1,4 +1,5 @@
 ﻿using Cosmos.System.FileSystem.Listing;
+using MishaOS.Commands;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,9 +9,9 @@ namespace MishaOS.TextUI.Commands.All.General
 {
     public class ls : ICommand
     {
-        public void Execute(GuiConsole g, string cmdline)
+        public void Execute(IGuiConsole g, string cmdline)
         {
-            var fs = g.term.CurrentDir;
+            var fs = g.CurrentDIR;
             g.WriteLine("Volume Label is " + Kernel.FS.GetFileSystemLabel(Path.GetPathRoot(fs)));
             g.WriteLine("Directory of " + fs);
             g.WriteLine();

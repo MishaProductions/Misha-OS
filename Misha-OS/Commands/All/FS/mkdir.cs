@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MishaOS.Commands;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace MishaOS.TextUI.Commands.All.General
 {
     public class mkdir : ICommand
     {
-        public void Execute(GuiConsole g, string cmdline)
+        public void Execute(IGuiConsole g, string cmdline)
         {
             string newdirname = cmdline.Replace("mkdir ", "");
             string[] paramss = newdirname.Split();
@@ -40,7 +41,7 @@ namespace MishaOS.TextUI.Commands.All.General
                 {
                     try
                     {
-                        Directory.CreateDirectory(g.term.CurrentDir + @"\" + dirName);
+                        Directory.CreateDirectory(g.CurrentDIR + @"\" + dirName);
                     }
                     catch { }
                 }
@@ -49,7 +50,7 @@ namespace MishaOS.TextUI.Commands.All.General
                     bool sucess = true;
                     try
                     {
-                        Directory.CreateDirectory(g.term.CurrentDir + @"\" + dirName);
+                        Directory.CreateDirectory(g.CurrentDIR + @"\" + dirName);
                     }
                     catch (Exception ex)
                     {

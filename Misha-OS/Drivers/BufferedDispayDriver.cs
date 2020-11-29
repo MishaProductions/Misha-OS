@@ -13,6 +13,11 @@ namespace MishaOS.Drivers
         public int screenW;
         public static Color[] SBuffer;
         public static Color[] SBufferOld;
+        public override List<Mode> AvailableModes => display.AvailableModes;
+
+        public override Mode DefaultGraphicMode => display.DefaultGraphicMode;
+
+        public override Mode Mode { get { return display.Mode; } set { display.Mode = value; } }
 
         public BufferedCanvas(Mode mode)
         {
@@ -23,12 +28,6 @@ namespace MishaOS.Drivers
             SBuffer = new Color[(screenW * screenH) + screenW];
             SBufferOld = new Color[(screenW * screenH) + screenW];
         }
-
-        public override List<Mode> AvailableModes => display.AvailableModes;
-
-        public override Mode DefaultGraphicMode => display.DefaultGraphicMode;
-
-        public override Mode Mode { get { return display.Mode; } set { display.Mode = value; } }
 
         public override void Disable()
         {
@@ -50,7 +49,6 @@ namespace MishaOS.Drivers
             if (x > screenW || y > screenH) return;
             SBuffer[(y * screenW) + x] = pen.Color;
         }
-
         public override void DrawPoint(Pen pen, float x, float y)
         {
             DrawPoint(pen, (int)x, (int)y);
@@ -90,6 +88,20 @@ namespace MishaOS.Drivers
                 if (SBufferOld[i] != SBuffer[i])
                 {
                     SBufferOld[i] = SBuffer[i];
+                }
+            }
+        }
+
+        public override void DrawFilledRectangle(Pen pen, int x_start, int y_start, int width, int height)
+        {
+            int endX = x_start + width;
+            int endY = y_start + height;
+
+            for (int x = x_start; x < endX; x++)
+            {
+                for (int y = y_start; y < endY; y++)
+                {
+                    DrawPoint(pen, x, y);
                 }
             }
         }

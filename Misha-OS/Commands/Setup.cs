@@ -1,6 +1,9 @@
 ﻿using Cosmos.HAL;
 using Cosmos.System.FileSystem;
+using MishaOS.Drivers;
 using MishaOS.Gui;
+using MishaOS.Gui.Windows;
+using MishaOS.TextUI.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,7 +33,12 @@ namespace MishaOS
             string o = Console.ReadLine();
             if (o == "Q" | o=="q")
             {
-                SetupGUI.Begin();
+                CommandParaser.IsGUI = true;
+
+                Display.Init();
+                UiMouse.Init();
+                DesktopManager.OpenWindow(new SetupWindow());
+                Display.Render();
                 return;
             }
 

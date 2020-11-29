@@ -1,4 +1,5 @@
 ﻿using Cosmos.System;
+using Cosmos.System.FileSystem.Listing;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
 using MishaOS.Drivers;
@@ -42,12 +43,16 @@ namespace MishaOS.Gui.Windows.Controls
                 this.Draw();
             }
         }
+
+
         public Button()
         {
         }
         public override void Draw()
         {
             base.Draw();
+            if (!Visible)
+                return;
             int width = this.Size.Width;
             int height = this.Size.Height;
             int x = this.Location.X;
@@ -55,7 +60,7 @@ namespace MishaOS.Gui.Windows.Controls
             Display.DrawString(
                 Text,
                 new Cosmos.System.Graphics.Pen(this.ForeColor),
-                width / 2, y);
+                x, y);
         }
 
         public override void Update()
@@ -64,7 +69,7 @@ namespace MishaOS.Gui.Windows.Controls
             int height = this.Size.Height;
             int x = this.Location.X;
             int y = this.Location.Y;
-            if (MouseManager.MouseState == MouseState.Left && Enabled)
+            if (MouseManager.MouseState == MouseState.Left && Enabled && Visible)
             {
                 if (UiMouse.MouseY >= this.Location.Y && UiMouse.MouseY <= this.Location.Y + this.Size.Height)
                 {

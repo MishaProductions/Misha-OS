@@ -13,6 +13,11 @@ namespace MishaOS.Gui.Windows.Controls
     /// </summary>
     public class Control
     {
+        /// <summary>
+        /// The Tag of the control. Can be used to store information about this control.
+        /// </summary>
+        public object Tag { get; set; }
+
         public Color BackgroundColor = Color.White;
         public Color ForeColor = Color.Black;
         private System.Drawing.Point _Loc;
@@ -52,7 +57,7 @@ namespace MishaOS.Gui.Windows.Controls
         }
         public Size Size = new Size(10, 10);
 
-        public bool DrawDefaultSquare = true;
+        public virtual bool DrawDefaultSquare { get; set; } = true;
 
         public bool Enabled = true;
 
@@ -63,6 +68,15 @@ namespace MishaOS.Gui.Windows.Controls
         /// </summary>
         public Window _ParrentWindow;
         public Window ParrentWindow { get { return _ParrentWindow; } }
+        private bool vis = true;
+        /// <summary>
+        /// Can the user see the control?
+        /// </summary>
+        public bool Visible
+        {
+            get { return vis; }
+            set { vis = value;this.Draw(); }
+        }
 
         public List<Control> Controls = new List<Control>();
         public Control()
@@ -76,6 +90,8 @@ namespace MishaOS.Gui.Windows.Controls
         /// </summary>
         public virtual void Draw()
         {
+            if (!Visible) //Skip drawing if not visible
+                return;
             //Draw the default square
             if (DrawDefaultSquare)
                 Display.DrawRectangle(Location.X, Location.Y, Size.Width, Size.Height, BackgroundColor);

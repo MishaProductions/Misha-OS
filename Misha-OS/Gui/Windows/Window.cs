@@ -15,6 +15,19 @@ namespace MishaOS.Gui.Windows
     /// </summary>
     public class Window : Control
     {
+        private bool _ShouldDrawCloseButton = true;
+        public bool ShouldDrawCloseButton
+        {
+            get
+            {
+                return _ShouldDrawCloseButton;
+            }
+            set
+            {
+                _ShouldDrawCloseButton = value;
+                this.Draw();
+            }
+        }
         public int State;
         public string Text { get; set; } = "Window1";
         public Color TitlebarColor = Color.ForestGreen;
@@ -35,7 +48,7 @@ namespace MishaOS.Gui.Windows
                 }
             }
         }
-        
+
         public new Size Size
         {
             get { return base.Size; }
@@ -75,11 +88,14 @@ namespace MishaOS.Gui.Windows
             }
             tmp_CtlCount = Controls.Count;
             //Draw title bar here
-            Display.DrawRectangle(this.Location.X, this.Location.Y-20, this.Size.Width, 20, this.TitlebarColor);
-            Display.DrawString(Text,new Pen(Color.White), this.Location.X, this.Location.Y - 20);
+            Display.DrawRectangle(this.Location.X, this.Location.Y - 20, this.Size.Width, 20, this.TitlebarColor);
+            Display.DrawString(Text, new Pen(Color.White), this.Location.X, this.Location.Y - 20);
             //Draw Close button
-            Display.DrawRectangle(this.Location.X+this.Size.Width-CloseWidth,this.Location.Y-20,CloseWidth,CloseHeight,Color.Red);
-            Display.DrawString("X", new Pen(Color.White), this.Location.X+ this.Size.Width - CloseWidth, this.Location.Y - 20);
+            if (ShouldDrawCloseButton)
+            {
+                Display.DrawRectangle(this.Location.X + this.Size.Width - CloseWidth, this.Location.Y - 20, CloseWidth, CloseHeight, Color.Red);
+                Display.DrawString("X", new Pen(Color.White), this.Location.X + this.Size.Width - CloseWidth, this.Location.Y - 20);
+            }
         }
         /// <summary>
         /// Closes the window.

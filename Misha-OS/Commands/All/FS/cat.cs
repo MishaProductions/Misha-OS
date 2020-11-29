@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MishaOS.Commands;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -7,7 +8,7 @@ namespace MishaOS.TextUI.Commands.All.General
 {
     public class cat : ICommand
     {
-        public void Execute(GuiConsole g, string cmdline)
+        public void Execute(IGuiConsole g, string cmdline)
         {
             string newcmdlane = cmdline.Replace("cat", "");
             string[] args = newcmdlane.Split();

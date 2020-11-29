@@ -3,8 +3,11 @@ using Cosmos.System;
 using Cosmos.System.FileSystem;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
+using MishaOS.Commands;
+using MishaOS.Commands.All;
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
+using MishaOS.TextUI.Commands;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -49,6 +52,7 @@ namespace MishaOS.Drivers
         private static Canvas boot;
         static void Boot(string dots,bool isFirst=false,bool isLast=false)
         {
+            
             //INTS
             int barHeight = 50;
             if (isFirst)
@@ -107,10 +111,53 @@ namespace MishaOS.Drivers
 
         private static void BootToGui()
         {
-            Display.Init();
-            UiMouse.Init();
-            DesktopManager.OpenWindow(new Desktop());
-            Display.Render();
+            
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.BackgroundColor = ConsoleColor.DarkBlue;
+            System.Console.Clear();
+
+            System.Console.WriteLine("Interfaces: \n1. GUI\n2. CLI");
+            TextWindows.Draw("Enter interface number",0,5);
+            //System.Console.WriteLine("Please Select an interface");
+            //System.Console.WriteLine("1. GUI");
+            //System.Console.WriteLine("2. CLI");
+            var input = System.Console.ReadLine();
+            System.Console.Clear();
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.BackgroundColor = ConsoleColor.Black;
+            if (input == "1")
+            {
+                System.Console.Clear();
+                System.Console.ForegroundColor = ConsoleColor.White;
+                System.Console.BackgroundColor = ConsoleColor.Black;
+                CommandParaser.IsGUI = true;
+
+                Display.Init();
+                UiMouse.Init();
+                DesktopManager.OpenWindow(new Desktop());
+                Display.Render();
+            }
+            else if (input == "2")
+            {
+                System.Console.Clear();
+                System.Console.ForegroundColor = ConsoleColor.White;
+                System.Console.BackgroundColor = ConsoleColor.Black;
+                CommandParaser.IsGUI = false;
+
+                var term = new TextTerm();
+                while (!CommandParaser.IsGUI)
+                {
+                    var input2 = term.ReadLine();
+                    CommandParaser.ProcessCommand(term, input2);
+                    term.Write(term.CurrentDIR);
+                }
+            }
+            else
+            {
+                System.Console.Clear();
+                System.Console.WriteLine("Unknown Input");
+                BootToGui();
+            }
         }
     }
 }

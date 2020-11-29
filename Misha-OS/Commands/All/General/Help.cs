@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MishaOS.Commands;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,7 +7,7 @@ namespace MishaOS.TextUI.Commands.Help
 {
     public class Help : ICommand
     {
-        public void Execute(GuiConsole g, string cmdline)
+        public void Execute(IGuiConsole g, string cmdline)
         {
             g.WriteLine("Help Version 0.1 Beta");
             g.WriteLine("=====================");
