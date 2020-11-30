@@ -52,7 +52,7 @@ namespace MishaOS.Gui.Windows.Controls
                         newX = _ParrentWindow.Size.Width - 1;
                     }
                 }
-                _Loc = new System.Drawing.Point(newX,newY);
+                _Loc = new System.Drawing.Point(newX, newY);
             }
         }
         public Size Size = new Size(10, 10);
@@ -75,7 +75,7 @@ namespace MishaOS.Gui.Windows.Controls
         public bool Visible
         {
             get { return vis; }
-            set { vis = value;this.Draw(); }
+            set { vis = value; this.Draw(); }
         }
 
         public List<Control> Controls = new List<Control>();
@@ -90,11 +90,11 @@ namespace MishaOS.Gui.Windows.Controls
         /// </summary>
         public virtual void Draw()
         {
-            if (!Visible) //Skip drawing if not visible
+            if (!Visible | this.ParrentWindow == null) //Skip drawing if not visible
                 return;
             //Draw the default square
             if (DrawDefaultSquare)
-                Display.DrawRectangle(Location.X, Location.Y, Size.Width, Size.Height, BackgroundColor);
+                Display.DrawRectangle(Location.X + this.ParrentWindow.ClientLocation.X, Location.Y + this.ParrentWindow.ClientLocation.Y, Size.Width, Size.Height, BackgroundColor);
 
             //Draw all the controls in this control
             foreach (Control d in Controls)

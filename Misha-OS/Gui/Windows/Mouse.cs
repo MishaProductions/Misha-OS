@@ -38,13 +38,11 @@ namespace MishaOS.Gui
                 0,0,0,0,0,0,0,1,1,0,0,0
             };
 
-        private static List<PixelData> pixelDatas = new List<PixelData>();
         /// <summary>
         /// Updates the mouse.
         /// </summary>
         public static void Update()
         {
-
             int NewX = (int)MouseManager.X;
             int NewY = (int)MouseManager.Y;
             try
@@ -53,14 +51,6 @@ namespace MishaOS.Gui
                 DrawMouse(NewX, NewY);
             }
             catch { }
-        }
-
-        /// <summary>
-        /// This will clear the mouse backup, which will fix problems on mouse click
-        /// </summary>
-        public static void ClearBackup()
-        {
-            pixelDatas.Clear();
         }
         public static int MouseX { get { return (int)MouseManager.X; } }
         public static int MouseY { get { return (int)MouseManager.Y; } }
@@ -74,26 +64,21 @@ namespace MishaOS.Gui
 
         private static void DrawMouse(int x, int y)
         {
-            ImageUtil.DrawImage(cursor,x,y,12,19);
+            try
+            {
+                ImageUtil.DrawImage(cursor, x, y, 12, 19);
+            }
+            catch
+            {
+
+            }
         }
         /// <summary>
         /// Inits the mouse.
         /// </summary>
         public static void Init()
         {
-            for (int i = 0; i < pixelDatas.Count; i++)
-            {
-                pixelDatas[i] = new PixelData();
-            }
-        }
-    }
 
-    public class PixelData
-    {
-        public int x = 0; public int y = 0; public Color color = Color.Black;
-        public override string ToString()
-        {
-            return "X: " + x + " Y: " + y + " Color: " + color.ToString();
         }
     }
 }

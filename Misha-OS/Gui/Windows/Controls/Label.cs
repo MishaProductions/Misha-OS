@@ -45,13 +45,13 @@ namespace MishaOS.Gui.Windows.Controls
         }
         public override void Draw()
         {
-            if (this.ParrentWindow !=null)
+            if (this.ParrentWindow !=null && this.Visible)
             {
                 base.Draw();
                 Display.DrawString(
                 Text,
                 new Cosmos.System.Graphics.Pen(this.ForeColor),
-                this.Location.X, this.Location.Y);
+                this.Location.X+this.ParrentWindow.ClientLocation.X, this.Location.Y + this.ParrentWindow.ClientLocation.Y);
             }
         }
     }

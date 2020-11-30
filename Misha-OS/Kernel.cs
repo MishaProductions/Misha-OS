@@ -13,7 +13,7 @@ namespace MishaOS
     {
         public static Sys.FileSystem.CosmosVFS FS;
 
-        public static string KernelVersion = "MishaOS Version 0.4 (Unstable)";
+        public static string KernelVersion = "MishaOS Version 0.5";
         protected override void BeforeRun()
         {
             try
@@ -33,7 +33,7 @@ namespace MishaOS
                if (CommandParaser.IsGUI)
                 {
                     Display.Clear(Color.DodgerBlue);
-                    DesktopManager.Update();
+                   // DesktopManager.Update();
                     foreach (Window w in DesktopManager.OpenWindows)
                     {
                         if (w != null)
@@ -43,6 +43,8 @@ namespace MishaOS
                         }
                     }
                     UiMouse.Update();
+                    Display.DrawRectangle(0,0,100,20,Color.Black);
+                    Display.DrawString("FPS: " + FPSCounter.FPS, new Sys.Graphics.Pen(Color.White), 0, 0);
                     Display.Render();
                 }
                 else

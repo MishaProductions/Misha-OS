@@ -58,7 +58,6 @@ namespace MishaOS.Gui.Windows
             btn.Text = window.Text;
             btn.OnClick += delegate(object s, EventArgs e)
             {
-                DesktopManager.CloseWindow(this);
                 DesktopManager.OpenWindow(window);
             };
             this.Controls.Add(btn);

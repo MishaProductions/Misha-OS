@@ -1,7 +1,7 @@
 ﻿using Cosmos.System;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
-using MishaOS.Gui.Fonts;
+using MishaOS.Drivers.Screens;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -11,34 +11,48 @@ namespace MishaOS.Drivers
 {
     public static class Display
     {
-        private static BufferedCanvas disp;
+        
         public static int ScreenWidth = 640;
         public static int ScreenHeight = 480;
-
-
-
+        private static IDisplay Backend;
         #region Methods
 
         #region Draw/Clear Methods
         public static void Clear(Color col)
         {
-            disp.Clear(col);
+            Backend.Clear(col);
         }
         public static void Render()
         {
-            disp.Render();
+            try
+            {
+                Backend.Render();
+            }
+            catch { }
         }
         public static void DrawRectangle(int x, int y, int Width, int Height, Color col)
         {
-            disp.DrawFilledRectangle(new Pen(col),new Cosmos.System.Graphics.Point(x,y),Width,Height);
+            try
+            {
+                Backend.DrawRectangle(x, y, Width, Height, col);
+            }
+            catch { }
         }
         public static void DrawString(string str, Pen pen, int x, int y)
         {
-            disp.DrawString(str,PCScreenFont.Default,pen,new Cosmos.System.Graphics.Point(x,y));
+            try
+            {
+                Backend.DrawString(str, pen, x, y);
+            }
+            catch { }
         }
         public static void setPixel(int x, int y, Color c)
         {
-            disp.DrawPoint(new Pen(c),x,y);
+            try
+            {
+                Backend.setPixel(x, y, c);
+            }
+            catch { }
         }
         #endregion
         /// <summary>
@@ -46,24 +60,27 @@ namespace MishaOS.Drivers
         /// </summary>
         public static void Disable()
         {
-            disp.Disable();
+            Backend.Disable();
         }
-
+        /// <summary>
+        /// Enables graphics
+        /// </summary>
         public static void DisplayD()
         {
-            disp.Display();
+            Backend.DisplayD();
         }
-
-
         /// <summary>
         /// Loads the display driver.
         /// </summary>
         public static void Init()
         {
+            if (BootManager.IsBootedInVM)
+                Backend = new BufferedIVmvare();
+            else
+                Backend = new BufferedIDisplay();
+            Backend.Init(new Mode(ScreenWidth, ScreenHeight,ColorDepth.ColorDepth32));
             MouseManager.ScreenHeight = (uint)ScreenHeight;
             MouseManager.ScreenWidth = (uint)ScreenWidth;
-            disp = new BufferedCanvas(new Mode(ScreenWidth, ScreenHeight, ColorDepth.ColorDepth32));
-            
             Clear(Color.DodgerBlue);
         }
         #endregion

@@ -23,7 +23,7 @@ namespace MishaOS.Gui
         /// <param name="win">The Window.</param>
         public static void OpenWindow(Window win)
         {
-            UiMouse.ClearBackup();
+            Kernel.PrintDebug("Creating Window: "+win.Text);
             OpenWindows[c] = win;
             c++;
             win.Open();
@@ -35,7 +35,7 @@ namespace MishaOS.Gui
         /// <param name="win">The Window.</param>
         public static void CloseWindow(Window win)
         {
-            UiMouse.ClearBackup();
+            Kernel.PrintDebug("Closing Window: " + win.Text);
             int index = 1;
             int winindex = 1;
             foreach (Window w in OpenWindows)
@@ -49,7 +49,7 @@ namespace MishaOS.Gui
             OpenWindows[winindex] = null;
             win.Enabled = false;
             win.Close();
-            Display.DrawRectangle(win.Location.X,win.Location.Y-20,win.Size.Width,win.Size.Height+20,Color.DodgerBlue);
+            Display.DrawRectangle(win.Location.X,win.Location.Y,win.Size.Width,win.Size.Height,Color.DodgerBlue);
             UiMouse.Update();
         }
         public static void Update()

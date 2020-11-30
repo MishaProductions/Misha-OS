@@ -18,7 +18,10 @@ namespace MishaOS.Drivers
 {
     public class BootManager
     {
-
+        /// <summary>
+        /// Is the computer booted in a vm?
+        /// This is used for the display driver.
+        /// </summary>
         public static bool IsBootedInVM
         {
             get

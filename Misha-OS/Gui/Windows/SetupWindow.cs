@@ -1,4 +1,5 @@
-﻿using Cosmos.HAL;
+﻿using Cosmos.Core;
+using Cosmos.HAL;
 using Cosmos.System.FileSystem.Listing;
 using MishaOS.Drivers;
 using MishaOS.Gui.Windows.Controls;
@@ -80,7 +81,7 @@ namespace MishaOS.Gui.Windows
             {
                 top.Text = "Welcome to MishaOS, a operating system made by Misha using Cosmos."; 
                 top2.Text = "Press next to contuine";
-
+                next.Visible = true;
                 //Fix drawing issues
                 this.Draw();
             }
@@ -198,6 +199,7 @@ namespace MishaOS.Gui.Windows
             }
             else if (newStage == 5)
             {
+                Power.CPUReboot();
                 Power.ACPIReboot();
             }
             else if (newStage == 6)

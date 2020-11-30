@@ -28,14 +28,44 @@ namespace MishaOS.Gui.Windows
                 this.Draw();
             }
         }
+
+        private bool _ShouldDrawTitleBar = true;
+        public bool ShouldDrawTitleBar
+        {
+            get
+            {
+                return _ShouldDrawTitleBar;
+            }
+            set
+            {
+                _ShouldDrawTitleBar = value;
+                this.Draw();
+            }
+        }
         public int State;
         public string Text { get; set; } = "Window1";
         public Color TitlebarColor = Color.ForestGreen;
         private bool _IsOpen = false;
-        private System.Drawing.Point loc = new System.Drawing.Point(0, 20);
+        private System.Drawing.Point loc = new System.Drawing.Point(0, 0);
         int tmp_CtlCount = 0;
-        //20 is titlebar height.
-        public new System.Drawing.Point Location { get { return loc; } set { loc = new System.Drawing.Point(value.X, value.Y + 20); } }
+        public new System.Drawing.Point Location { get { return loc; } set { loc = value; } }
+        /// <summary>
+        /// Gets the location where the user can draw to. This will be (0,20) + WindowLocation if title bar disabled. If the title bar is enabled, this will be (0,0) + Window Location
+        /// </summary>
+        public System.Drawing.Point ClientLocation
+        {
+            get
+            {
+                if (ShouldDrawTitleBar)
+                {
+                    return new System.Drawing.Point(0 + this.Location.X, 20 + this.Location.Y);
+                }
+                else
+                {
+                    return new System.Drawing.Point(0 + this.Location.X, 0 + this.Location.Y);
+                }
+            }
+        }
         public new bool Enabled
         {
             get { return base.Enabled; }
@@ -57,6 +87,7 @@ namespace MishaOS.Gui.Windows
         public Window()
         {
             Size = new Size(500, 200);
+            this._ParrentWindow = this;
         }
         /// <summary>
         /// Checks if window is open.
@@ -76,9 +107,8 @@ namespace MishaOS.Gui.Windows
         {
             if (_IsOpen == false)
                 return;
-            //Draw the default square
-            if (DrawDefaultSquare)
-                Display.DrawRectangle(Location.X, Location.Y, Size.Width, Size.Height, BackgroundColor);
+            //Draw the window background.
+            Display.DrawRectangle(Location.X, Location.Y, Size.Width, Size.Height, BackgroundColor);
 
             //Draw all the controls in this control
             foreach (Control d in Controls)
@@ -88,13 +118,17 @@ namespace MishaOS.Gui.Windows
             }
             tmp_CtlCount = Controls.Count;
             //Draw title bar here
-            Display.DrawRectangle(this.Location.X, this.Location.Y - 20, this.Size.Width, 20, this.TitlebarColor);
-            Display.DrawString(Text, new Pen(Color.White), this.Location.X, this.Location.Y - 20);
-            //Draw Close button
-            if (ShouldDrawCloseButton)
+            if (_ShouldDrawTitleBar)
             {
-                Display.DrawRectangle(this.Location.X + this.Size.Width - CloseWidth, this.Location.Y - 20, CloseWidth, CloseHeight, Color.Red);
-                Display.DrawString("X", new Pen(Color.White), this.Location.X + this.Size.Width - CloseWidth, this.Location.Y - 20);
+                Display.DrawRectangle(this.Location.X, this.Location.Y, this.Size.Width, 20, this.TitlebarColor);
+                Display.DrawString(Text, new Pen(Color.White), this.Location.X, this.Location.Y);
+            }
+
+            //Draw Close button
+            if (ShouldDrawCloseButton && _ShouldDrawTitleBar)
+            {
+                Display.DrawRectangle(this.Location.X + this.Size.Width - CloseWidth, this.Location.Y, CloseWidth, CloseHeight, Color.Red);
+                Display.DrawString("X", new Pen(Color.White), this.Location.X + this.Size.Width - CloseWidth, this.Location.Y);
             }
         }
         /// <summary>
@@ -118,12 +152,11 @@ namespace MishaOS.Gui.Windows
                 if (MouseManager.MouseState == MouseState.Left && this.IsOpen && this.Enabled)
                 {
                     //Check if Close button is clicked
-                    if (UiMouse.MouseY >= (this.Location.Y - 20) && UiMouse.MouseY <= (this.Location.Y - 20) + 20)
+                    if (UiMouse.MouseY >= (this.Location.Y) && UiMouse.MouseY <= (this.Location.Y) + 20)
                     {
                         if (UiMouse.MouseX >= (this.Location.X + this.Size.Width - CloseWidth) && UiMouse.MouseX <= (this.Location.X + this.Size.Width - CloseWidth) + CloseWidth)
                         {
                             DesktopManager.CloseWindow(this);
-                            DesktopManager.OpenWindow(new Desktop());
                         }
                     }
                 }

@@ -8,7 +8,6 @@ using static Cosmos.Core.INTs;
 namespace MishaOS.Plugs
 {
     [Plug(Target = typeof(Cosmos.Core.INTs))]
-
     public class INTs
     {
         public static void HandleException(uint aEIP, string aDescription, string aName, ref IRQContext ctx, uint lastKnownAddressValue = 0)
@@ -32,9 +31,7 @@ namespace MishaOS.Plugs
                 lastsknowaddress = lastsknowaddress + xHex[(int)((lastKnownAddressValue >> 4) & 0xF)];
                 lastsknowaddress = lastsknowaddress + xHex[(int)(lastKnownAddressValue & 0xF)];
             }
-
-            //Aura_OS.System.Crash.StopKernel(aName, aDescription, lastsknowaddress, ctxinterrupt);
-            BlueScreen.Panic(BlueScreen.GetProperMessage(aName+" "+aDescription+" "+lastsknowaddress+" "+ctxinterrupt));
+            BlueScreen.Panic(BlueScreen.GetProperMessage(aName + " " + aDescription + " " + lastsknowaddress + " " + ctxinterrupt));
         }
     }
 }
