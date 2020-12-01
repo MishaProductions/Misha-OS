@@ -45,6 +45,7 @@ namespace MishaOS.Gui.Windows
             next.Size = new Size(100,20);
             next.Location = new Point(Display.ScreenWidth-100, Display.ScreenHeight-20);
             next.OnClick += Next_OnClick;
+            next.Visible = true;
             this.Controls.Add(next);
 
             //Top

@@ -43,11 +43,23 @@ namespace MishaOS.Gui.Windows
             }
         }
         public int State;
-        public string Text { get; set; } = "Window1";
-        public Color TitlebarColor = Color.ForestGreen;
-        private bool _IsOpen = false;
-        private System.Drawing.Point loc = new System.Drawing.Point(0, 0);
         int tmp_CtlCount = 0;
+        /// <summary>
+        /// The window title
+        /// </summary>
+        public string Text { get; set; } = "Window1";
+        /// <summary>
+        /// The titlebar color
+        /// </summary>
+        public Color TitlebarColor = Color.ForestGreen;
+
+        private bool _IsOpen = false;
+        /// <summary>
+        /// Checks if window is open.
+        /// </summary>
+        public bool IsOpen { get { return _IsOpen; } }
+
+        private System.Drawing.Point loc = new System.Drawing.Point(0, 0);
         public new System.Drawing.Point Location { get { return loc; } set { loc = value; } }
         /// <summary>
         /// Gets the location where the user can draw to. This will be (0,20) + WindowLocation if title bar disabled. If the title bar is enabled, this will be (0,0) + Window Location
@@ -84,15 +96,18 @@ namespace MishaOS.Gui.Windows
             get { return base.Size; }
             set { base.Size = value; }
         }
+
+        public new Window ParrentWindow
+        {
+            get
+            {
+                return this;
+            }
+        }
         public Window()
         {
             Size = new Size(500, 200);
-            this._ParrentWindow = this;
         }
-        /// <summary>
-        /// Checks if window is open.
-        /// </summary>
-        public bool IsOpen { get { return _IsOpen; } }
         /// <summary>
         /// Opens the window.
         /// </summary>
@@ -113,7 +128,8 @@ namespace MishaOS.Gui.Windows
             //Draw all the controls in this control
             foreach (Control d in Controls)
             {
-                d._ParrentWindow = this;
+                if (d.ParrentWindow==null)
+                    d._ParrentWindow = this;
                 d.Draw();
             }
             tmp_CtlCount = Controls.Count;
@@ -122,13 +138,12 @@ namespace MishaOS.Gui.Windows
             {
                 Display.DrawRectangle(this.Location.X, this.Location.Y, this.Size.Width, 20, this.TitlebarColor);
                 Display.DrawString(Text, new Pen(Color.White), this.Location.X, this.Location.Y);
-            }
-
-            //Draw Close button
-            if (ShouldDrawCloseButton && _ShouldDrawTitleBar)
-            {
-                Display.DrawRectangle(this.Location.X + this.Size.Width - CloseWidth, this.Location.Y, CloseWidth, CloseHeight, Color.Red);
-                Display.DrawString("X", new Pen(Color.White), this.Location.X + this.Size.Width - CloseWidth, this.Location.Y);
+                //Draw Close button
+                if (ShouldDrawCloseButton)
+                {
+                    Display.DrawRectangle(this.Location.X + this.Size.Width - CloseWidth, this.Location.Y, CloseWidth, CloseHeight, Color.Red);
+                    Display.DrawString("X", new Pen(Color.White), this.Location.X + this.Size.Width - CloseWidth, this.Location.Y);
+                }
             }
         }
         /// <summary>
@@ -145,10 +160,6 @@ namespace MishaOS.Gui.Windows
             if (_IsOpen)
             {
                 Update();
-                if (tmp_CtlCount != Controls.Count)
-                {
-                    Draw();
-                }
                 if (MouseManager.MouseState == MouseState.Left && this.IsOpen && this.Enabled)
                 {
                     //Check if Close button is clicked
@@ -164,7 +175,7 @@ namespace MishaOS.Gui.Windows
         }
         /// <summary>
         /// Main window update function.
-        /// You can use this function for checking mouse clicks.
+        /// Called every ms.
         /// </summary>
         public override void Update()
         {

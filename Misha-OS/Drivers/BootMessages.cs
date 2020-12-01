@@ -8,7 +8,6 @@ namespace MishaOS.Drivers
 {
     public static class BootMessages
     {
-
         public static void Print(SystemdPrintType type, string name)
         {
             ConsoleColor old = Console.ForegroundColor;

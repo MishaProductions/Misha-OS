@@ -1,4 +1,5 @@
-﻿using Cosmos.System;
+﻿using Cosmos.Core;
+using Cosmos.System;
 using Cosmos.System.FileSystem.Listing;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
@@ -15,8 +16,10 @@ namespace MishaOS.Gui.Windows.Controls
     /// </summary>
     public class Button : Control
     {
-        private string _Text = "Button";
         private EventHandler OnClickEventHandler;
+        /// <summary>
+        /// Invoked when button is clicked.
+        /// </summary>
         public event EventHandler OnClick
         {
 
@@ -31,6 +34,10 @@ namespace MishaOS.Gui.Windows.Controls
             }
 
         }
+        private string _Text = "Button";
+        /// <summary>
+        /// The text of the button
+        /// </summary>
         public string Text
         {
             get
@@ -43,18 +50,11 @@ namespace MishaOS.Gui.Windows.Controls
                 this.Draw();
             }
         }
-
-
-        public Button()
-        {
-        }
         public override void Draw()
         {
-            base.Draw();
             if (!Visible | this.ParrentWindow == null)
                 return;
-            int width = this.Size.Width;
-            int height = this.Size.Height;
+            base.Draw();
             int x = this.Location.X;
             int y = this.Location.Y;
             Display.DrawString(
@@ -73,9 +73,9 @@ namespace MishaOS.Gui.Windows.Controls
 
             if (MouseManager.MouseState == MouseState.Left && Enabled && Visible)
             {
-                if (UiMouse.MouseY >= ProperY && UiMouse.MouseY <= ProperY + this.Size.Height)
+                if (UiMouse.MouseY >= ProperY && UiMouse.MouseY <= ProperY + height)
                 {
-                    if (UiMouse.MouseX >= ProperX && UiMouse.MouseX <= ProperX + this.Size.Width)
+                    if (UiMouse.MouseX >= ProperX && UiMouse.MouseX <= ProperX + width)
                     {
                         if (OnClickEventHandler != null)
                             OnClickEventHandler.Invoke(this, new EventArgs());

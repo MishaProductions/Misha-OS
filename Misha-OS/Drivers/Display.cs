@@ -15,6 +15,7 @@ namespace MishaOS.Drivers
         public static int ScreenWidth = 640;
         public static int ScreenHeight = 480;
         private static IDisplay Backend;
+        public static string DisplayDriverName { get; private set; }
         #region Methods
 
         #region Draw/Clear Methods
@@ -75,9 +76,15 @@ namespace MishaOS.Drivers
         public static void Init()
         {
             if (BootManager.IsBootedInVM)
+            {
+                DisplayDriverName = "DoubleBufferedVMWareSVGAII";
                 Backend = new BufferedIVmvare();
+            }
             else
+            {
+                DisplayDriverName = "Canvas";
                 Backend = new BufferedIDisplay();
+            }
             Backend.Init(new Mode(ScreenWidth, ScreenHeight,ColorDepth.ColorDepth32));
             MouseManager.ScreenHeight = (uint)ScreenHeight;
             MouseManager.ScreenWidth = (uint)ScreenWidth;

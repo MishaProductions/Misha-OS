@@ -10,6 +10,10 @@ namespace MishaOS
         private static DateTime lastTime;
         private static int fps = 0;
         private static int frames = 0;
+        /// <summary>
+        /// Should the kernel draw the fps counter?
+        /// </summary>
+        public static bool ShouldRender { get; set; } = false;
 
         public static int FPS
         {
@@ -19,6 +23,7 @@ namespace MishaOS
                 return fps;
             }
         }
+
 
         private static void Update()
         {

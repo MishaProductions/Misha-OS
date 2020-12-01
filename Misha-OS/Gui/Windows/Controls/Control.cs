@@ -57,8 +57,6 @@ namespace MishaOS.Gui.Windows.Controls
         }
         public Size Size = new Size(10, 10);
 
-        public virtual bool DrawDefaultSquare { get; set; } = true;
-
         public bool Enabled = true;
 
         public bool HasFocus = true;
@@ -92,9 +90,8 @@ namespace MishaOS.Gui.Windows.Controls
         {
             if (!Visible | this.ParrentWindow == null) //Skip drawing if not visible
                 return;
-            //Draw the default square
-            if (DrawDefaultSquare)
-                Display.DrawRectangle(Location.X + this.ParrentWindow.ClientLocation.X, Location.Y + this.ParrentWindow.ClientLocation.Y, Size.Width, Size.Height, BackgroundColor);
+            //Draw the background
+            Display.DrawRectangle(Location.X + this.ParrentWindow.ClientLocation.X, Location.Y + this.ParrentWindow.ClientLocation.Y, Size.Width, Size.Height, BackgroundColor);
 
             //Draw all the controls in this control
             foreach (Control d in Controls)
@@ -111,7 +108,8 @@ namespace MishaOS.Gui.Windows.Controls
             foreach (Control d in Controls)
             {
                 d.Update();
-                d._ParrentWindow = this.ParrentWindow;
+                if (d.ParrentWindow == null)
+                    d._ParrentWindow = this.ParrentWindow;
             }
         }
     }

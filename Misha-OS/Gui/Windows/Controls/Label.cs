@@ -38,16 +38,14 @@ namespace MishaOS.Gui.Windows.Controls
                 }
             }
         }
-        public override bool DrawDefaultSquare { get { return false; } set { } }
         public Label()
         {
-            this.DrawDefaultSquare = false;
+            
         }
         public override void Draw()
         {
             if (this.ParrentWindow !=null && this.Visible)
             {
-                base.Draw();
                 Display.DrawString(
                 Text,
                 new Cosmos.System.Graphics.Pen(this.ForeColor),
