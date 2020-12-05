@@ -43,6 +43,8 @@ namespace MishaOS.Gui
 
         public static Color IntTOColor(int color)
         {
+            if (color == 0)
+                return Color.Transparent;
             if (color == 1)
                 return Color.Black;
             else if (color == 2)

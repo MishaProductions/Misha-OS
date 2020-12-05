@@ -13,7 +13,7 @@ namespace MishaOS.Gui.Windows
     /// <summary>
     /// A class for displaying windows.
     /// </summary>
-    public class Window : Control
+    public class Window:IDisposable
     {
         private bool _ShouldDrawCloseButton = true;
         public bool ShouldDrawCloseButton
@@ -30,6 +30,7 @@ namespace MishaOS.Gui.Windows
         }
 
         private bool _ShouldDrawTitleBar = true;
+        private bool _Enabled = true;
         public bool ShouldDrawTitleBar
         {
             get
@@ -43,7 +44,6 @@ namespace MishaOS.Gui.Windows
             }
         }
         public int State;
-        int tmp_CtlCount = 0;
         /// <summary>
         /// The window title
         /// </summary>
@@ -53,6 +53,9 @@ namespace MishaOS.Gui.Windows
         /// </summary>
         public Color TitlebarColor = Color.ForestGreen;
 
+        public Color BackgroundColor { get; set; }
+        public Color ForeColor { get; set; }
+
         private bool _IsOpen = false;
         /// <summary>
         /// Checks if window is open.
@@ -60,7 +63,7 @@ namespace MishaOS.Gui.Windows
         public bool IsOpen { get { return _IsOpen; } }
 
         private System.Drawing.Point loc = new System.Drawing.Point(0, 0);
-        public new System.Drawing.Point Location { get { return loc; } set { loc = value; } }
+        public System.Drawing.Point Location { get { return loc; } set { loc = value; } }
         /// <summary>
         /// Gets the location where the user can draw to. This will be (0,20) + WindowLocation if title bar disabled. If the title bar is enabled, this will be (0,0) + Window Location
         /// </summary>
@@ -78,12 +81,12 @@ namespace MishaOS.Gui.Windows
                 }
             }
         }
-        public new bool Enabled
+        public bool Enabled
         {
-            get { return base.Enabled; }
+            get { return _Enabled; }
             set
             {
-                base.Enabled = value;
+                _Enabled = value;
                 foreach (Control c in this.Controls)
                 {
                     c.Enabled = value;
@@ -91,19 +94,12 @@ namespace MishaOS.Gui.Windows
             }
         }
 
-        public new Size Size
+        public Size Size
         {
-            get { return base.Size; }
-            set { base.Size = value; }
+            get;set;
         }
 
-        public new Window ParrentWindow
-        {
-            get
-            {
-                return this;
-            }
-        }
+        public List<Control> Controls = new List<Control>();
         public Window()
         {
             Size = new Size(500, 200);
@@ -118,7 +114,7 @@ namespace MishaOS.Gui.Windows
         }
         int CloseWidth = 20;
         int CloseHeight = 20;
-        public override void Draw()
+        public virtual void Draw()
         {
             if (_IsOpen == false)
                 return;
@@ -132,7 +128,6 @@ namespace MishaOS.Gui.Windows
                     d._ParrentWindow = this;
                 d.Draw();
             }
-            tmp_CtlCount = Controls.Count;
             //Draw title bar here
             if (_ShouldDrawTitleBar)
             {
@@ -177,9 +172,22 @@ namespace MishaOS.Gui.Windows
         /// Main window update function.
         /// Called every ms.
         /// </summary>
-        public override void Update()
+        public virtual void Update()
         {
-            base.Update();
+            //Update all controls
+            foreach (Control d in Controls)
+            {
+                if (d.ParrentWindow == null)
+                    d._ParrentWindow = this;
+                d.Update();
+            }
+        }
+
+        public void Dispose()
+        {
+            this.Close();
+            this.Controls = null;
+
         }
     }
 }

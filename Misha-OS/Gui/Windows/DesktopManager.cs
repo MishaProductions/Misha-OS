@@ -14,8 +14,7 @@ namespace MishaOS.Gui
     /// </summary>
     public static class DesktopManager
     {
-        public static Window[] OpenWindows = new Window[256];
-        private static int c;
+        public static List<Window> OpenWindows = new List<Window>();
 
         /// <summary>
         /// Opens a window.
@@ -23,11 +22,15 @@ namespace MishaOS.Gui
         /// <param name="win">The Window.</param>
         public static void OpenWindow(Window win)
         {
-            Kernel.PrintDebug("Creating Window: "+win.Text);
-            OpenWindows[c] = win;
-            c++;
-            win.Open();
-            UiMouse.Update();
+            try
+            {
+                OpenWindows.Add(win);
+                win.Open();
+            }
+            catch
+            {
+
+            }
         }
         /// <summary>
         /// Closes a window.
@@ -35,26 +38,51 @@ namespace MishaOS.Gui
         /// <param name="win">The Window.</param>
         public static void CloseWindow(Window win)
         {
-            Kernel.PrintDebug("Closing Window: " + win.Text);
-            int index = 1;
-            int winindex = 1;
-            foreach (Window w in OpenWindows)
+            try
             {
-                if (w == win)
+                Kernel.PrintDebug("Closing Window: " + win.Text);
+                int index = 1;
+                int winindex = 1;
+                foreach (Window w in OpenWindows)
                 {
-                    winindex = index;
+                    if (w != null)
+                    {
+                        if (w == win)
+                        {
+                            winindex = index;
+                            break;
+                        }
+                    }
+                    index++;
                 }
-                index++;
+                OpenWindows[winindex].Dispose();
+                OpenWindows.RemoveAt(winindex);
+               // Display.DrawRectangle(win.Location.X, win.Location.Y, win.Size.Width, win.Size.Height, Color.DodgerBlue);
+                win.Dispose();
+                win = null;
+
+
+                //Redraw other windows
+                Update();
             }
-            OpenWindows[winindex] = null;
-            win.Enabled = false;
-            win.Close();
-            Display.DrawRectangle(win.Location.X,win.Location.Y,win.Size.Width,win.Size.Height,Color.DodgerBlue);
-            UiMouse.Update();
+            catch
+            {
+
+            }
         }
+        /// <summary>
+        /// Redraws and updates all opened windows
+        /// </summary>
         public static void Update()
         {
-
+            foreach (Window w in OpenWindows)
+            {
+                if (w != null)
+                {
+                    w.UpdateAll();
+                    w.Draw();
+                }
+            }
         }
     }
 }

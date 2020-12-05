@@ -9,7 +9,7 @@ using System.Text;
 namespace MishaOS.Gui.Windows.Controls
 {
     /// <summary>
-    /// A class that represents a basic box.
+    /// A class that represents a control such as a button or label.
     /// </summary>
     public class Control
     {

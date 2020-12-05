@@ -148,6 +148,7 @@ namespace MishaOS.Drivers
                 CommandParaser.IsGUI = false;
 
                 var term = new TextTerm();
+                term.Write(term.CurrentDIR);
                 while (!CommandParaser.IsGUI)
                 {
                     var input2 = term.ReadLine();
