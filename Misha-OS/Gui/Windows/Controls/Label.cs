@@ -19,7 +19,7 @@ namespace MishaOS.Gui.Windows.Controls
             set
             {
                 _Text = value;
-                this.Draw();
+                this.DrawAll();
             }
         }
 

@@ -35,7 +35,7 @@ namespace MishaOS.Gui.Apps
             CurrentTab = 0;
             this.Controls.Clear();
             AddTabButtons();
-            this.Draw();
+            this.DrawAll();
             SettingsTab();
         }
         Button a = new Button();
@@ -113,7 +113,7 @@ namespace MishaOS.Gui.Apps
             CurrentTab = 1;
             this.Controls.Clear();
             AddTabButtons();
-            this.Draw();
+            this.DrawAll();
             AddInfoText("Coming Soon!");
         }
         public void InfoTab()
@@ -122,7 +122,7 @@ namespace MishaOS.Gui.Apps
             CurrentTab = 2;
             this.Controls.Clear();
             AddTabButtons();
-            this.Draw();
+            this.DrawAll();
 
             AddInfoText(Kernel.KernelVersion);
             AddInfoText("CPU: " + CPU.GetCPUBrandString());
@@ -134,7 +134,7 @@ namespace MishaOS.Gui.Apps
             if (BootManager.IsBootedInVM)
                 driver = "VMvare double buffered drive";
             AddInfoText("Display Driver: " + driver);
-            this.Draw();
+            this.DrawAll();
         }
         public void SettingsTab()
         {

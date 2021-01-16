@@ -25,7 +25,7 @@ namespace MishaOS.Gui.Windows
             set
             {
                 _ShouldDrawCloseButton = value;
-                this.Draw();
+                this.DrawAll();
             }
         }
 
@@ -40,7 +40,7 @@ namespace MishaOS.Gui.Windows
             set
             {
                 _ShouldDrawTitleBar = value;
-                this.Draw();
+                this.DrawAll();
             }
         }
         public int State;
@@ -110,11 +110,14 @@ namespace MishaOS.Gui.Windows
         public virtual void Open()
         {
             _IsOpen = true;
-            this.Draw();
+            this.DrawAll();
         }
         int CloseWidth = 20;
         int CloseHeight = 20;
-        public virtual void Draw()
+        /// <summary>
+        /// Draws everything on the window: (titlebar, all controls, etc).
+        /// </summary>
+        public void DrawAll()
         {
             if (_IsOpen == false)
                 return;
@@ -124,9 +127,9 @@ namespace MishaOS.Gui.Windows
             //Draw all the controls in this control
             foreach (Control d in Controls)
             {
-                if (d.ParrentWindow==null)
+                if (d.ParrentWindow == null)
                     d._ParrentWindow = this;
-                d.Draw();
+                d.DrawAll();
             }
             //Draw title bar here
             if (_ShouldDrawTitleBar)
@@ -140,6 +143,18 @@ namespace MishaOS.Gui.Windows
                     Display.DrawString("X", new Pen(Color.White), this.Location.X + this.Size.Width - CloseWidth, this.Location.Y);
                 }
             }
+            //Call custom draw function
+#pragma warning disable CS0618
+            Draw();
+#pragma warning restore CS0618
+        }
+        [Obsolete("Please call DrawAll() insted.")]
+        /// <summary>
+        /// Custom draw method. Do not call dirrectly.
+        /// </summary>
+        public virtual void Draw()
+        {
+           
         }
         /// <summary>
         /// Closes the window.

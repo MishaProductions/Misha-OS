@@ -47,6 +47,9 @@ namespace MishaOS.Drivers
         public override void DrawPoint(Pen pen, int x, int y)
         {
             if (x > screenW || y > screenH) return;
+            if (SBuffer[(y * screenW) + x] == pen.Color)
+                return;
+
             SBuffer[(y * screenW) + x] = pen.Color;
         }
         public override void DrawPoint(Pen pen, float x, float y)
@@ -62,7 +65,8 @@ namespace MishaOS.Drivers
         {
             for (int i = 0, len = SBuffer.Length; i < len; i++)
             {
-                SBuffer[i] = color;
+                if (SBuffer[i] != color)
+                    SBuffer[i] = color;
             }
         }
 

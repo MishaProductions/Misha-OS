@@ -17,10 +17,19 @@ namespace MishaOS.Gui.Windows.Controls
         /// The Tag of the control. Can be used to store information about this control.
         /// </summary>
         public object Tag { get; set; }
+        /// <summary>
+        /// The Background Color of the control
+        /// </summary>
 
         public Color BackgroundColor = Color.White;
+        /// <summary>
+        /// The text color of the control
+        /// </summary>
         public Color ForeColor = Color.Black;
         private System.Drawing.Point _Loc;
+        /// <summary>
+        /// The location of the control
+        /// </summary>
         public System.Drawing.Point Location
         {
             get
@@ -55,17 +64,28 @@ namespace MishaOS.Gui.Windows.Controls
                 _Loc = new System.Drawing.Point(newX, newY);
             }
         }
+        /// <summary>
+        /// The size of the control
+        /// </summary>
         public Size Size = new Size(10, 10);
-
+        /// <summary>
+        /// Weather or not if the control is enabled
+        /// </summary>
         public bool Enabled = true;
-
+        /// <summary>
+        /// Does the control have focus?
+        /// </summary>
         public bool HasFocus = true;
 
         /// <summary>
-        /// For internal use only.
+        /// For internal use only. Please do not modify
         /// </summary>
-        public Window _ParrentWindow;
+        internal Window _ParrentWindow;
+        /// <summary>
+        /// The Window that the control is attached to.
+        /// </summary>
         public Window ParrentWindow { get { return _ParrentWindow; } }
+
         private bool vis = true;
         /// <summary>
         /// Can the user see the control?
@@ -73,31 +93,39 @@ namespace MishaOS.Gui.Windows.Controls
         public bool Visible
         {
             get { return vis; }
-            set { vis = value; this.Draw(); }
+            set { vis = value; this.DrawAll(); }
         }
-
+        /// <summary>
+        /// The controls inside this control.
+        /// </summary>
         public List<Control> Controls = new List<Control>();
         public Control()
         {
-            Draw();
+            DrawAll();
         }
 
-
-        /// <summary>
-        /// Draw function
-        /// </summary>
-        public virtual void Draw()
+        public void DrawAll()
         {
             if (!Visible | this.ParrentWindow == null) //Skip drawing if not visible
                 return;
+
             //Draw the background
             Display.DrawRectangle(Location.X + this.ParrentWindow.ClientLocation.X, Location.Y + this.ParrentWindow.ClientLocation.Y, Size.Width, Size.Height, BackgroundColor);
 
             //Draw all the controls in this control
             foreach (Control d in Controls)
             {
-                d.Draw();
+                d.DrawAll();
             }
+            //Call custom draw function
+            Draw();
+        }
+        /// <summary>
+        /// Draw function. Please do not call dirrectly, insted call DrawAll()
+        /// </summary>
+        public virtual void Draw()
+        {
+
         }
         /// <summary>
         /// Main control loop function

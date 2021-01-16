@@ -839,8 +839,20 @@ namespace MishaOS.Drivers.Screens
         {
             if (x < width)
             {
+                if (DoubleBuffer_GetPixel(x, y) == color)
+                    return;
+
+
                 Video_Memory[((y * width + x) * depth) + FrameSize] = color;
             }
+        }
+
+        public uint DoubleBuffer_GetPixel(uint x, uint y)
+        {
+            if (x < width)
+                return Video_Memory[((y * width + x) * depth) + FrameSize];
+            else
+                return 0;
         }
 
         public void DoubleBuffer_SetVRAM(int[] colors, int Offset)

@@ -84,7 +84,7 @@ namespace MishaOS.Gui.Windows
                 top2.Text = "Press next to contuine";
                 next.Visible = true;
                 //Fix drawing issues
-                this.Draw();
+                this.DrawAll();
             }
             else if (newStage == 1)
             {
@@ -136,9 +136,9 @@ namespace MishaOS.Gui.Windows
                     i++;
                     DrivesY += 20;
                 }
-                hardDisksPanel.Draw();
+                hardDisksPanel.DrawAll();
                 //Fix drawing issues
-                this.Draw();
+                this.DrawAll();
 
 
                 if (i == 0)
@@ -155,7 +155,7 @@ namespace MishaOS.Gui.Windows
                 hardDisksPanel.Controls.Clear();
                 hardDisksPanel.Visible = false;
                 //Fix drawing issues
-                this.Draw();
+                this.DrawAll();
             }
             else if (newStage == 3)
             {
@@ -163,23 +163,23 @@ namespace MishaOS.Gui.Windows
                 top2.Text = "0% complete - Formating";
                 next.Visible = false;
                 //Fix drawing issues
-                this.Draw();
+                this.DrawAll();
 
                 try
                 {
                     Kernel.FS.Format(SelectedDriveNum.ToString(), "FAT32", true);
                     top2.Text = "20% complete - Creating Files";
-                    this.Draw();
+                    this.DrawAll();
 
                     Kernel.FS.CreateFile(SelectedDriveNum + @":\installed.bif");
                     Kernel.FS.SetFileSystemLabel(SelectedDriveNum.ToString(), "MishaOS");
                     top2.Text = "40% complete - Creating Files";
-                    this.Draw();
+                    this.DrawAll();
 
                     Kernel.FS.CreateDirectory(SelectedDriveNum.ToString() + @":\System");
                     Cosmos.HAL.Global.PIT.Wait(5000);
                     top2.Text = "99% complete - Creating Files";
-                    this.Draw();
+                    this.DrawAll();
                     Cosmos.HAL.Global.PIT.Wait(5000);
                     SetStage(4);
                 }
@@ -196,7 +196,7 @@ namespace MishaOS.Gui.Windows
                 next.Visible = true;
                 next.Text = "Finish";
                 //Fix drawing issues
-                this.Draw();
+                this.DrawAll();
             }
             else if (newStage == 5)
             {
@@ -210,7 +210,7 @@ namespace MishaOS.Gui.Windows
                 next.Visible = false;
                 next.Text = "";
                 //Fix drawing issues
-                this.Draw();
+                this.DrawAll();
             }
         }
     }

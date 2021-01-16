@@ -79,8 +79,12 @@ namespace MishaOS.Gui
             {
                 if (w != null)
                 {
-                    w.UpdateAll();
-                    w.Draw();
+                    //Only draw/update opened windows
+                    if (w.IsOpen)
+                    {
+                        w.UpdateAll();
+                        w.DrawAll();
+                    }
                 }
             }
         }

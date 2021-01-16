@@ -26,7 +26,7 @@ namespace MishaOS.Drivers
         {
             get
             {
-                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null || 
+                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null ||
                     Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.Bochs, Cosmos.HAL.DeviceID.BGA) != null ||
                     Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VirtualBox, Cosmos.HAL.DeviceID.VBVGA) != null;
             }
@@ -38,42 +38,56 @@ namespace MishaOS.Drivers
             if (!StartedFS)
             {
                 BootMessages.Print(SystemdPrintType.Ok, "Start File Systems");
-                Kernel.FS = new Cosmos.System.FileSystem.CosmosVFS();
+                Kernel.FS = new CosmosVFS();
                 Cosmos.System.FileSystem.VFS.VFSManager.RegisterVFS(Kernel.FS);
                 StartedFS = true;
             }
+
             BootMessages.Print(SystemdPrintType.Ok, "Loading gui..");
             //Boot screen Animation
-            Boot(".",true);
-            Boot("..");
-            Boot("...");
-            Boot("....",false,true);
+            Boot(GetProgressString(0), true);
+            Boot(GetProgressString(798), false, true);
+
             //After boot screen
             AfterBootScreen();
         }
+
+        private static string GetProgressString(int prg)
+        {
+            // Screen width - 2 brackets - progress = Progress char size
+            var Maxlen = 798;
+            string prgBar = "";
+
+            for (int i = 0; i < Maxlen; i++)
+            {
+                if (prg > 0)
+                    prgBar += "X";
+                else
+                    prgBar += " ";
+
+                prg--;
+            }
+            return "[" + prgBar + "]";
+        }
         //Basic display
         private static Canvas boot;
-        static void Boot(string dots,bool isFirst=false,bool isLast=false)
+        static void Boot(string dots, bool isFirst = false, bool isLast = false)
         {
-            
+
             //INTS
-            int barHeight = 50;
             if (isFirst)
             {
                 boot = FullScreenCanvas.GetFullScreenCanvas(new Mode(800, 600, ColorDepth.ColorDepth32));
-                //Draw stuff
-                boot.Clear(Color.DeepSkyBlue);
-                boot.DrawFilledRectangle(new Pen(Color.DodgerBlue), new Cosmos.System.Graphics.Point(), 800, barHeight);
-                boot.DrawFilledRectangle(new Pen(Color.DodgerBlue), new Cosmos.System.Graphics.Point(0, 600 - barHeight), 800, barHeight);
-                boot.DrawString("-----MishaOS Debug Screen-----", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0, 0));
+                boot.Clear(Color.Black);
             }
-            boot.DrawFilledRectangle(new Pen(Color.DeepSkyBlue), new Cosmos.System.Graphics.Point(0, barHeight + 20), 800, 20);
-            boot.DrawString("MishaOS is loading" + dots, PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0,barHeight+20));
+            boot.DrawString("MishaOS is starting", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0, 0));
+
+            boot.DrawString(dots, PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0, 600 - 20));
             //Wait 1 sec
             DelayInMS(1000);
             //Clean up
             if (isLast)
-            boot.Disable();
+                boot.Disable();
         }
         static void DelayInMS(int ms) // Stops the code for milliseconds and then resumes it (Basically It's delay)
         {
@@ -93,8 +107,11 @@ namespace MishaOS.Drivers
         {
             if (!File.Exists(@"0:\installed.bif"))
             {
-                System.Console.WriteLine("MishaOS not detected... Enter S to install MishaOS.");
-                System.Console.WriteLine("Otherwise, press anything else to run it of Device.");
+                System.Console.ForegroundColor = ConsoleColor.White;
+                System.Console.BackgroundColor = ConsoleColor.DarkBlue;
+                System.Console.Clear();
+                System.Console.WriteLine("MishaOS is not detected on hard drive. Enter S to install MishaOS.");
+                System.Console.WriteLine("Otherwise, press anything else to not install Misha OS.");
                 string i = System.Console.ReadLine();
                 if (i == "s" | i == "S")
                 {
@@ -114,16 +131,12 @@ namespace MishaOS.Drivers
 
         private static void BootToGui()
         {
-            
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.BackgroundColor = ConsoleColor.DarkBlue;
             System.Console.Clear();
 
             System.Console.WriteLine("Interfaces: \n1. GUI\n2. CLI");
-            TextWindows.Draw("Enter interface number",0,5);
-            //System.Console.WriteLine("Please Select an interface");
-            //System.Console.WriteLine("1. GUI");
-            //System.Console.WriteLine("2. CLI");
+            TextWindows.Draw("Enter interface number", 0, 5);
             var input = System.Console.ReadLine();
             System.Console.Clear();
             System.Console.ForegroundColor = ConsoleColor.White;

@@ -85,6 +85,8 @@ namespace MishaOS.Drivers.Screens
 
         public void setPixel(int x, int y, Color c)
         {
+            if (Color.FromArgb((int)backends.DoubleBuffer_GetPixel((uint)x, (uint)y)) == c)
+                return;
             backends.DoubleBuffer_SetPixel((uint)x, (uint)y, ColorToUint(c));
             hasChanged = true;
         }
