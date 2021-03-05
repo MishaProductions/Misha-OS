@@ -13,6 +13,7 @@ MishaOS is a GUI operating system written in C# using cosmos.
 # TODO
  - Multiple apps open at once (Waiting for COSMOS Memory issue to be fixed)
  - Add GUI commands to the terminal
+ - Add support for running .NET executables
 
 # Screen shots
 ![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/setup.png)
