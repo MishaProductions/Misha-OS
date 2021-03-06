@@ -1,5 +1,4 @@
-# Misha OS
-MishaOS is a GUI operating system written in C# using cosmos.
+![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/project-banner.png)
 
 # Features
 - FAT File System
