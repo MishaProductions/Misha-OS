@@ -30,16 +30,16 @@ namespace MishaOS.Drivers.Screens
 
         public void DrawRectangle(int x, int y, int Width, int Height, Color col)
         {
-            disp.DrawFilledRectangle(new Pen(col),x,y, Width, Height);
+            disp.DrawFilledRectangle(new Pen(col), x, y, Width, Height);
         }
 
         public void DrawString(string str, Pen pen, int x, int y)
         {
-            disp.DrawString(str,PCScreenFont.Default,pen,x,y);
+            disp.DrawString(str, PCScreenFont.Default, pen, x, y);
         }
         public void Init(Mode mode)
         {
-            disp = new BufferedCanvas(new Mode(mode.Columns, mode.Rows,ColorDepth.ColorDepth32));
+            disp = new BufferedCanvas(new Mode(mode.Columns, mode.Rows, ColorDepth.ColorDepth32));
         }
         public void Render()
         {
@@ -47,7 +47,9 @@ namespace MishaOS.Drivers.Screens
         }
         public void setPixel(int x, int y, Color c)
         {
-            disp.DrawPoint(new Pen(c),x,y);
+            var pen = new Pen(c);
+            disp.DrawPoint(pen, x, y);
+            pen = null;
         }
     }
 }

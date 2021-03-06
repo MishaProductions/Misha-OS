@@ -13,7 +13,7 @@ namespace MishaOS
     {
         public static Sys.FileSystem.CosmosVFS FS;
 
-        public static string KernelVersion = "MishaOS Version 0.6";
+        public static string KernelVersion = "MishaOS Version 0.6.1";
         protected override void BeforeRun()
         {
             try
@@ -40,7 +40,7 @@ namespace MishaOS
                     if (FPSCounter.ShouldRender)
                     {
                         Display.DrawRectangle(0, 0, 100, 20, Color.Black);
-                        Display.DrawString("FPS: " + FPSCounter.FPS, new Sys.Graphics.Pen(Color.White), 0, 0);
+                        Display.DrawString("FPS: " + FPSCounter.FPS, Pens.White, 0, 0);
                     }
                     Display.Render();
                 }

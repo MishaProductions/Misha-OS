@@ -13,7 +13,7 @@ namespace MishaOS.Gui.Windows
     /// <summary>
     /// A class for displaying windows.
     /// </summary>
-    public class Window:IDisposable
+    public class Window : IDisposable
     {
         private bool _ShouldDrawCloseButton = true;
         public bool ShouldDrawCloseButton
@@ -96,7 +96,7 @@ namespace MishaOS.Gui.Windows
 
         public Size Size
         {
-            get;set;
+            get; set;
         }
 
         public List<Control> Controls = new List<Control>();
@@ -135,12 +135,20 @@ namespace MishaOS.Gui.Windows
             if (_ShouldDrawTitleBar)
             {
                 Display.DrawRectangle(this.Location.X, this.Location.Y, this.Size.Width, 20, this.TitlebarColor);
-                Display.DrawString(Text, new Pen(Color.White), this.Location.X, this.Location.Y);
+                Display.DrawRectangle(this.Location.X + 2, this.Location.Y, this.Size.Width - 2, 20, Color.Green);
+                Display.DrawString(Text, Pens.White, this.Location.X, this.Location.Y);
+
                 //Draw Close button
                 if (ShouldDrawCloseButton)
                 {
-                    Display.DrawRectangle(this.Location.X + this.Size.Width - CloseWidth, this.Location.Y, CloseWidth, CloseHeight, Color.Red);
-                    Display.DrawString("X", new Pen(Color.White), this.Location.X + this.Size.Width - CloseWidth, this.Location.Y);
+                    Display.DrawRectangle(
+                        this.Location.X + this.Size.Width - CloseWidth,
+                        this.Location.Y,
+                        CloseWidth,
+                        CloseHeight,
+                        Color.Red);
+
+                    Display.DrawString("X", Pens.White, this.Location.X + this.Size.Width - CloseWidth + 2, this.Location.Y);
                 }
             }
             //Call custom draw function
@@ -154,7 +162,7 @@ namespace MishaOS.Gui.Windows
         /// </summary>
         public virtual void Draw()
         {
-           
+
         }
         /// <summary>
         /// Closes the window.
@@ -178,6 +186,7 @@ namespace MishaOS.Gui.Windows
                         if (UiMouse.MouseX >= (this.Location.X + this.Size.Width - CloseWidth) && UiMouse.MouseX <= (this.Location.X + this.Size.Width - CloseWidth) + CloseWidth)
                         {
                             DesktopManager.CloseWindow(this);
+                            DesktopManager.OpenWindow(new Desktop());
                         }
                     }
                 }
