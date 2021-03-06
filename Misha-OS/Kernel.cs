@@ -13,7 +13,7 @@ namespace MishaOS
     {
         public static Sys.FileSystem.CosmosVFS FS;
 
-        public static string KernelVersion = "MishaOS Version 0.6.1";
+        public static string KernelVersion = "MishaOS Version 0.6.1b";
         protected override void BeforeRun()
         {
             try

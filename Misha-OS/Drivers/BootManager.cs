@@ -1,5 +1,5 @@
-﻿using Cosmos.Core.IOGroup;
-using Cosmos.System;
+﻿//#define GUIBOOT //Uncomment to enable GUI boot screen
+using Cosmos.Core;
 using Cosmos.System.FileSystem;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
@@ -9,10 +9,8 @@ using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using MishaOS.TextUI.Commands;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Text;
 
 namespace MishaOS.Drivers
 {
@@ -42,61 +40,45 @@ namespace MishaOS.Drivers
             }
 
             BootMessages.Print(SystemdPrintType.Ok, "Loading gui..");
-            //Boot screen Animation
-            Boot(GetProgressString(0), true);
-            Boot(GetProgressString(798), false, true);
+            //Boot screen Animation, uncomment to enable
+
+#if GUIBOOT
+Boot(".", true);
+Boot("..", false, true);
+#else
+            VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x50);
+            Console.BackgroundColor = ConsoleColor.Blue;
+            Console.Clear();
+            Console.CursorVisible = false;
+
+            Console.WriteLine("MishaOS Version "+Kernel.KernelVersion+ ". Kernel Version: unknown-devkit");
+            Console.WriteLine("Amount of memory: "+CPU.GetAmountOfRAM()+"mb");
+            Cosmos.HAL.Global.PIT.Wait(2000);
+            Console.CursorVisible = true;
+            VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x25);
+#endif
 
             //After boot screen
             AfterBootScreen();
         }
 
-        private static string GetProgressString(int prg)
-        {
-            // Screen width - 2 brackets - progress = Progress char size
-            var Maxlen = 798;
-            string prgBar = "";
-
-            for (int i = 0; i < Maxlen; i++)
-            {
-                if (prg > 0)
-                    prgBar += "X";
-                else
-                    prgBar += " ";
-
-                prg--;
-            }
-            return "[" + prgBar + "]";
-        }
         //Basic display
         private static Canvas boot;
         static void Boot(string dots, bool isFirst = false, bool isLast = false)
         {
-
-            //INTS
             if (isFirst)
             {
                 boot = FullScreenCanvas.GetFullScreenCanvas(new Mode(800, 600, ColorDepth.ColorDepth32));
                 boot.Clear(Color.Black);
             }
-            boot.DrawString("MishaOS is starting", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0, 0));
 
-            boot.DrawString(dots, PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0, 600 - 20));
+            boot.DrawString("MishaOS is starting", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0, 0));
             //Wait 1 sec
-            DelayInMS(1000);
+            Cosmos.HAL.Global.PIT.Wait(1000);
+
             //Clean up
             if (isLast)
                 boot.Disable();
-        }
-        static void DelayInMS(int ms) // Stops the code for milliseconds and then resumes it (Basically It's delay)
-        {
-            for (int i = 0; i < ms * 100000; i++)
-            {
-                ;
-                ;
-                ;
-                ;
-                ;
-            }
         }
         /// <summary>
         /// Occurs after the system has booted.
