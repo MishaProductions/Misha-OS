@@ -14,9 +14,12 @@ namespace MishaOS.Gui.Windows.Controls
     /// <summary>
     /// A control that is a button.
     /// </summary>
+    [Obsolete]
     public class Button : Control
     {
+        [Obsolete]
         private EventHandler OnClickEventHandler;
+        [Obsolete]
         /// <summary>
         /// Invoked when button is clicked.
         /// </summary>
@@ -34,7 +37,9 @@ namespace MishaOS.Gui.Windows.Controls
             }
 
         }
+        [Obsolete]
         private string _Text = "Button";
+        [Obsolete]
         /// <summary>
         /// The text of the button
         /// </summary>
@@ -50,6 +55,7 @@ namespace MishaOS.Gui.Windows.Controls
                 this.DrawAll();
             }
         }
+        [Obsolete]
         public override void Draw()
         {
             if (!Visible | this.ParrentWindow == null)
@@ -62,7 +68,7 @@ namespace MishaOS.Gui.Windows.Controls
                 new Cosmos.System.Graphics.Pen(this.ForeColor),
                 this.ParrentWindow.ClientLocation.X + x, this.ParrentWindow.ClientLocation.Y + y);
         }
-
+        [Obsolete]
         public override void Update()
         {
             int width = this.Size.Width;

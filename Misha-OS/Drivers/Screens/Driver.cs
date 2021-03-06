@@ -795,39 +795,9 @@ namespace MishaOS.Drivers.Screens
         }
         #endregion
 
-        /*
-        ManagedMemoryBlock managedMemoryBlock;
-        private void Init()
-        {
-            managedMemoryBlock = new ManagedMemoryBlock(ReadRegister(Register.FrameBufferSize));
-        }
-        public void _SetPixel(uint x, uint y, uint color)
-        {
-            uint offset = (y * width + x) * depth;
-            Kernel.text = $"Last Offset: {offset}";
-            if (offset < managedMemoryBlock.Size && x < this.width)
-            {
-                managedMemoryBlock.Write32(offset, color);
-            }
-        }
-        public void _Clear(uint color)
-        {
-            managedMemoryBlock.Fill(color);
-        }
-        public void _Update()
-        {
-            Video_Memory.Copy(managedMemoryBlock);
-            WriteToFifo((int)FIFOCommand.Update);
-            WriteToFifo(0);
-            WriteToFifo(0);
-            WriteToFifo(width);
-            WriteToFifo(height);
-            WaitForFifo();
-        }
-        */
-
         public uint FrameSize;
         public uint FrameOffset;
+        public bool NeedsRedrawing = true;
 
         private void Init()
         {
@@ -842,7 +812,7 @@ namespace MishaOS.Drivers.Screens
                 if (DoubleBuffer_GetPixel(x, y) == color)
                     return;
 
-
+                NeedsRedrawing = true;
                 Video_Memory[((y * width + x) * depth) + FrameSize] = color;
             }
         }
@@ -868,6 +838,8 @@ namespace MishaOS.Drivers.Screens
 
         public void DoubleBuffer_Update()
         {
+            if (!NeedsRedrawing)
+                return;
             try
             {
                 Video_Memory.MoveDown(FrameOffset, FrameSize, FrameSize);

@@ -13,7 +13,7 @@ namespace MishaOS.Gui.Windows
     /// <summary>
     /// A class for displaying windows.
     /// </summary>
-    public class Window:IDisposable
+    public class Window : IDisposable
     {
         private bool _ShouldDrawCloseButton = true;
         public bool ShouldDrawCloseButton
@@ -81,24 +81,21 @@ namespace MishaOS.Gui.Windows
                 }
             }
         }
+
         public bool Enabled
         {
             get { return _Enabled; }
             set
             {
                 _Enabled = value;
-                foreach (Control c in this.Controls)
-                {
-                    c.Enabled = value;
-                }
             }
         }
 
         public Size Size
         {
-            get;set;
+            get; set;
         }
-
+        [Obsolete]
         public List<Control> Controls = new List<Control>();
         public Window()
         {
@@ -112,8 +109,8 @@ namespace MishaOS.Gui.Windows
             _IsOpen = true;
             this.DrawAll();
         }
-        int CloseWidth = 20;
-        int CloseHeight = 20;
+        const int CloseWidth = 20;
+        const int CloseHeight = 20;
         /// <summary>
         /// Draws everything on the window: (titlebar, all controls, etc).
         /// </summary>
@@ -123,14 +120,6 @@ namespace MishaOS.Gui.Windows
                 return;
             //Draw the window background.
             Display.DrawRectangle(Location.X, Location.Y, Size.Width, Size.Height, BackgroundColor);
-
-            //Draw all the controls in this control
-            foreach (Control d in Controls)
-            {
-                if (d.ParrentWindow == null)
-                    d._ParrentWindow = this;
-                d.DrawAll();
-            }
             //Draw title bar here
             if (_ShouldDrawTitleBar)
             {
@@ -144,17 +133,14 @@ namespace MishaOS.Gui.Windows
                 }
             }
             //Call custom draw function
-#pragma warning disable CS0618
-            Draw();
-#pragma warning restore CS0618
+         //   Draw();
         }
-        [Obsolete("Please call DrawAll() insted.")]
         /// <summary>
         /// Custom draw method. Do not call dirrectly.
         /// </summary>
         public virtual void Draw()
         {
-           
+
         }
         /// <summary>
         /// Closes the window.
@@ -167,10 +153,10 @@ namespace MishaOS.Gui.Windows
 
         public void UpdateAll()
         {
-            if (_IsOpen)
+            if (IsOpen && Enabled)
             {
                 Update();
-                if (MouseManager.MouseState == MouseState.Left && this.IsOpen && this.Enabled)
+                if (MouseManager.MouseState == MouseState.Left)
                 {
                     //Check if Close button is clicked
                     if (UiMouse.MouseY >= (this.Location.Y) && UiMouse.MouseY <= (this.Location.Y) + 20)
@@ -185,24 +171,16 @@ namespace MishaOS.Gui.Windows
         }
         /// <summary>
         /// Main window update function.
-        /// Called every ms.
+        /// Called every frame.
         /// </summary>
         public virtual void Update()
         {
-            //Update all controls
-            foreach (Control d in Controls)
-            {
-                if (d.ParrentWindow == null)
-                    d._ParrentWindow = this;
-                d.Update();
-            }
+
         }
 
         public void Dispose()
         {
             this.Close();
-            this.Controls = null;
-
         }
     }
 }

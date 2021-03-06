@@ -1,4 +1,5 @@
-﻿using MishaOS.Drivers;
+﻿using Cosmos.System.Network;
+using MishaOS.Drivers;
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using MishaOS.TextUI.Commands;
@@ -30,23 +31,16 @@ namespace MishaOS
         {
             try
             {
-               if (CommandParaser.IsGUI)
+                while (CommandParaser.IsGUI)
                 {
                     //TODO: maybe add threads to update the screen?
                     Display.Clear(Color.DodgerBlue);
 
                     DesktopManager.Update();
                     UiMouse.Update();
-                    if (FPSCounter.ShouldRender)
-                    {
-                        Display.DrawRectangle(0, 0, 100, 20, Color.Black);
-                        Display.DrawString("FPS: " + FPSCounter.FPS, new Sys.Graphics.Pen(Color.White), 0, 0);
-                    }
                     Display.Render();
-                }
-                else
-                {
 
+                    NetworkStack.Update();
                 }
             }
             catch (Exception ex)

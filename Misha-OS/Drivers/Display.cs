@@ -77,7 +77,7 @@ namespace MishaOS.Drivers
         {
             if (BootManager.IsBootedInVM)
             {
-                DisplayDriverName = "DoubleBufferedVMWareSVGAII";
+                DisplayDriverName = "DoubleBuffered VMWare SVGAII";
                 Backend = new BufferedIVmvare();
             }
             else

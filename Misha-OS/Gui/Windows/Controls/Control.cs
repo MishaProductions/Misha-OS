@@ -11,6 +11,7 @@ namespace MishaOS.Gui.Windows.Controls
     /// <summary>
     /// A class that represents a control such as a button or label.
     /// </summary>
+    [Obsolete]
     public class Control
     {
         /// <summary>
@@ -99,11 +100,12 @@ namespace MishaOS.Gui.Windows.Controls
         /// The controls inside this control.
         /// </summary>
         public List<Control> Controls = new List<Control>();
+        [Obsolete]
         public Control()
         {
             DrawAll();
         }
-
+        [Obsolete]
         public void DrawAll()
         {
             if (!Visible | this.ParrentWindow == null) //Skip drawing if not visible
@@ -120,6 +122,7 @@ namespace MishaOS.Gui.Windows.Controls
             //Call custom draw function
             Draw();
         }
+        [Obsolete]
         /// <summary>
         /// Draw function. Please do not call dirrectly, insted call DrawAll()
         /// </summary>
@@ -130,6 +133,7 @@ namespace MishaOS.Gui.Windows.Controls
         /// <summary>
         /// Main control loop function
         /// </summary>
+        [Obsolete]
         public virtual void Update()
         {
             //Update all controls

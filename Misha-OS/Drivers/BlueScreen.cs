@@ -39,7 +39,7 @@ Disable BIOS memory options such as caching or shadowing.");
         /// Makes string look uglyer
         /// </summary>
         /// <param name="Message">The string. Example: Fatal error</param>
-        /// <returns>The uglyer string. Example: FATAL_ERROR</returns>
+        /// <returns>The uglyer string. Example: Input: Unknown error Output: UNKNOWN_ERROR</returns>
         public static string GetProperMessage(string Message) { return Message.ToUpper().Replace(" ", "_"); }
     }
 }

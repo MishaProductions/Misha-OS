@@ -57,7 +57,7 @@ namespace MishaOS.Gui
                 }
                 OpenWindows[winindex].Dispose();
                 OpenWindows.RemoveAt(winindex);
-               // Display.DrawRectangle(win.Location.X, win.Location.Y, win.Size.Width, win.Size.Height, Color.DodgerBlue);
+                Display.DrawRectangle(win.Location.X, win.Location.Y, win.Size.Width, win.Size.Height, Color.DodgerBlue);
                 win.Dispose();
                 win = null;
 

@@ -23,25 +23,26 @@ namespace MishaOS.Gui.Windows
         {
             this.Text = "Desktop";
             BackgroundColor = Color.ForestGreen;
-            Label line1 = new Label();
-            Label line2 = new Label();
-            //Line 1
-            line1.Text = "Misha OS App Launcher";
-            line1.ForeColor = Color.White;
-            line1.Location = new System.Drawing.Point(5, 5);
-
-            //Line 2
-            line2.Text = "Select an Application to begin.";
-            line2.ForeColor = Color.White;
-            line2.Location = new System.Drawing.Point(5, 20);
-
-            //Window
-            this.Controls.Add(line1);
-            this.Controls.Add(line2);
-
             //Add apps
-            AddApp(new Terminal());
-            AddApp(new Settings());
+            //   AddApp(new Terminal());
+            //  AddApp(new Settings());
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
+            Graphics.Label("Misha OS App Launcher", this.ClientLocation.X + 5, this.ClientLocation.Y + 5, new ControlData() { ForeColor = Color.White });
+            Graphics.Label("Select an Application to begin.", this.ClientLocation.X + 5, this.ClientLocation.Y + 20, new ControlData() { ForeColor = Color.White });
+
+            if (Graphics.Button("MishaOS Terminal", this.ClientLocation.X + 5, this.ClientLocation.Y + 40, this.Size.Width, 20))
+            {
+                DesktopManager.OpenWindow(new Terminal());
+            }
+
+            if (Graphics.Button("MishaOS Settings", this.ClientLocation.X + 5, this.ClientLocation.Y + 70, this.Size.Width, 20))
+            {
+                DesktopManager.OpenWindow(new Settings());
+            }
         }
         /// <summary>
         /// Add a app
@@ -56,14 +57,14 @@ namespace MishaOS.Gui.Windows
             btn.Size = new Size(this.Size.Width, 20);
             btn.ForeColor = Color.Black;
             btn.Text = window.Text;
-            btn.OnClick += delegate(object s, EventArgs e)
+            btn.OnClick += delegate (object s, EventArgs e)
             {
                 DesktopManager.OpenWindow(window);
-               // DesktopManager.CloseWindow(this);
+                // DesktopManager.CloseWindow(this);
             };
             this.Controls.Add(btn);
 
-            apps.Add(new AppReference() { window=window,loc=loc});
+            apps.Add(new AppReference() { window = window, loc = loc });
             AppY += 30;
         }
     }
