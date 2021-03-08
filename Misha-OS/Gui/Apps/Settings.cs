@@ -131,8 +131,10 @@ namespace MishaOS.Gui.Apps
 
             AddInfoText("screen resolution: " + Display.ScreenWidth + "x" + Display.ScreenHeight);
             string driver = "Cosmos Canvas";
-            if (BootManager.IsBootedInVM)
-                driver = "VMvare double buffered drive";
+
+            if (BootManager.IsBootedInVmvare)
+                driver = "VMvare double buffered display device";
+
             AddInfoText("Display Driver: " + driver);
             this.DrawAll();
         }

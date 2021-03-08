@@ -11,8 +11,8 @@ namespace MishaOS.Drivers
         private Canvas display;
         public int screenH;
         public int screenW;
-        public static Color[] SBuffer;
-        public static Color[] SBufferOld;
+        public Color[] SBuffer;
+        public Color[] SBufferOld;
         public override List<Mode> AvailableModes => display.AvailableModes;
 
         public override Mode DefaultGraphicMode => display.DefaultGraphicMode;
