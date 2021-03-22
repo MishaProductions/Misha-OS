@@ -13,7 +13,7 @@ namespace MishaOS
     {
         public static Sys.FileSystem.CosmosVFS FS;
 
-        public static string KernelVersion = "MishaOS Version 0.6.1b";
+        public static string KernelVersion = "MishaOS Version 0.7a";
         protected override void BeforeRun()
         {
             try
@@ -39,7 +39,7 @@ namespace MishaOS
                     UiMouse.Update();
                     if (FPSCounter.ShouldRender)
                     {
-                        Display.DrawRectangle(0, 0, 100, 20, Color.Black);
+                        Display.DrawRectangle(0, 0, 40, 10, Color.Black);
                         Display.DrawString("FPS: " + FPSCounter.FPS, Pens.White, 0, 0);
                     }
                     Display.Render();

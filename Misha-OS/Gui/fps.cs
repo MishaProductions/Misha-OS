@@ -13,7 +13,7 @@ namespace MishaOS
         /// <summary>
         /// Should the kernel draw the fps counter?
         /// </summary>
-        public static bool ShouldRender { get; set; } = false;
+        public static bool ShouldRender { get; set; } = true;
 
         public static int FPS
         {

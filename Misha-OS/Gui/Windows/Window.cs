@@ -65,7 +65,7 @@ namespace MishaOS.Gui.Windows
         private System.Drawing.Point loc = new System.Drawing.Point(0, 0);
         public System.Drawing.Point Location { get { return loc; } set { loc = value; } }
         /// <summary>
-        /// Gets the location where the user can draw to. This will be (0,20) + WindowLocation if title bar disabled. If the title bar is enabled, this will be (0,0) + Window Location
+        /// Gets the location where the user can draw to. This will be (0,TitlebarHeight) + WindowLocation if title bar disabled. If the title bar is enabled, this will be (0,0) + Window Location
         /// </summary>
         public System.Drawing.Point ClientLocation
         {
@@ -73,7 +73,7 @@ namespace MishaOS.Gui.Windows
             {
                 if (ShouldDrawTitleBar)
                 {
-                    return new System.Drawing.Point(0 + this.Location.X, 20 + this.Location.Y);
+                    return new System.Drawing.Point(0 + this.Location.X, TitlebarHeight + this.Location.Y);
                 }
                 else
                 {
@@ -102,7 +102,7 @@ namespace MishaOS.Gui.Windows
         public List<Control> Controls = new List<Control>();
         public Window()
         {
-            Size = new Size(500, 200);
+            Size = new Size(320, 200);
         }
         /// <summary>
         /// Opens the window.
@@ -113,7 +113,9 @@ namespace MishaOS.Gui.Windows
             this.DrawAll();
         }
         int CloseWidth = 20;
-        int CloseHeight = 20;
+        int CloseHeight = TitlebarHeight;
+
+        public static int TitlebarHeight = 10;
         /// <summary>
         /// Draws everything on the window: (titlebar, all controls, etc).
         /// </summary>
@@ -134,8 +136,8 @@ namespace MishaOS.Gui.Windows
             //Draw title bar here
             if (_ShouldDrawTitleBar)
             {
-                Display.DrawRectangle(this.Location.X, this.Location.Y, this.Size.Width, 20, this.TitlebarColor);
-                Display.DrawRectangle(this.Location.X + 2, this.Location.Y, this.Size.Width - 2, 20, Color.Green);
+                Display.DrawRectangle(this.Location.X, this.Location.Y, this.Size.Width, TitlebarHeight, this.TitlebarColor);
+                Display.DrawRectangle(this.Location.X + 2, this.Location.Y, this.Size.Width - 2, TitlebarHeight, Color.Green);
                 Display.DrawString(Text, Pens.White, this.Location.X, this.Location.Y);
 
                 //Draw Close button
@@ -181,12 +183,12 @@ namespace MishaOS.Gui.Windows
                 if (MouseManager.MouseState == MouseState.Left && this.IsOpen && this.Enabled)
                 {
                     //Check if Close button is clicked
-                    if (UiMouse.MouseY >= (this.Location.Y) && UiMouse.MouseY <= (this.Location.Y) + 20)
+                    if (UiMouse.MouseY >= (this.Location.Y) && UiMouse.MouseY <= (this.Location.Y) + TitlebarHeight)
                     {
                         if (UiMouse.MouseX >= (this.Location.X + this.Size.Width - CloseWidth) && UiMouse.MouseX <= (this.Location.X + this.Size.Width - CloseWidth) + CloseWidth)
                         {
                             DesktopManager.CloseWindow(this);
-                            DesktopManager.OpenWindow(new Desktop());
+                            //DesktopManager.OpenWindow(new Desktop());
                         }
                     }
                 }
@@ -211,7 +213,6 @@ namespace MishaOS.Gui.Windows
         {
             this.Close();
             this.Controls = null;
-
         }
     }
 }

@@ -12,31 +12,6 @@ namespace MishaOS.Gui
     /// </summary>
     public static class UiMouse
     {
-        /// <summary>
-        /// Copied from https://github.com/nifanfa/Cosmos-GUI-Sample
-        /// </summary>
-        static int[] cursor = new int[]
-            {
-                1,0,0,0,0,0,0,0,0,0,0,0,
-                1,1,0,0,0,0,0,0,0,0,0,0,
-                1,2,1,0,0,0,0,0,0,0,0,0,
-                1,2,2,1,0,0,0,0,0,0,0,0,
-                1,2,2,2,1,0,0,0,0,0,0,0,
-                1,2,2,2,2,1,0,0,0,0,0,0,
-                1,2,2,2,2,2,1,0,0,0,0,0,
-                1,2,2,2,2,2,2,1,0,0,0,0,
-                1,2,2,2,2,2,2,2,1,0,0,0,
-                1,2,2,2,2,2,2,2,2,1,0,0,
-                1,2,2,2,2,2,2,2,2,2,1,0,
-                1,2,2,2,2,2,2,2,2,2,2,1,
-                1,2,2,2,2,2,2,1,1,1,1,1,
-                1,2,2,2,1,2,2,1,0,0,0,0,
-                1,2,2,1,0,1,2,2,1,0,0,0,
-                1,2,1,0,0,1,2,2,1,0,0,0,
-                1,1,0,0,0,0,1,2,2,1,0,0,
-                0,0,0,0,0,0,1,2,2,1,0,0,
-                0,0,0,0,0,0,0,1,1,0,0,0
-            };
 
         /// <summary>
         /// Updates the mouse.
@@ -64,14 +39,7 @@ namespace MishaOS.Gui
 
         private static void DrawMouse(int x, int y)
         {
-            try
-            {
-                ImageUtil.DrawImage(cursor, x, y, 12, 19);
-            }
-            catch
-            {
-
-            }
+            Display.DrawRectangle(x, y, 5, 5, Color.White);
         }
         /// <summary>
         /// Inits the mouse.

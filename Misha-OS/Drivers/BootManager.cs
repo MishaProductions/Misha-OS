@@ -53,7 +53,7 @@ Boot("..", false, true);
 
             Console.WriteLine("MishaOS Version "+Kernel.KernelVersion+ ". Kernel Version: unknown-devkit");
             Console.WriteLine("Amount of memory: "+CPU.GetAmountOfRAM()+"mb");
-            Cosmos.HAL.Global.PIT.Wait(2000);
+            Cosmos.HAL.Global.PIT.Wait(1000);
             Console.CursorVisible = true;
             VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x25);
 #endif

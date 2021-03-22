@@ -130,12 +130,8 @@ namespace MishaOS.Gui.Apps
             AddInfoText("BIOS Time: " + Cosmos.HAL.RTC.Hour + ":" + Cosmos.HAL.RTC.Minute);
 
             AddInfoText("screen resolution: " + Display.ScreenWidth + "x" + Display.ScreenHeight);
-            string driver = "Cosmos Canvas";
 
-            if (BootManager.IsBootedInVmvare)
-                driver = "VMvare double buffered display device";
-
-            AddInfoText("Display Driver: " + driver);
+            AddInfoText("Display Driver: " + Display.DisplayDriverName);
             this.DrawAll();
         }
         public void SettingsTab()

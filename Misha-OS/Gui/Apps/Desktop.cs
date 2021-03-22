@@ -18,7 +18,7 @@ namespace MishaOS.Gui.Windows
     public class Desktop : Window
     {
         public List<AppReference> apps = new List<AppReference>();
-        int AppY = 40;
+        int AppY = 20;
         public Desktop()
         {
             this.Text = "Desktop";
@@ -33,7 +33,7 @@ namespace MishaOS.Gui.Windows
             //Line 2
             line2.Text = "Select an Application to begin.";
             line2.ForeColor = Color.White;
-            line2.Location = new System.Drawing.Point(5, 20);
+            line2.Location = new System.Drawing.Point(5, 10);
 
             //Window
             this.Controls.Add(line1);
@@ -53,7 +53,7 @@ namespace MishaOS.Gui.Windows
 
             Button btn = new Button();
             btn.Location = new System.Drawing.Point(loc.X, loc.Y + 5);
-            btn.Size = new Size(this.Size.Width, 20);
+            btn.Size = new Size(this.Size.Width, 10);
             btn.ForeColor = Color.Black;
             btn.Text = window.Text;
             btn.OnClick += delegate(object s, EventArgs e)
@@ -64,7 +64,7 @@ namespace MishaOS.Gui.Windows
             this.Controls.Add(btn);
 
             apps.Add(new AppReference() { window=window,loc=loc});
-            AppY += 30;
+            AppY += 11;
         }
     }
     public class AppReference

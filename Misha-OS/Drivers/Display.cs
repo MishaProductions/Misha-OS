@@ -1,4 +1,5 @@
-﻿using Cosmos.System;
+﻿using Cosmos.HAL;
+using Cosmos.System;
 using Cosmos.System.Graphics;
 using Cosmos.System.Graphics.Fonts;
 using MishaOS.Drivers.Screens;
@@ -11,23 +12,21 @@ namespace MishaOS.Drivers
 {
     public static class Display
     {
-        
-        public static int ScreenWidth = 640;
-        public static int ScreenHeight = 480;
-        private static IDisplay Backend;
+        public static int ScreenWidth = 320;
+        public static int ScreenHeight = 200;
         public static string DisplayDriverName { get; private set; }
         #region Methods
 
         #region Draw/Clear Methods
         public static void Clear(Color col)
         {
-            Backend.Clear(col);
+            VGAGraphics.Clear(VGAColor.Cyan);
         }
         public static void Render()
         {
             try
             {
-                Backend.Render();
+                VGAGraphics.Display();
             }
             catch { }
         }
@@ -35,7 +34,16 @@ namespace MishaOS.Drivers
         {
             try
             {
-                Backend.DrawRectangle(x, y, Width, Height, col);
+                if (col == Color.Black)
+                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Black);
+                else if (col == Color.White)
+                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.White);
+                else if (col == Color.ForestGreen)
+                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Green12);
+                else if (col == Color.Green)
+                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Green13);
+                else
+                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Red);
             }
             catch { }
         }
@@ -43,7 +51,12 @@ namespace MishaOS.Drivers
         {
             try
             {
-                Backend.DrawString(str, pen, x, y);
+                if (pen.Color == Color.White)
+                    VGAGraphics.DrawString(x, y, str, VGAColor.White, VGAFont.Font3x5);
+                else if (pen.Color == Color.Black)
+                    VGAGraphics.DrawString(x, y, str, VGAColor.Black, VGAFont.Font3x5);
+                else
+                    VGAGraphics.DrawString(x, y, str, VGAColor.Red, VGAFont.Font3x5);
             }
             catch { }
         }
@@ -51,8 +64,20 @@ namespace MishaOS.Drivers
         {
             try
             {
-                Backend.setPixel(x, y, c);
+                if (c == Color.Black)
+                    VGAGraphics.DrawPixel(x, y, VGAColor.Black);
+                else if (c == Color.White)
+                    VGAGraphics.DrawPixel(x, y, VGAColor.White);
+                else if (c == Color.Magenta)
+                    VGAGraphics.DrawPixel(x, y, VGAColor.Magenta);
+                else if (c == Color.ForestGreen)
+                    VGAGraphics.DrawPixel(x, y, VGAColor.Green11);
+                else if (c == Color.Green)
+                    VGAGraphics.DrawPixel(x, y, VGAColor.Green);
+                else
+                    VGAGraphics.DrawPixel(x, y, VGAColor.Red);
             }
+
             catch { }
         }
         #endregion
@@ -61,31 +86,17 @@ namespace MishaOS.Drivers
         /// </summary>
         public static void Disable()
         {
-            Backend.Disable();
-        }
-        /// <summary>
-        /// Enables graphics
-        /// </summary>
-        public static void DisplayD()
-        {
-            Backend.DisplayD();
+            VGADriverII.Initialize(VGAMode.Text80x25);
         }
         /// <summary>
         /// Loads the display driver.
         /// </summary>
         public static void Init()
         {
-            if (BootManager.IsBootedInVmvare)
-            {
-                DisplayDriverName = "DoubleBufferedVMWareSVGAII";
-                Backend = new BufferedIVmvare();
-            }
-            else
-            {
-                DisplayDriverName = "Canvas";
-                Backend = new BufferedIDisplay();
-            }
-            Backend.Init(new Mode(ScreenWidth, ScreenHeight,ColorDepth.ColorDepth32));
+            VGADriverII.Initialize(VGAMode.Pixel320x200DB);
+            DisplayDriverName = "Double buffered 320x200 Generic VGA driver";
+
+
             MouseManager.ScreenHeight = (uint)ScreenHeight;
             MouseManager.ScreenWidth = (uint)ScreenWidth;
             Clear(Color.DodgerBlue);
