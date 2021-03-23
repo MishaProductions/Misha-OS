@@ -205,14 +205,7 @@ namespace Cosmos.HAL
             if (ModeID != VGAMode.Pixel320x200DB) { return; }
 
             byte* src = (byte*)BackBuffer.Base;
-
-            for (uint i = 0; i < Width * Height; i++)
-            {
-                if (*(Buffer + i) != *(src + i))
-                {
-                    *(Buffer + i) = *(src + i);
-                }
-            }
+            MemoryOperations.Copy(Buffer, src, Width * Height);
         }
 
         // set text-mode cursor position

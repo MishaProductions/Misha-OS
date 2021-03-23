@@ -1,12 +1,7 @@
 ﻿using Cosmos.HAL;
 using Cosmos.System;
 using Cosmos.System.Graphics;
-using Cosmos.System.Graphics.Fonts;
-using MishaOS.Drivers.Screens;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace MishaOS.Drivers
 {
@@ -20,7 +15,7 @@ namespace MishaOS.Drivers
         #region Draw/Clear Methods
         public static void Clear(Color col)
         {
-            VGAGraphics.Clear(VGAColor.Cyan);
+            VGAGraphics.Clear(VGAColor.Cyan11);
         }
         public static void Render()
         {
@@ -41,7 +36,9 @@ namespace MishaOS.Drivers
                 else if (col == Color.ForestGreen)
                     VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Green12);
                 else if (col == Color.Green)
-                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Green13);
+                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Green14);
+                else if (col == Color.DodgerBlue)
+                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Blue10);
                 else
                     VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Red);
             }

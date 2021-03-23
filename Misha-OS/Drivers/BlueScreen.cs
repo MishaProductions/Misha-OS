@@ -33,10 +33,10 @@ compatible with your computer's BIOS.
 If problems continue, disable or remove any newly installed hardware. 
 Disable BIOS memory options such as caching or shadowing.");
             CommandParaser.IsGUI = false;
-            while (true) ;
+            while (true); //lock up
         }
         /// <summary>
-        /// Makes string look uglyer
+        /// Makes string look uglier
         /// </summary>
         /// <param name="Message">The string. Example: Fatal error</param>
         /// <returns>The uglyer string. Example: FATAL_ERROR</returns>

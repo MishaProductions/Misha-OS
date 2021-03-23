@@ -47,7 +47,7 @@ namespace MishaOS.Gui.Windows
         /// <summary>
         /// The window title
         /// </summary>
-        public string Text { get; set; } = "Window1";
+        public string Text { get; set; } = "MishaOS Window";
         /// <summary>
         /// The titlebar color
         /// </summary>
@@ -112,7 +112,7 @@ namespace MishaOS.Gui.Windows
             _IsOpen = true;
             this.DrawAll();
         }
-        int CloseWidth = 20;
+        int CloseWidth = 10;
         int CloseHeight = TitlebarHeight;
 
         public static int TitlebarHeight = 10;
@@ -183,7 +183,7 @@ namespace MishaOS.Gui.Windows
                 if (MouseManager.MouseState == MouseState.Left && this.IsOpen && this.Enabled)
                 {
                     //Check if Close button is clicked
-                    if (UiMouse.MouseY >= (this.Location.Y) && UiMouse.MouseY <= (this.Location.Y) + TitlebarHeight)
+                    if (UiMouse.MouseY >= this.Location.Y && UiMouse.MouseY <= this.Location.Y + TitlebarHeight)
                     {
                         if (UiMouse.MouseX >= (this.Location.X + this.Size.Width - CloseWidth) && UiMouse.MouseX <= (this.Location.X + this.Size.Width - CloseWidth) + CloseWidth)
                         {

@@ -140,7 +140,7 @@ namespace MishaOS.TextUI.Commands
                             IsGUI = true;
                             Display.Init();
                             g.term = new GuiConsole(new Terminal(), 80);
-                            DesktopManager.OpenWindow(new Desktop());
+                            DesktopManager.OpenWindow(new Taskbar());
                         }
                         else
                         {
@@ -174,7 +174,7 @@ namespace MishaOS.TextUI.Commands
                     {
                         DesktopManager.CloseWindow((Window)g.term);
                     }
-                    DesktopManager.OpenWindow(new Desktop());
+                    DesktopManager.OpenWindow(new Taskbar());
                 }
                 else
                 {

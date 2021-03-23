@@ -27,11 +27,16 @@ namespace MishaOS.Drivers
                 return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null;
             }
         }
+        /// <summary>
+        /// Should Misha OS Load the file system on boot?
+        /// </summary>
+        public static bool EnableFileSystem = true;
         static bool StartedFS = false;
         public static void Boot()
         {
             BootMessages.Print(SystemdPrintType.Ok, "Boot to console");
-            if (!StartedFS)
+
+            if (!StartedFS && EnableFileSystem)
             {
                 BootMessages.Print(SystemdPrintType.Ok, "Start File Systems");
                 Kernel.FS = new CosmosVFS();
@@ -40,7 +45,7 @@ namespace MishaOS.Drivers
             }
 
             BootMessages.Print(SystemdPrintType.Ok, "Loading gui..");
-            //Boot screen Animation, uncomment to enable
+            //Boot screen Animation
 
 #if GUIBOOT
 Boot(".", true);
@@ -85,6 +90,11 @@ Boot("..", false, true);
         /// </summary>
         public static void AfterBootScreen()
         {
+            if (!EnableFileSystem)
+            {
+                BootToGui();
+                return;
+            }
             if (!File.Exists(@"0:\installed.bif"))
             {
                 System.Console.ForegroundColor = ConsoleColor.White;
@@ -117,11 +127,13 @@ Boot("..", false, true);
 
             System.Console.WriteLine("Interfaces: \n1. GUI\n2. CLI");
             TextWindows.Draw("Enter interface number", 0, 5);
-            var input = System.Console.ReadLine();
+
+
+            var input = System.Console.ReadKey();
             System.Console.Clear();
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.BackgroundColor = ConsoleColor.Black;
-            if (input == "1")
+            if (input.KeyChar == '1')
             {
                 System.Console.Clear();
                 System.Console.ForegroundColor = ConsoleColor.White;
@@ -130,10 +142,10 @@ Boot("..", false, true);
 
                 Display.Init();
                 UiMouse.Init();
-                DesktopManager.OpenWindow(new Desktop());
+                DesktopManager.OpenWindow(new Taskbar());
                 Display.Render();
             }
-            else if (input == "2")
+            else if (input.KeyChar == '2')
             {
                 System.Console.Clear();
                 System.Console.ForegroundColor = ConsoleColor.White;
@@ -151,8 +163,6 @@ Boot("..", false, true);
             }
             else
             {
-                System.Console.Clear();
-                System.Console.WriteLine("Unknown Input");
                 BootToGui();
             }
         }
