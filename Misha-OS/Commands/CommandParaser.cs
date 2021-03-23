@@ -1,20 +1,10 @@
-﻿using Cosmos.HAL;
-using Cosmos.System;
-using Cosmos.System.FileSystem.Listing;
-using Cosmos.System.Graphics;
-using MishaOS.Commands;
+﻿using MishaOS.Commands;
 using MishaOS.Commands.All;
 using MishaOS.Drivers;
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using MishaOS.TextUI.Commands.All.General;
-using MishaOS.TextUI.Commands.Help;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace MishaOS.TextUI.Commands
 {
@@ -26,11 +16,11 @@ namespace MishaOS.TextUI.Commands
         /// </summary>
         /// <param name="g">The Console.</param>
         /// <param name="cmd">The Command</param>
-        public static void ProcessCommand(IGuiConsole g,string cmd)
+        public static void ProcessCommand(IGuiConsole g, string cmd)
         {
             if (cmd.ToLower().StartsWith("help"))
             {
-                new Help.Help().Execute(g,cmd);
+                new Help.Help().Execute(g, cmd);
             }
             else if (cmd.ToLower().StartsWith("clear"))
             {
@@ -42,15 +32,15 @@ namespace MishaOS.TextUI.Commands
             }
             else if (cmd.ToLower().StartsWith("ls"))
             {
-                new ls().Execute(g,cmd);
+                new ls().Execute(g, cmd);
             }
             else if (cmd.ToLower().StartsWith("cd"))
             {
-                string NewName = cmd.Replace("cd ","");
+                string NewName = cmd.Replace("cd ", "");
                 var fs = g.CurrentDIR;
-                if (Directory.Exists(fs + @"\"+ NewName))
+                if (Directory.Exists(fs + @"\" + NewName))
                 {
-                    g.CurrentDIR = fs + NewName+@"\";
+                    g.CurrentDIR = fs + NewName + @"\";
                 }
                 else if (NewName == "..")
                 {
@@ -62,7 +52,7 @@ namespace MishaOS.TextUI.Commands
                 }
                 else
                 {
-                    g.WriteLine("ERROR: Dirrectory "+ fs + @"\" + NewName+" Does not exist.");
+                    g.WriteLine("ERROR: Dirrectory " + fs + @"\" + NewName + " Does not exist.");
                 }
             }
             else if (cmd.ToLower().StartsWith("setup"))
@@ -82,7 +72,7 @@ namespace MishaOS.TextUI.Commands
             }
             else if (cmd.ToLower().StartsWith("mkdir"))
             {
-                new mkdir().Execute(g,cmd);
+                new mkdir().Execute(g, cmd);
             }
             else if (cmd.ToLower().StartsWith("cat"))
             {
@@ -94,7 +84,7 @@ namespace MishaOS.TextUI.Commands
             }
             else if (cmd.ToLower().StartsWith("edit"))
             {
-                new edit().Execute(g,cmd);
+                new edit().Execute(g, cmd);
             }
             else if (cmd.ToLower().StartsWith("mode"))
             {
@@ -108,7 +98,7 @@ namespace MishaOS.TextUI.Commands
                 {
                     if (args[1] == "text")
                     {
-                       if (IsGUI== true)
+                        if (IsGUI == true)
                         {
                             if (g.term is Window)
                             {
@@ -161,7 +151,7 @@ namespace MishaOS.TextUI.Commands
                         g.WriteLine("Invaild Usage. Use \"mode help\" for help.");
                     }
                 }
-                g.WriteLine("[DEBUG] args length: "+args.Length);
+                g.WriteLine("[DEBUG] args length: " + args.Length);
                 foreach (var item in args)
                     g.WriteLine(item);
 
@@ -174,7 +164,6 @@ namespace MishaOS.TextUI.Commands
                     {
                         DesktopManager.CloseWindow((Window)g.term);
                     }
-                    DesktopManager.OpenWindow(new Taskbar());
                 }
                 else
                 {

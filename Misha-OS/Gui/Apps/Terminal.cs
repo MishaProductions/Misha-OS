@@ -1,17 +1,12 @@
 ﻿using Cosmos.Core;
 using Cosmos.System;
 using Cosmos.System.Graphics;
-using Cosmos.System.Graphics.Fonts;
 using MishaOS.Commands;
 using MishaOS.Drivers;
-using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using MishaOS.Gui.Windows.Controls;
 using MishaOS.TextUI.Commands;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace MishaOS
 {
@@ -26,7 +21,7 @@ namespace MishaOS
         public string typingcommand = "";
 
         public int StringindexX = 0;
-        public int StringindexY = 20;
+        public int StringindexY = 10;
         public Terminal()
         {
             this.Size = new Size(Display.ScreenWidth, Display.ScreenHeight);
@@ -36,13 +31,13 @@ namespace MishaOS
             //Get the max cols
             for (int i = 0; i < this.Size.Height; i++)
             {
-                Drawstring(i.ToString(), new Pen(Color.Black), new Pen(Color.DodgerBlue),true,true,false);
+                Drawstring(i.ToString(), new Pen(Color.Black), new Pen(Color.DodgerBlue), true, true, false);
                 if (StringindexY >= this.Size.Height)
                 {
                     MaxCols = i;
                     //Init the console
                     console = new GuiConsole(this, MaxCols) { _term = this };
-                    
+
                     return;
                 }
             }
@@ -51,12 +46,12 @@ namespace MishaOS
         {
             base.Open();
             StringindexX = 0;
-            StringindexY = 20;
+            StringindexY = 10;
 
             //Write Terminal info
             console.WriteLine("Misha OS Terminal");
-            console.WriteLine("Version: "+Kernel.KernelVersion);
-            console.WriteLine("Running on a " + CPU.GetCPUVendorName());
+            console.WriteLine("Version: " + Kernel.KernelVersion);
+            console.WriteLine("Running on a " + CPU.GetCPUBrandString());
             console.Write(console.CurrentDIR + " ");
         }
         public override void Update()
@@ -89,10 +84,10 @@ namespace MishaOS
                 {
                     if (StringindexX != 0)
                     {
-                        StringindexX -= 10;
+                        StringindexX -= 5;
                         typingcommand = typingcommand.Remove(typingcommand.Length - 1, 1);
                         console.Write(" ");
-                        StringindexX -= 10;
+                        StringindexX -= 5;
                     }
                 }
                 else
@@ -111,7 +106,7 @@ namespace MishaOS
         /// <param name="black">Black or White?</param>
         /// <param name="newline">Add a new line?</param>
         /// <param name="a">Add right/left padding</param>
-        public void Drawstring(string thestring, Pen forecolor, Pen backcolor, bool newline = true, bool a = true,bool doDraw=true)
+        public void Drawstring(string thestring, Pen forecolor, Pen backcolor, bool newline = true, bool a = true, bool doDraw = true)
         {
             if (!Enabled)
                 return;
@@ -140,12 +135,12 @@ namespace MishaOS
             }
             if (newline)
             {
-                StringindexY += 20;
+                StringindexY += 10;
             }
             else
             {
                 if (a)
-                    StringindexX += 10;
+                    StringindexX += 5;
             }
         }
     }
