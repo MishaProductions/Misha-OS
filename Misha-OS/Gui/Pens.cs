@@ -6,6 +6,9 @@ using System.Text;
 
 namespace MishaOS.Gui
 {
+    /// <summary>
+    /// Contains Common Pen Colors
+    /// </summary>
     public static class Pens
     {
         public static readonly Pen White = new Pen(Color.White);

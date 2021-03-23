@@ -12,6 +12,18 @@ namespace MishaOS.Gui
     /// </summary>
     public static class UiMouse
     {
+        /// <summary>
+        /// Mouse Y
+        /// </summary>
+        public static int MouseX { get { return (int)MouseManager.X; } }
+        /// <summary>
+        /// Mouse X
+        /// </summary>
+        public static int MouseY { get { return (int)MouseManager.Y; } }
+        /// <summary>
+        /// Current Mouse State
+        /// </summary>
+        public static MouseState MouseState { get { return MouseManager.MouseState; } }
 
         /// <summary>
         /// Updates the mouse.
@@ -27,26 +39,23 @@ namespace MishaOS.Gui
             }
             catch { }
         }
-        public static int MouseX { get { return (int)MouseManager.X; } }
-        public static int MouseY { get { return (int)MouseManager.Y; } }
-
-        public static MouseState MouseState { get { return MouseManager.MouseState; } }
         /// <summary>
-        /// Backs up the mouse, then draws it.
+        /// Draws the mouse cursor at a position
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
+        /// <param name="x">Mouse X</param>
+        /// <param name="y">Mouse Y</param>
 
         private static void DrawMouse(int x, int y)
         {
-            Display.DrawRectangle(x, y, 5, 5, Color.White);
+            Display.DrawRectangle(x, y, 2, 2, Color.White);
         }
         /// <summary>
         /// Inits the mouse.
         /// </summary>
         public static void Init()
         {
-
+            MouseManager.ScreenHeight = (uint)Display.ScreenHeight;
+            MouseManager.ScreenWidth = (uint)Display.ScreenWidth;
         }
     }
 }

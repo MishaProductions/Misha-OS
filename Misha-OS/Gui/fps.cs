@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MishaOS
 {
-
-    class FPSCounter
+    public class FPSCounter
     {
         private static DateTime lastTime;
         private static int fps = 0;

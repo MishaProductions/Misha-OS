@@ -93,9 +93,6 @@ namespace MishaOS.Drivers
             VGADriverII.Initialize(VGAMode.Pixel320x200DB);
             DisplayDriverName = "Double buffered 320x200 Generic VGA driver";
 
-
-            MouseManager.ScreenHeight = (uint)ScreenHeight;
-            MouseManager.ScreenWidth = (uint)ScreenWidth;
             Clear(Color.DodgerBlue);
         }
         #endregion

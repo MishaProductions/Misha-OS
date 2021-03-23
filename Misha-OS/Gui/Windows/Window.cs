@@ -87,6 +87,7 @@ namespace MishaOS.Gui.Windows
             set
             {
                 _Enabled = value;
+
                 foreach (Control c in this.Controls)
                 {
                     c.Enabled = value;
@@ -102,7 +103,7 @@ namespace MishaOS.Gui.Windows
         public List<Control> Controls = new List<Control>();
         public Window()
         {
-            Size = new Size(320, 200);
+            Size = new Size(220, 200);
         }
         /// <summary>
         /// Opens the window.
@@ -188,7 +189,6 @@ namespace MishaOS.Gui.Windows
                         if (UiMouse.MouseX >= (this.Location.X + this.Size.Width - CloseWidth) && UiMouse.MouseX <= (this.Location.X + this.Size.Width - CloseWidth) + CloseWidth)
                         {
                             DesktopManager.CloseWindow(this);
-                            //DesktopManager.OpenWindow(new Desktop());
                         }
                     }
                 }

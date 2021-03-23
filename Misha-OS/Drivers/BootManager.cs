@@ -17,21 +17,26 @@ namespace MishaOS.Drivers
     public class BootManager
     {
         /// <summary>
-        /// Is the computer booted in a vmvare?
+        /// Is the computer booted in a vm?
         /// This is used for the display driver.
         /// </summary>
-        public static bool IsBootedInVmvare
+        public static bool IsBootedInVM
         {
             get
             {
-                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null;
+                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null ||
+                    Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.Bochs, Cosmos.HAL.DeviceID.BGA) != null ||
+                    Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VirtualBox, Cosmos.HAL.DeviceID.VBVGA) != null;
             }
         }
         /// <summary>
         /// Should Misha OS Load the file system on boot?
         /// </summary>
         public static bool EnableFileSystem = true;
-        static bool StartedFS = false;
+        /// <summary>
+        /// Has Misha OS Started file system support
+        /// </summary>
+        private static bool StartedFS = false;
         public static void Boot()
         {
             BootMessages.Print(SystemdPrintType.Ok, "Boot to console");
@@ -56,8 +61,8 @@ Boot("..", false, true);
             Console.Clear();
             Console.CursorVisible = false;
 
-            Console.WriteLine("MishaOS Version "+Kernel.KernelVersion+ ". Kernel Version: unknown-devkit");
-            Console.WriteLine("Amount of memory: "+CPU.GetAmountOfRAM()+"mb");
+            Console.WriteLine("MishaOS Version " + Kernel.KernelVersion + ". Kernel Version: unknown-devkit");
+            Console.WriteLine("Amount of memory: " + CPU.GetAmountOfRAM() + "mb");
             Cosmos.HAL.Global.PIT.Wait(1000);
             Console.CursorVisible = true;
             VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x25);
@@ -66,7 +71,7 @@ Boot("..", false, true);
             //After boot screen
             AfterBootScreen();
         }
-
+#if GUIBOOT
         //Basic display
         private static Canvas boot;
         static void Boot(string dots, bool isFirst = false, bool isLast = false)
@@ -85,24 +90,37 @@ Boot("..", false, true);
             if (isLast)
                 boot.Disable();
         }
+#endif
         /// <summary>
         /// Occurs after the system has booted.
         /// </summary>
         public static void AfterBootScreen()
         {
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.Clear();
+
             if (!EnableFileSystem)
             {
                 BootToGui();
                 return;
             }
+            if (!IsBootedInVM)
+            {
+                Console.WriteLine("MishaOS has detected that you are using real hardware or an unknown virtual machine.");
+                Console.WriteLine("File system support has been disabled");
+                Console.WriteLine("");
+                Console.WriteLine("Amount of memory: " + CPU.GetAmountOfRAM() + "mb");
+                Cosmos.HAL.Global.PIT.Wait(1000);
+                Console.CursorVisible = true;
+                VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x25);
+                initGui();
+            }
             if (!File.Exists(@"0:\installed.bif"))
             {
-                System.Console.ForegroundColor = ConsoleColor.White;
-                System.Console.BackgroundColor = ConsoleColor.DarkBlue;
-                System.Console.Clear();
-                System.Console.WriteLine("MishaOS is not detected on hard drive. Enter S to install MishaOS.");
-                System.Console.WriteLine("Otherwise, press anything else to not install Misha OS.");
-                string i = System.Console.ReadLine();
+                Console.WriteLine("MishaOS is not detected on hard drive. Enter S to install MishaOS.");
+                Console.WriteLine("Otherwise, press anything else to not install Misha OS.");
+                string i = Console.ReadLine();
                 if (i == "s" | i == "S")
                 {
                     Setup s = new Setup(Kernel.FS);
@@ -121,35 +139,27 @@ Boot("..", false, true);
 
         private static void BootToGui()
         {
-            System.Console.ForegroundColor = ConsoleColor.White;
-            System.Console.BackgroundColor = ConsoleColor.DarkBlue;
-            System.Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.DarkBlue;
+            Console.Clear();
 
-            System.Console.WriteLine("Interfaces: \n1. GUI\n2. CLI");
+            Console.WriteLine("Interfaces: \n1. GUI\n2. CLI");
             TextWindows.Draw("Enter interface number", 0, 5);
 
 
-            var input = System.Console.ReadKey();
-            System.Console.Clear();
-            System.Console.ForegroundColor = ConsoleColor.White;
-            System.Console.BackgroundColor = ConsoleColor.Black;
+            var input = Console.ReadKey();
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
             if (input.KeyChar == '1')
             {
-                System.Console.Clear();
-                System.Console.ForegroundColor = ConsoleColor.White;
-                System.Console.BackgroundColor = ConsoleColor.Black;
-                CommandParaser.IsGUI = true;
-
-                Display.Init();
-                UiMouse.Init();
-                DesktopManager.OpenWindow(new Taskbar());
-                Display.Render();
+                initGui();
             }
             else if (input.KeyChar == '2')
             {
-                System.Console.Clear();
-                System.Console.ForegroundColor = ConsoleColor.White;
-                System.Console.BackgroundColor = ConsoleColor.Black;
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = ConsoleColor.Black;
                 CommandParaser.IsGUI = false;
 
                 var term = new TextTerm();
@@ -165,6 +175,18 @@ Boot("..", false, true);
             {
                 BootToGui();
             }
+        }
+        private static void initGui()
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.Black;
+            CommandParaser.IsGUI = true;
+
+            Display.Init();
+            UiMouse.Init();
+            DesktopManager.OpenWindow(new Taskbar());
+            Display.Render();
         }
     }
 }

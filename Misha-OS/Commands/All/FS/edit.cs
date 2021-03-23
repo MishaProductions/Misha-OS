@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.CompilerServices;
-using MishaOS;
 using MishaOS.Commands;
 using MishaOS.Drivers;
 using MishaOS.Gui.Windows;
+using MishaOS.Gui;
 
 namespace MishaOS.TextUI.Commands.All.General
 {
@@ -341,7 +340,7 @@ namespace MIV
             Console.ReadKey(true);
             if (g.term is Window)
             {
-                (g.term as Window).Close();
+                MishaOS.Gui.DesktopManager.CloseWindow((g.term as Window));
             }
 
             BootManager.Boot();
