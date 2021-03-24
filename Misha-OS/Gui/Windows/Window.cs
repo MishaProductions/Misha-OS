@@ -111,6 +111,8 @@ namespace MishaOS.Gui.Windows
         public virtual void Open()
         {
             _IsOpen = true;
+            Enabled = true;
+
             this.DrawAll();
         }
         int CloseWidth = 10;
