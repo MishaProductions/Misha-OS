@@ -39,6 +39,8 @@ namespace MishaOS.Drivers
                     VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Green14);
                 else if (col == Color.DodgerBlue)
                     VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Blue10);
+                else if (col == Color.SteelBlue)
+                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Cyan12);
                 else
                     VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Red);
             }

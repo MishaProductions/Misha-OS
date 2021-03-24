@@ -1,15 +1,13 @@
-﻿//#define GUIBOOT //Uncomment to enable GUI boot screen
-using Cosmos.Core;
+﻿using Cosmos.HAL;
 using Cosmos.System.FileSystem;
+using Cosmos.System.FileSystem.VFS;
 using Cosmos.System.Graphics;
-using Cosmos.System.Graphics.Fonts;
 using MishaOS.Commands;
 using MishaOS.Commands.All;
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using MishaOS.TextUI.Commands;
 using System;
-using System.Drawing;
 using System.IO;
 
 namespace MishaOS.Drivers
@@ -32,113 +30,100 @@ namespace MishaOS.Drivers
         /// <summary>
         /// Should Misha OS Load the file system on boot?
         /// </summary>
-        public static bool EnableFileSystem = true;
+        public static bool EnableFileSystem = false;
         /// <summary>
-        /// Has Misha OS Started file system support
+        /// Set this to true if you are building for real hardware.
         /// </summary>
         private static bool StartedFS = false;
         public static void Boot()
         {
-            BootMessages.Print(SystemdPrintType.Ok, "Boot to console");
-
             if (!StartedFS && EnableFileSystem)
             {
-                BootMessages.Print(SystemdPrintType.Ok, "Start File Systems");
                 Kernel.FS = new CosmosVFS();
-                Cosmos.System.FileSystem.VFS.VFSManager.RegisterVFS(Kernel.FS);
+                VFSManager.RegisterVFS(Kernel.FS);
+
                 StartedFS = true;
             }
 
-            BootMessages.Print(SystemdPrintType.Ok, "Loading gui..");
-            //Boot screen Animation
+            VGAImage img = new VGAImage(320, 200);
+            img.ParseData(Utils.BootScreen);
 
-#if GUIBOOT
-Boot(".", true);
-Boot("..", false, true);
-#else
-            VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x50);
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.Clear();
-            Console.CursorVisible = false;
+            VGADriverII.Initialize(VGAMode.Pixel320x200DB); //Init VGA
 
-            Console.WriteLine("MishaOS Version " + Kernel.KernelVersion + ". Kernel Version: unknown-devkit");
-            Console.WriteLine("Amount of memory: " + CPU.GetAmountOfRAM() + "mb");
-            Cosmos.HAL.Global.PIT.Wait(1000);
-            Console.CursorVisible = true;
-            VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x25);
-#endif
+            VGADriverII.Clear(0); // clear screen with black
 
-            //After boot screen
-            AfterBootScreen();
-        }
-#if GUIBOOT
-        //Basic display
-        private static Canvas boot;
-        static void Boot(string dots, bool isFirst = false, bool isLast = false)
-        {
-            if (isFirst)
-            {
-                boot = FullScreenCanvas.GetFullScreenCanvas(new Mode(800, 600, ColorDepth.ColorDepth32));
-                boot.Clear(Color.Black);
-            }
+            VGAGraphics.DrawImage(0, 0, img);
 
-            boot.DrawString("MishaOS is starting", PCScreenFont.Default, new Pen(Color.White), new Cosmos.System.Graphics.Point(0, 0));
-            //Wait 1 sec
-            Cosmos.HAL.Global.PIT.Wait(1000);
+            //Render the screen
+            VGADriverII.Display();
 
-            //Clean up
-            if (isLast)
-                boot.Disable();
-        }
-#endif
-        /// <summary>
-        /// Occurs after the system has booted.
-        /// </summary>
-        public static void AfterBootScreen()
-        {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.Clear();
+            //Wait 2 seconds
+            Cosmos.HAL.Global.PIT.Wait(2000);
 
+            //If we have not enabled file system, show a message and boot dirrectly to the GUI
             if (!EnableFileSystem)
             {
-                BootToGui();
+                VGADriverII.Clear(0); // clear screen with black
+                VGAGraphics.DrawString(0, 0, "MishaOS has detected that you are using", VGAColor.White, VGAFont.Font8x8); 
+                VGAGraphics.DrawString(0, 9, "real hardware or an unknown virtual", VGAColor.White, VGAFont.Font8x8);
+                VGAGraphics.DrawString(0, 18, "machine. File system support has", VGAColor.White, VGAFont.Font8x8);
+                VGAGraphics.DrawString(0, 27, "been disabled.", VGAColor.White, VGAFont.Font8x8);
+                VGADriverII.Display();
+                Cosmos.HAL.Global.PIT.Wait(3000);
+                initGui();
                 return;
             }
-            if (!IsBootedInVM)
-            {
-                Console.WriteLine("MishaOS has detected that you are using real hardware or an unknown virtual machine.");
-                Console.WriteLine("File system support has been disabled");
-                Console.WriteLine("");
-                Console.WriteLine("Amount of memory: " + CPU.GetAmountOfRAM() + "mb");
-                Cosmos.HAL.Global.PIT.Wait(1000);
-                Console.CursorVisible = true;
-                VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x25);
-                initGui();
-            }
+
+            //Check if MishaOS is installed. If not, show a message
+
             if (!File.Exists(@"0:\installed.bif"))
             {
-                Console.WriteLine("MishaOS is not detected on hard drive. Enter S to install MishaOS.");
-                Console.WriteLine("Otherwise, press anything else to not install Misha OS.");
-                string i = Console.ReadLine();
-                if (i == "s" | i == "S")
+                VGADriverII.Clear(0); // clear screen with black
+
+                VGAGraphics.DrawString(0, 0, "MishaOS is not detected on hard drive.", VGAColor.White, VGAFont.Font8x8);
+                VGAGraphics.DrawString(0, 9, "Press S to install MishaOS.", VGAColor.White, VGAFont.Font8x8);
+                VGAGraphics.DrawString(0, 18, "Otherwise, press anything else to not", VGAColor.White, VGAFont.Font8x8);
+                VGAGraphics.DrawString(0, 27, "install Misha OS.", VGAColor.White, VGAFont.Font8x8);
+                VGADriverII.Display();
+
+                while (true)
                 {
-                    Setup s = new Setup(Kernel.FS);
-                    s.StartSetup();
-                }
-                else
-                {
-                    BootToGui();
+                    var eventt = Cosmos.System.KeyboardManager.ReadKey();
+
+                    if (eventt != null)
+                    {
+                        if (eventt.KeyChar == 'S' | eventt.KeyChar == 's')
+                        {
+                            CommandParaser.IsGUI = true;
+
+                            Display.Init();
+                            UiMouse.Init();
+                            DesktopManager.OpenWindow(new SetupWindow());
+                            Display.Render();
+                            return;
+                        }
+                        else
+                        {
+                            InterfaceSelector();
+                            break;
+                        }
+                    }
                 }
             }
             else
             {
-                BootToGui();
+                InterfaceSelector();
             }
         }
-
-        private static void BootToGui()
+        /// <summary>
+        /// Shows interface selector
+        /// </summary>
+        private static void InterfaceSelector()
         {
+            //Disable the VGA driver
+            VGADriverII.Initialize(VGAMode.Text80x50);
+
+
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.Clear();
@@ -173,7 +158,7 @@ Boot("..", false, true);
             }
             else
             {
-                BootToGui();
+                InterfaceSelector();
             }
         }
         private static void initGui()

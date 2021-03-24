@@ -55,13 +55,6 @@ namespace MishaOS.TextUI.Commands
                     g.WriteLine("ERROR: Dirrectory " + fs + @"\" + NewName + " Does not exist.");
                 }
             }
-            else if (cmd.ToLower().StartsWith("setup"))
-            {
-                if (IsGUI)
-                    Display.Disable();
-
-                new Setup(Kernel.FS).StartSetup();
-            }
             else if (cmd.ToLower().StartsWith("shutdown"))
             {
                 Cosmos.System.Power.Shutdown();
@@ -129,6 +122,7 @@ namespace MishaOS.TextUI.Commands
                         {
                             IsGUI = true;
                             Display.Init();
+                            UiMouse.Init();
                             g.term = new GuiConsole(new Terminal(), 80);
                             DesktopManager.OpenWindow(new Taskbar());
                         }

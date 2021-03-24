@@ -33,6 +33,7 @@ namespace MishaOS.Gui.Windows
         private void Start_OnClick(object sender, EventArgs e)
         {
             StartMenu = new StartMenu();
+
             DesktopManager.OpenWindow(StartMenu);
         }
     }

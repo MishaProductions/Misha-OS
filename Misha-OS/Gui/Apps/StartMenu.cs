@@ -31,15 +31,10 @@ namespace MishaOS.Gui.Apps
             if (UiMouse.MouseState == Cosmos.System.MouseState.Left)
             {
                 //If we are clicking on something other then the startmenu, close
-                if (UiMouse.MouseY >= this.Location.Y && UiMouse.MouseY <= this.Location.Y + this.Size.Height)
+                if (!Utils.DoesMouseCollideWithArea(Location.X, Location.Y, Size.Width, Size.Height))
                 {
-                    if (UiMouse.MouseX >= this.Location.X && UiMouse.MouseX <= this.Location.X + this.Size.Width)
-                    {
-                        return;
-                    }
-                    else { DesktopManager.CloseWindow(this); return; }
+                    DesktopManager.CloseWindow(this);
                 }
-                else { DesktopManager.CloseWindow(this); return; }
             }
         }
 

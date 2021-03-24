@@ -13,7 +13,7 @@ namespace MishaOS
     {
         public static Sys.FileSystem.CosmosVFS FS;
 
-        public static string KernelVersion = "MishaOS Version 0.8c";
+        public static string KernelVersion = "MishaOS Version 0.9a";
         protected override void BeforeRun()
         {
             try
@@ -30,7 +30,7 @@ namespace MishaOS
         {
             try
             {
-               if (CommandParaser.IsGUI)
+                if (CommandParaser.IsGUI)
                 {
                     //TODO: maybe add threads to update the screen?
                     Display.Clear(Color.DodgerBlue);

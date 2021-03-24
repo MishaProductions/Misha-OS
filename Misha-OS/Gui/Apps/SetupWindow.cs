@@ -10,7 +10,7 @@ using System.Text;
 
 namespace MishaOS.Gui.Windows
 {
-    public class SetupWindow:Window
+    public class SetupWindow : Window
     {
         Button next = new Button();
         Label top = new Label();
@@ -39,28 +39,28 @@ namespace MishaOS.Gui.Windows
             this.Text = "Setup";
             this.BackgroundColor = Color.SteelBlue;
             this.ShouldDrawCloseButton = false;
-            this.Size = new Size(Display.ScreenWidth,Display.ScreenHeight);
+            this.Size = new Size(Display.ScreenWidth, Display.ScreenHeight);
             //Next
             next.Text = "Next";
-            next.Size = new Size(100,20);
-            next.Location = new Point(Display.ScreenWidth-100, Display.ScreenHeight-20);
+            next.Size = new Size(100, 20);
+            next.Location = new Point(Display.ScreenWidth - 100, Display.ScreenHeight - 20);
             next.OnClick += Next_OnClick;
             next.Visible = true;
             this.Controls.Add(next);
 
             //Top
-            top.Location = new Point(5,20);
+            top.Location = new Point(5, 20);
             top.ForeColor = Color.White;
             top.Text = "";
             this.Controls.Add(top);
             //Top2
-            top2.Location = new Point(5,40);
+            top2.Location = new Point(5, 40);
             top2.ForeColor = Color.White;
             top2.Text = "";
             this.Controls.Add(top2);
             //hardDisksPanel
             hardDisksPanel.Location = new Point(5, 60);
-            hardDisksPanel.Size = new Size(Display.ScreenWidth-10, Display.ScreenHeight - 180);
+            hardDisksPanel.Size = new Size(Display.ScreenWidth - 10, Display.ScreenHeight - 180);
             hardDisksPanel.BackgroundColor = Color.SteelBlue;
             hardDisksPanel.Visible = false;
             this.Controls.Add(hardDisksPanel);
@@ -80,7 +80,7 @@ namespace MishaOS.Gui.Windows
 
             if (newStage == 0)
             {
-                top.Text = "Welcome to MishaOS, a operating system made by Misha using Cosmos."; 
+                top.Text = "Welcome to MishaOS, a operating system made by Misha using Cosmos.";
                 top2.Text = "Press next to contuine";
                 next.Visible = true;
                 //Fix drawing issues
@@ -97,7 +97,7 @@ namespace MishaOS.Gui.Windows
 
 
                 int DrivesY = 60;
-                foreach(var drive in Kernel.FS.GetVolumes())
+                foreach (var drive in Kernel.FS.GetVolumes())
                 {
                     string label = drive.mName;
                     try
@@ -110,7 +110,7 @@ namespace MishaOS.Gui.Windows
 
                     //Drive name/index label
                     Label driveName = new Label();
-                    driveName.Text = $"Drive {i}: "+ label;
+                    driveName.Text = $"Drive {i}: " + label;
                     driveName.ForeColor = Color.White;
                     driveName.BackgroundColor = Color.SteelBlue;
                     driveName.Location = new Point(hardDisksPanel.Location.X, DrivesY);
@@ -121,7 +121,7 @@ namespace MishaOS.Gui.Windows
                     Button select = new Button();
                     select.Text = "Select";
                     select.BackgroundColor = Color.WhiteSmoke;
-                    select.Size = new Size(100,20);
+                    select.Size = new Size(100, 20);
                     select.Location = new Point(Display.ScreenWidth - 105, DrivesY);
                     select.Tag = drive;
                     select.OnClick += delegate (object s, EventArgs e)
@@ -149,7 +149,7 @@ namespace MishaOS.Gui.Windows
             }
             else if (newStage == 2)
             {
-                top.Text = "Warning, the drive "+SelectedDriveNum+@":\ Will be formated";
+                top.Text = "Warning, the drive " + SelectedDriveNum + @":\ Will be formated";
                 top2.Text = "and all data will be gone. Press next to confirm.";
                 next.Visible = true;
                 hardDisksPanel.Controls.Clear();
@@ -183,7 +183,7 @@ namespace MishaOS.Gui.Windows
                     Cosmos.HAL.Global.PIT.Wait(5000);
                     SetStage(4);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     error = ex.Message;
                     SetStage(6);

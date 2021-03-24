@@ -1,13 +1,6 @@
-﻿using Cosmos.Core;
-using Cosmos.System;
-using Cosmos.System.FileSystem.Listing;
-using Cosmos.System.Graphics;
-using Cosmos.System.Graphics.Fonts;
+﻿using Cosmos.System;
 using MishaOS.Drivers;
 using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
 
 namespace MishaOS.Gui.Windows.Controls
 {
@@ -73,13 +66,10 @@ namespace MishaOS.Gui.Windows.Controls
 
             if (MouseManager.MouseState == MouseState.Left && Enabled && Visible)
             {
-                if (UiMouse.MouseY >= ProperY && UiMouse.MouseY <= ProperY + height)
+                if (Utils.DoesMouseCollideWithArea(ProperX, ProperY, width, height))
                 {
-                    if (UiMouse.MouseX >= ProperX && UiMouse.MouseX <= ProperX + width)
-                    {
-                        if (OnClickEventHandler != null)
-                            OnClickEventHandler.Invoke(this, new EventArgs());
-                    }
+                    if (OnClickEventHandler != null)
+                        OnClickEventHandler.Invoke(this, new EventArgs());
                 }
             }
         }
