@@ -34,6 +34,10 @@ namespace MishaOS.TextUI.Commands
             {
                 new ls().Execute(g, cmd);
             }
+            else if (cmd.ToLower().StartsWith("crash"))
+            {
+                throw new System.Exception("Crash command ran.");
+            }
             else if (cmd.ToLower().StartsWith("cd"))
             {
                 string NewName = cmd.Replace("cd ", "");
