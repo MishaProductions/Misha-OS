@@ -1,6 +1,7 @@
 ﻿using Cosmos.HAL;
 using Cosmos.System;
 using Cosmos.System.Graphics;
+using MishaOS.Drivers.Video;
 using System.Drawing;
 
 namespace MishaOS.Drivers
@@ -15,7 +16,7 @@ namespace MishaOS.Drivers
         #region Draw/Clear Methods
         public static void Clear(Color col)
         {
-            VGAGraphics.Clear(VGAColor.Cyan11);
+            VGAGraphics.Clear(RGBColor.Get(col.R, col.G, col.B));
         }
         public static void Render()
         {
@@ -29,20 +30,7 @@ namespace MishaOS.Drivers
         {
             try
             {
-                if (col == Color.Black)
-                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Black);
-                else if (col == Color.White)
-                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.White);
-                else if (col == Color.ForestGreen)
-                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Green12);
-                else if (col == Color.Green)
-                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Green14);
-                else if (col == Color.DodgerBlue)
-                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Blue10);
-                else if (col == Color.SteelBlue)
-                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Cyan12);
-                else
-                    VGAGraphics.DrawFilledRect(x, y, Width, Height, VGAColor.Red);
+                VGAGraphics.DrawFilledRect(x, y, Width, Height, RGBColor.Get(col.R, col.G, col.B));
             }
             catch { }
         }
@@ -50,12 +38,7 @@ namespace MishaOS.Drivers
         {
             try
             {
-                if (pen.Color == Color.White)
-                    VGAGraphics.DrawString(x, y, str, VGAColor.White, VGAFont.Font3x5);
-                else if (pen.Color == Color.Black)
-                    VGAGraphics.DrawString(x, y, str, VGAColor.Black, VGAFont.Font3x5);
-                else
-                    VGAGraphics.DrawString(x, y, str, VGAColor.Red, VGAFont.Font3x5);
+                VGAGraphics.DrawString(x, y, str, RGBColor.Get(pen.Color.R, pen.Color.G, pen.Color.B), VGAFont.Font3x5);
             }
             catch { }
         }
@@ -63,18 +46,7 @@ namespace MishaOS.Drivers
         {
             try
             {
-                if (c == Color.Black)
-                    VGAGraphics.DrawPixel(x, y, VGAColor.Black);
-                else if (c == Color.White)
-                    VGAGraphics.DrawPixel(x, y, VGAColor.White);
-                else if (c == Color.Magenta)
-                    VGAGraphics.DrawPixel(x, y, VGAColor.Magenta);
-                else if (c == Color.ForestGreen)
-                    VGAGraphics.DrawPixel(x, y, VGAColor.Green11);
-                else if (c == Color.Green)
-                    VGAGraphics.DrawPixel(x, y, VGAColor.Green);
-                else
-                    VGAGraphics.DrawPixel(x, y, VGAColor.Red);
+                VGAGraphics.DrawPixel(x, y, RGBColor.Get(c.R, c.G, c.B));
             }
 
             catch { }

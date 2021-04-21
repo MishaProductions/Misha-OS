@@ -4,6 +4,7 @@ using Cosmos.System.FileSystem.VFS;
 using Cosmos.System.Graphics;
 using MishaOS.Commands;
 using MishaOS.Commands.All;
+using MishaOS.Drivers.Video;
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using MishaOS.TextUI.Commands;
@@ -56,7 +57,7 @@ namespace MishaOS.Drivers
 
             //Render the screen
             VGADriverII.Display();
-
+            ColorPalette.Init();
             //Wait 2 seconds
             Cosmos.HAL.Global.PIT.Wait(2000);
 
