@@ -127,7 +127,7 @@ namespace MishaOS.Gui.Windows
             {
                 Display.DrawRectangle(this.Location.X, this.Location.Y, this.Size.Width, TitlebarHeight, this.TitlebarColor);
                 Display.DrawRectangle(this.Location.X + 2, this.Location.Y, this.Size.Width - 2, TitlebarHeight, Color.Green);
-                Display.DrawString(Text, Pens.White, this.Location.X, this.Location.Y);
+                Display.DrawString(Text, Color.White, this.Location.X, this.Location.Y);
 
                 //Draw Close button
                 if (ShouldDrawCloseButton)
@@ -139,7 +139,7 @@ namespace MishaOS.Gui.Windows
                         CloseHeight,
                         Color.Red);
 
-                    Display.DrawString("X", Pens.White, this.Location.X + this.Size.Width - CloseWidth + 2, this.Location.Y);
+                    Display.DrawString("X", Color.White, this.Location.X + this.Size.Width - CloseWidth + 2, this.Location.Y);
                 }
             }
             //Call custom draw function

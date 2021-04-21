@@ -27,6 +27,14 @@ namespace MishaOS.Drivers
                     Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VirtualBox, Cosmos.HAL.DeviceID.VBVGA) != null;
             }
         }
+
+        public static bool HasSVGA
+        {
+            get
+            {
+                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null;
+            }
+        }
         /// <summary>
         /// Should Misha OS Load the file system on boot? Set this to true if building on real hardware.
         /// </summary>

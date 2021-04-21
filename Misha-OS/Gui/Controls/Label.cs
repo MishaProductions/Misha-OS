@@ -48,7 +48,7 @@ namespace MishaOS.Gui.Windows.Controls
             {
                 Display.DrawString(
                 Text,
-                new Cosmos.System.Graphics.Pen(this.ForeColor),
+                this.ForeColor,
                 this.Location.X+this.ParrentWindow.ClientLocation.X, this.Location.Y + this.ParrentWindow.ClientLocation.Y);
             }
         }

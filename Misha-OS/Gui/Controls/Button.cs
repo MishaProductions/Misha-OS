@@ -52,7 +52,7 @@ namespace MishaOS.Gui.Windows.Controls
             int y = this.Location.Y;
             Display.DrawString(
                 Text,
-                new Cosmos.System.Graphics.Pen(this.ForeColor),
+                this.ForeColor,
                 this.ParrentWindow.ClientLocation.X + x, this.ParrentWindow.ClientLocation.Y + y);
         }
 
