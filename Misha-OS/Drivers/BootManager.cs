@@ -131,28 +131,22 @@ namespace MishaOS.Drivers
         /// </summary>
         private static void InterfaceSelector()
         {
-            //Disable the VGA driver
-            VGADriverII.Initialize(VGAMode.Text80x50);
+            VGADriverII.Clear(0); // clear screen with black
 
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.DarkBlue;
-            Console.Clear();
-
-            Console.WriteLine("Interfaces: \n1. GUI\n2. CLI");
-            TextWindows.Draw("Enter interface number", 0, 5);
-
+            VGAGraphics.DrawString(0, 0, "Interfaces: ", VGAColor.White, VGAFont.Font8x8);
+            VGAGraphics.DrawString(0, 9, "1. Graphical user interface", VGAColor.White, VGAFont.Font8x8);
+            VGAGraphics.DrawString(0, 18, "2. Console interface", VGAColor.White, VGAFont.Font8x8);
+            VGAGraphics.DrawString(0, 27, "Please enter the interface number", VGAColor.White, VGAFont.Font8x8);
+            VGADriverII.Display();
 
             var input = Console.ReadKey();
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.Black;
             if (input.KeyChar == '1')
             {
                 initGui();
             }
             else if (input.KeyChar == '2')
             {
+                VGADriverII.SetMode(VGAMode.Text80x25);
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.BackgroundColor = ConsoleColor.Black;
