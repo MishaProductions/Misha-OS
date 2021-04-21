@@ -9,7 +9,6 @@ namespace MishaOS.Gui.Apps
 {
     public class StartMenu : Window
     {
-        public List<AppReference> apps = new List<AppReference>();
         int AppY = 0;
         public StartMenu()
         {
@@ -31,7 +30,7 @@ namespace MishaOS.Gui.Apps
             if (UiMouse.MouseState == Cosmos.System.MouseState.Left)
             {
                 //If we are clicking on something other then the startmenu, close
-                if (!Utils.DoesMouseCollideWithArea(Location.X, Location.Y, Size.Width, Size.Height))
+                if (!Utils.DoesMouseCollideWithArea(Location.X, Location.Y, Size.Width, Size.Height + 15))
                 {
                     DesktopManager.CloseWindow(this);
                 }
@@ -56,8 +55,6 @@ namespace MishaOS.Gui.Apps
                 DesktopManager.OpenWindow(window);
             };
             this.Controls.Add(btn);
-
-            apps.Add(new AppReference() { window = window, loc = loc });
             AppY += 11;
         }
     }

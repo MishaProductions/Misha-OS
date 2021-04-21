@@ -59,9 +59,6 @@ namespace MishaOS
             base.Update();
             try
             {
-                if (!Enabled)
-                    return;
-
                 KeyEvent k;
                 bool IsKeyPressed = KeyboardManager.TryReadKey(out k);
                 if (!IsKeyPressed) //if the user did not press a key return 
@@ -108,8 +105,6 @@ namespace MishaOS
         /// <param name="a">Add right/left padding</param>
         public void Drawstring(string thestring, Pen forecolor, Pen backcolor, bool newline = true, bool a = true, bool doDraw = true)
         {
-            if (!Enabled)
-                return;
             //Set Char X back to 0.
             if (newline)
                 StringindexX = 0;

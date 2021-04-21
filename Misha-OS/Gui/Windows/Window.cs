@@ -81,19 +81,6 @@ namespace MishaOS.Gui.Windows
                 }
             }
         }
-        public bool Enabled
-        {
-            get { return _Enabled; }
-            set
-            {
-                _Enabled = value;
-
-                foreach (Control c in this.Controls)
-                {
-                    c.Enabled = value;
-                }
-            }
-        }
 
         public Size Size
         {
@@ -111,7 +98,6 @@ namespace MishaOS.Gui.Windows
         public virtual void Open()
         {
             _IsOpen = true;
-            Enabled = true;
 
             this.DrawAll();
         }
@@ -175,15 +161,14 @@ namespace MishaOS.Gui.Windows
         public virtual void Close()
         {
             _IsOpen = false;
-            Enabled = false;
         }
 
         public void UpdateAll()
         {
-            if (_IsOpen)
+            if (this.IsOpen)
             {
                 Update();
-                if (MouseManager.MouseState == MouseState.Left && this.IsOpen && this.Enabled)
+                if (MouseManager.MouseState == MouseState.Left)
                 {
                     //Check if Close button is clicked
                     if (UiMouse.MouseY >= this.Location.Y && UiMouse.MouseY <= this.Location.Y + TitlebarHeight)

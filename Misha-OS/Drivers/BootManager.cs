@@ -28,9 +28,9 @@ namespace MishaOS.Drivers
             }
         }
         /// <summary>
-        /// Should Misha OS Load the file system on boot?
+        /// Should Misha OS Load the file system on boot? Set this to true if building on real hardware.
         /// </summary>
-        public static bool EnableFileSystem = false;
+        public static bool EnableFileSystem = true;
         /// <summary>
         /// Set this to true if you are building for real hardware.
         /// </summary>
@@ -57,8 +57,8 @@ namespace MishaOS.Drivers
             //Render the screen
             VGADriverII.Display();
 
-            //Wait 2 seconds
-            Cosmos.HAL.Global.PIT.Wait(2000);
+            //Wait 3 seconds
+            DelayInMS(3000);
 
             //If we have not enabled file system, show a message and boot dirrectly to the GUI
             if (!EnableFileSystem)
@@ -69,7 +69,7 @@ namespace MishaOS.Drivers
                 VGAGraphics.DrawString(0, 18, "machine. File system support has", VGAColor.White, VGAFont.Font8x8);
                 VGAGraphics.DrawString(0, 27, "been disabled.", VGAColor.White, VGAFont.Font8x8);
                 VGADriverII.Display();
-                Cosmos.HAL.Global.PIT.Wait(3000);
+                DelayInMS(3000);
                 initGui();
                 return;
             }
@@ -113,6 +113,17 @@ namespace MishaOS.Drivers
             else
             {
                 InterfaceSelector();
+            }
+        }
+        static void DelayInMS(int ms)
+        {
+            for (int i = 0; i < ms * 100000; i++)
+            {
+                ;
+                ;
+                ;
+                ;
+                ;
             }
         }
         /// <summary>

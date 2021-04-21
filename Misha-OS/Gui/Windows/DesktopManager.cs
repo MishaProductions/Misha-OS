@@ -50,16 +50,13 @@ namespace MishaOS.Gui
                         if (w == win)
                         {
                             winindex = index;
+                            w.Dispose();
                             break;
                         }
                     }
                     index++;
                 }
-                OpenWindows[winindex].Dispose();
                 OpenWindows.RemoveAt(winindex);
-                win.Dispose();
-                win = null;
-
 
                 //Redraw other windows
                 Update();
