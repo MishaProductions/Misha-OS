@@ -143,7 +143,7 @@ namespace MishaOS.Gui.Windows
 
                 if (i == 0)
                 {
-                    error = "No hard drives detected.";
+                    error = "No hard drives detected. Please make sure that you have an ACHI controller.";
                     SetStage(6);
                 }
             }
