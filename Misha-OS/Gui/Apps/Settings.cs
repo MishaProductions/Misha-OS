@@ -1,18 +1,9 @@
 ﻿using Cosmos.Core;
-using Cosmos.Core.IOGroup;
-using Cosmos.HAL;
-using Cosmos.System;
-using Cosmos.System.Graphics;
-using Cosmos.System.Graphics.Fonts;
-using Microsoft.VisualBasic;
-using Microsoft.Win32.SafeHandles;
 using MishaOS.Drivers;
 using MishaOS.Gui.Windows;
 using MishaOS.Gui.Windows.Controls;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace MishaOS.Gui.Apps
 {

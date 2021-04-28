@@ -81,7 +81,7 @@ namespace MishaOS.Gui.Windows
             if (newStage == 0)
             {
                 top.Text = "Welcome to MishaOS, a operating system made by Misha using Cosmos.";
-                top2.Text = "Press next to contuine";
+                top2.Text = "Press next to continue";
                 next.Visible = true;
                 //Fix drawing issues
                 this.DrawAll();
@@ -164,28 +164,34 @@ namespace MishaOS.Gui.Windows
                 next.Visible = false;
                 //Fix drawing issues
                 this.DrawAll();
-
+                Display.Render(); //update display because this takes awhile
+                string stackTrace = "";
                 try
                 {
-                    Kernel.FS.Format(SelectedDriveNum.ToString(), "FAT32", true);
+                    stackTrace = "At Kernel.FS.Format()\n At SetupWindow::SetStage(). Varibles: SelectedDriveNum=" + SelectedDriveNum.ToString();
+
+                    Kernel.FS.Format(SelectedDriveNum.ToString() + @":\", "FAT32", true);
                     top2.Text = "20% complete - Creating Files";
                     this.DrawAll();
-
+                    Display.Render();
+                    stackTrace = "At SetupWindow::SetStage() (Creating files & file system labels)";
                     Kernel.FS.CreateFile(SelectedDriveNum + @":\installed.bif");
-                    Kernel.FS.SetFileSystemLabel(SelectedDriveNum.ToString(), "MishaOS");
+                    Kernel.FS.SetFileSystemLabel(SelectedDriveNum.ToString() + @":\", "MishaOS");
                     top2.Text = "40% complete - Creating Files";
                     this.DrawAll();
-
+                    Display.Render();
+                    stackTrace = "At SetupWindow::SetStage() part 2";
                     Kernel.FS.CreateDirectory(SelectedDriveNum.ToString() + @":\System");
                     Cosmos.HAL.Global.PIT.Wait(5000);
                     top2.Text = "99% complete - Creating Files";
                     this.DrawAll();
+                    Display.Render();
                     Cosmos.HAL.Global.PIT.Wait(5000);
                     SetStage(4);
                 }
                 catch (Exception ex)
                 {
-                    error = ex.Message;
+                    error = ex.Message + "\nStack trace: " + stackTrace;
                     SetStage(6);
                 }
             }

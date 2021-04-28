@@ -9,7 +9,7 @@ namespace MishaOS.TextUI.Commands.Help
     {
         public void Execute(IGuiConsole g, string cmdline)
         {
-            g.WriteLine("Help Version 0.1 Beta");
+            g.WriteLine("MishaOS Help");
             g.WriteLine("=====================");
             g.WriteLine("---General Commands--");
             g.WriteLine("help - Show Help");

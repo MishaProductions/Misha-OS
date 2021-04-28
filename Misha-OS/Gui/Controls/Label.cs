@@ -1,8 +1,4 @@
-﻿using Cosmos.System.Graphics.Fonts;
-using MishaOS.Drivers;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MishaOS.Drivers;
 
 namespace MishaOS.Gui.Windows.Controls
 {

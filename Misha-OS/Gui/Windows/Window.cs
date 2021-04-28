@@ -1,12 +1,9 @@
 ﻿using Cosmos.System;
-using Cosmos.System.Graphics;
-using Cosmos.System.Graphics.Fonts;
 using MishaOS.Drivers;
 using MishaOS.Gui.Windows.Controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
 
 namespace MishaOS.Gui.Windows
 {

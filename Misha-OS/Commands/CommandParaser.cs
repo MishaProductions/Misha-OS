@@ -167,7 +167,22 @@ namespace MishaOS.TextUI.Commands
                 {
                     g.WriteLine("Exit cannot be used on a text session. Please use gui mode to use exit command.");
                 }
+            }
+            else if (cmd.ToLower().StartsWith("setup"))
+            {
+                if (IsGUI)
+                {
+                    DesktopManager.OpenWindow(new SetupWindow());
+                }
+                else
+                {
+                    CommandParaser.IsGUI = true;
 
+                    Display.Init();
+                    UiMouse.Init();
+                    DesktopManager.OpenWindow(new SetupWindow());
+                    Display.Render();
+                }
             }
             else if (string.IsNullOrEmpty(cmd))
             {

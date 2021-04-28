@@ -32,7 +32,8 @@ namespace MishaOS.Drivers
         {
             get
             {
-                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null;
+                //Return false for now, because it's unstable
+                return false;//Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null;
             }
         }
         /// <summary>
@@ -48,6 +49,7 @@ namespace MishaOS.Drivers
             if (!StartedFS && EnableFileSystem)
             {
                 Kernel.FS = new CosmosVFS();
+                
                 VFSManager.RegisterVFS(Kernel.FS);
 
                 StartedFS = true;
