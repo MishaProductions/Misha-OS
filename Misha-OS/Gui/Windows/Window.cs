@@ -15,7 +15,7 @@ namespace MishaOS.Gui.Windows
         private bool _ShouldDrawCloseButton = true;
         private bool _ShouldDrawTitleBar = true;
         private bool _IsOpen = false;
-        private System.Drawing.Point loc = new System.Drawing.Point(0, 0);
+        private Point loc = new Point(0, 0);
         private Point OldMouseLoc;
         private int CloseWidth = 10;
         private int CloseHeight = TitlebarHeight;
@@ -157,9 +157,7 @@ namespace MishaOS.Gui.Windows
                 }
             }
             //Call custom draw function
-#pragma warning disable CS0618
             Draw();
-#pragma warning restore CS0618
         }
         /// <summary>
         /// Custom draw method. Do not call dirrectly.

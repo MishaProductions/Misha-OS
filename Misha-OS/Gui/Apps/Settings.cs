@@ -93,10 +93,12 @@ namespace MishaOS.Gui.Apps
         Button DisplaySize = new Button();
         public void SettingsTab()
         {
-            DisplaySize = new Button();
-            DisplaySize.Location = new System.Drawing.Point(5, 25);
-            DisplaySize.Size = new Size(220, 15);
-            DisplaySize.Text = "Change Display Size";
+            DisplaySize = new Button
+            {
+                Location = new System.Drawing.Point(5, 25),
+                Size = new Size(220, 15),
+                Text = "Change Display Size"
+            };
             DisplaySize.OnClick += DisplaySize_OnClick;
             this.Controls.Add(DisplaySize);
         }
@@ -105,20 +107,24 @@ namespace MishaOS.Gui.Apps
         Button DisplaySizeOptionB = new Button();
         private void DisplaySize_OnClick(object sender, EventArgs e)
         {
-            DisplaySizeOptionA = new Button();
-            DisplaySizeOptionA.Text = "320x200";
-            DisplaySizeOptionA.Location = new System.Drawing.Point(5, 45);
-            DisplaySizeOptionA.Size = new Size(60, 15);
+            DisplaySizeOptionA = new Button
+            {
+                Text = "320x200",
+                Location = new System.Drawing.Point(5, 45),
+                Size = new Size(60, 15)
+            };
             DisplaySizeOptionA.OnClick += A_OnClick;
             DisplaySizeOptionA.Visible = true;
             this.Controls.Add(DisplaySizeOptionA);
 
             if (BootManager.HasSVGA)
             {
-                DisplaySizeOptionB = new Button();
-                DisplaySizeOptionB.Text = "640x480";
-                DisplaySizeOptionB.Location = new System.Drawing.Point(5, 65);
-                DisplaySizeOptionB.Size = new Size(60, 15);
+                DisplaySizeOptionB = new Button
+                {
+                    Text = "640x480",
+                    Location = new System.Drawing.Point(5, 65),
+                    Size = new Size(60, 15)
+                };
                 DisplaySizeOptionB.OnClick += B_OnClick;
                 DisplaySizeOptionB.Visible = true;
                 this.Controls.Add(DisplaySizeOptionB);

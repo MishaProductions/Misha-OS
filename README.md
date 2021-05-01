@@ -12,7 +12,7 @@
 # Screen shots
 ![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/setup.png)
 ![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/setupwarn.png)
-![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/iselect.jpg)
+![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/iselect.png)
 ![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/cli.png)
 ![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/desk.png)
 ![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/term.png)

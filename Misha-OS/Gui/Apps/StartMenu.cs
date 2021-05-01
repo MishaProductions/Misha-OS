@@ -45,11 +45,13 @@ namespace MishaOS.Gui.Apps
         {
             Cosmos.System.Graphics.Point loc = new Cosmos.System.Graphics.Point(this.Location.X, AppY);
 
-            Button btn = new Button();
-            btn.Location = new System.Drawing.Point(loc.X, loc.Y + 5);
-            btn.Size = new Size(this.Size.Width, 10);
-            btn.ForeColor = Color.Black;
-            btn.Text = window.Text;
+            Button btn = new Button
+            {
+                Location = new System.Drawing.Point(loc.X, loc.Y + 5),
+                Size = new Size(this.Size.Width, 10),
+                ForeColor = Color.Black,
+                Text = window.Text
+            };
             btn.OnClick += delegate (object s, EventArgs e)
             {
                 DesktopManager.OpenWindow(window);

@@ -11,8 +11,8 @@ namespace MishaOS.TextUI.Commands.All.General
     {
         public void Execute(IGuiConsole g, string cmdline)
         {
-            Display.Disable();
-           // VGAScreen.SetTextMode(Cosmos.HAL.VGADriver.TextSize.Size80x50);
+            if (CommandParaser.IsGUI)
+                Display.Disable();
             MIV.MIV.file = cmdline.Replace("edit","");
             MIV.MIV.StartMIV(g);
         }
@@ -293,12 +293,11 @@ namespace MIV
         {
             for (int i = 0; i < time; i++) ;
         }
-        static IGuiConsole gg;
         public static void StartMIV(IGuiConsole g)
         {
-            gg = g;
             Console.WriteLine("Enter file's filename to open:");
             Console.WriteLine("If the specified file does not exist, it will be created.");
+
             file = Console.ReadLine();
             try
             {
@@ -318,7 +317,7 @@ namespace MIV
                 Console.WriteLine(ex.Message);
             }
 
-            String text = String.Empty;
+            string text;
             Console.WriteLine("Do you want to open " + file + " content? (Yes/No)");
             if (Console.ReadLine().ToLower() == "yes" || Console.ReadLine().ToLower() == "y")
             {

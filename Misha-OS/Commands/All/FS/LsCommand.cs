@@ -7,7 +7,7 @@ using System.Text;
 
 namespace MishaOS.TextUI.Commands.All.General
 {
-    public class ls : ICommand
+    public class LsCommand : ICommand
     {
         public void Execute(IGuiConsole g, string cmdline)
         {

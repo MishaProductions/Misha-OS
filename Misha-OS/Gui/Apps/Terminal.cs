@@ -122,10 +122,12 @@ namespace MishaOS
             //Now draw the text
             if (doDraw)
             {
-                Label lbl = new Label();
-                lbl.Location = new System.Drawing.Point(StringindexX, StringindexY);
-                lbl.Text = thestring;
-                lbl.ForeColor = forecolor.Color;
+                Label lbl = new Label
+                {
+                    Location = new System.Drawing.Point(StringindexX, StringindexY),
+                    Text = thestring,
+                    ForeColor = forecolor.Color
+                };
                 this.Controls.Add(lbl);
             }
             if (newline)

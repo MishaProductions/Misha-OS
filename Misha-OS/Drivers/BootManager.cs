@@ -1,4 +1,5 @@
-﻿using Cosmos.HAL;
+﻿using Cosmos.Core;
+using Cosmos.HAL;
 using Cosmos.System.FileSystem;
 using Cosmos.System.FileSystem.VFS;
 using Cosmos.System.Graphics;
@@ -158,17 +159,20 @@ namespace MishaOS.Drivers
             {
                 VGADriverII.SetMode(VGAMode.Text80x25);
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
                 Console.BackgroundColor = ConsoleColor.Black;
                 CommandParaser.IsGUI = false;
 
                 var term = new TextTerm();
-                term.Write(term.CurrentDIR);
+                term.WriteLine("Misha OS Console");
+                term.WriteLine("Version: " + Kernel.KernelVersion);
+                term.WriteLine("Running on a " + CPU.GetCPUBrandString());
+                term.Write(term.CurrentDIR + ">");
                 while (!CommandParaser.IsGUI)
                 {
                     var input2 = term.ReadLine();
                     CommandParaser.ProcessCommand(term, input2);
-                    term.Write(term.CurrentDIR);
+                    term.Write(term.CurrentDIR + ">");
                 }
             }
             else

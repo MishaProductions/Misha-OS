@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MishaOS.TextUI.Commands.Help
+namespace MishaOS.TextUI.Commands
 {
     public class Help : ICommand
     {

@@ -13,7 +13,6 @@ namespace MishaOS.Commands
             var ogc = System.Console.BackgroundColor;
             System.Console.ForegroundColor = ConsoleColor.White;
             System.Console.BackgroundColor = ConsoleColor.Blue;
-            var length = text.Length + 2;
             var line0 = string.Empty;
             var line1 = string.Empty;
             var line2 = string.Empty;

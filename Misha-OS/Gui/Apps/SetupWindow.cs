@@ -107,25 +107,31 @@ namespace MishaOS.Gui.Windows
                         label = Kernel.FS.GetFileSystemLabel(i.ToString());
                     }
                     catch { }
-                    Control driveInfo = new Control();
-                    driveInfo.Location = new Point(hardDisksPanel.Location.X, DrivesY);
+                    Control driveInfo = new Control
+                    {
+                        Location = new Point(hardDisksPanel.Location.X, DrivesY)
+                    };
 
                     //Drive name/index label
-                    Label driveName = new Label();
-                    driveName.Text = $"Drive {i}: " + label;
-                    driveName.ForeColor = Color.White;
-                    driveName.BackgroundColor = Color.SteelBlue;
-                    driveName.Location = new Point(hardDisksPanel.Location.X, DrivesY);
+                    Label driveName = new Label
+                    {
+                        Text = $"Drive {i}: " + label,
+                        ForeColor = Color.White,
+                        BackgroundColor = Color.SteelBlue,
+                        Location = new Point(hardDisksPanel.Location.X, DrivesY)
+                    };
 
                     driveInfo.Controls.Add(driveName);
 
                     //Select button
-                    Button select = new Button();
-                    select.Text = "Select";
-                    select.BackgroundColor = Color.WhiteSmoke;
-                    select.Size = new Size(100, 20);
-                    select.Location = new Point(Display.ScreenWidth - 105, DrivesY);
-                    select.Tag = drive;
+                    Button select = new Button
+                    {
+                        Text = "Select",
+                        BackgroundColor = Color.WhiteSmoke,
+                        Size = new Size(100, 20),
+                        Location = new Point(Display.ScreenWidth - 105, DrivesY),
+                        Tag = drive
+                    };
                     select.OnClick += delegate (object s, EventArgs e)
                     {
                         SelectedDriveNum = Convert.ToInt32((select.Tag as DirectoryEntry).mName[0].ToString());

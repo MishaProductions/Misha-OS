@@ -7,7 +7,7 @@ namespace MishaOS.Commands.All
 {
     class TextTerm : IGuiConsole
     {
-        public object term { get { return this; } set { TextTerm i = this; i = (TextTerm)value; } }
+        public object term { get { return this; } set {  } }
         public string CurrentDIR { get; set; } = @"0:\";
         public int MaxCols { get { return Console.BufferHeight; } set { } }
         public string Title { get; set; }

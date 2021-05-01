@@ -20,7 +20,7 @@ namespace MishaOS.TextUI.Commands
         {
             if (cmd.ToLower().StartsWith("help"))
             {
-                new Help.Help().Execute(g, cmd);
+                new Help().Execute(g, cmd);
             }
             else if (cmd.ToLower().StartsWith("clear"))
             {
@@ -32,7 +32,11 @@ namespace MishaOS.TextUI.Commands
             }
             else if (cmd.ToLower().StartsWith("ls"))
             {
-                new ls().Execute(g, cmd);
+                new LsCommand().Execute(g, cmd);
+            }
+            else if (cmd.ToLower().StartsWith("dir"))
+            {
+                new LsCommand().Execute(g, cmd);
             }
             else if (cmd.ToLower().StartsWith("crash"))
             {
@@ -111,14 +115,16 @@ namespace MishaOS.TextUI.Commands
                     {
                         if (IsGUI == true)
                         {
-                            if (g.term is Window)
+                            if (g.term is Window window)
                             {
-                                DesktopManager.CloseWindow((Window)g.term);
+                                DesktopManager.CloseWindow(window);
                             }
                             IsGUI = false;
                             //Switch over to text terminal.
-                            g = new TextTerm();
-                            g.term = new TextTerm();
+                            g = new TextTerm
+                            {
+                                term = new TextTerm()
+                            };
                             Display.Disable();
                             g.WriteLine("Now in text mode!");
                             g.Write(g.CurrentDIR);
@@ -172,9 +178,9 @@ namespace MishaOS.TextUI.Commands
             {
                 if (IsGUI)
                 {
-                    if (g.term is Window)
+                    if (g.term is Window window)
                     {
-                        DesktopManager.CloseWindow((Window)g.term);
+                        DesktopManager.CloseWindow(window);
                     }
                 }
                 else
@@ -190,7 +196,7 @@ namespace MishaOS.TextUI.Commands
                 }
                 else
                 {
-                    CommandParaser.IsGUI = true;
+                    IsGUI = true;
 
                     Display.Init();
                     UiMouse.Init();
