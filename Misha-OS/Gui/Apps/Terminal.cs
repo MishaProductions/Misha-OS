@@ -31,7 +31,7 @@ namespace MishaOS
             //Get the max cols
             for (int i = 0; i < this.Size.Height; i++)
             {
-                Drawstring(i.ToString(), new Pen(Color.Black), new Pen(Color.DodgerBlue), true, true, false);
+                Drawstring(i.ToString(), new Pen(Color.Black), new Pen(Color.Transparent), true, true, false);
                 if (StringindexY >= this.Size.Height)
                 {
                     MaxCols = i;

@@ -110,7 +110,8 @@ namespace MishaOS.Gui.Windows.Controls
                 return;
 
             //Draw the background
-            Display.DrawRectangle(Location.X + this.ParrentWindow.ClientLocation.X, Location.Y + this.ParrentWindow.ClientLocation.Y, Size.Width, Size.Height, BackgroundColor);
+            if (BackgroundColor != Color.Transparent)
+                Display.DrawRectangle(Location.X + this.ParrentWindow.ClientLocation.X, Location.Y + this.ParrentWindow.ClientLocation.Y, Size.Width, Size.Height, BackgroundColor);
 
             //Draw all the controls in this control
             foreach (Control d in Controls)

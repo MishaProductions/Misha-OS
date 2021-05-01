@@ -63,7 +63,7 @@ namespace MishaOS.Gui.Windows
             //hardDisksPanel
             hardDisksPanel.Location = new Point(5, 60);
             hardDisksPanel.Size = new Size(Display.ScreenWidth - 10, Display.ScreenHeight - 180);
-            hardDisksPanel.BackgroundColor = Color.SteelBlue;
+            hardDisksPanel.BackgroundColor = Color.Transparent;
             hardDisksPanel.Visible = false;
             this.Controls.Add(hardDisksPanel);
 
@@ -109,7 +109,8 @@ namespace MishaOS.Gui.Windows
                     catch { }
                     Control driveInfo = new Control
                     {
-                        Location = new Point(hardDisksPanel.Location.X, DrivesY)
+                        Location = new Point(hardDisksPanel.Location.X, DrivesY),
+                        BackgroundColor = Color.Transparent
                     };
 
                     //Drive name/index label
@@ -117,7 +118,7 @@ namespace MishaOS.Gui.Windows
                     {
                         Text = $"Drive {i}: " + label,
                         ForeColor = Color.White,
-                        BackgroundColor = Color.SteelBlue,
+                        BackgroundColor = Color.Transparent,
                         Location = new Point(hardDisksPanel.Location.X, DrivesY)
                     };
 
