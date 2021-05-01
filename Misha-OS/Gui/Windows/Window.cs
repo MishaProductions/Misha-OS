@@ -13,6 +13,18 @@ namespace MishaOS.Gui.Windows
     public class Window : IDisposable
     {
         private bool _ShouldDrawCloseButton = true;
+        private bool _ShouldDrawTitleBar = true;
+        private bool _IsOpen = false;
+        private System.Drawing.Point loc = new System.Drawing.Point(0, 0);
+        private Point OldMouseLoc;
+        private int CloseWidth = 10;
+        private int CloseHeight = TitlebarHeight;
+        public static int TitlebarHeight = 10;
+        private bool WindowMoving;
+
+        /// <summary>
+        /// Can the close button be drawn?
+        /// </summary>
         public bool ShouldDrawCloseButton
         {
             get
@@ -25,9 +37,13 @@ namespace MishaOS.Gui.Windows
                 this.DrawAll();
             }
         }
-
-        private bool _ShouldDrawTitleBar = true;
-        private bool _Enabled = true;
+        /// <summary>
+        /// Can the window be moved?
+        /// </summary>
+        public bool WindowMoveable { get; set; } = true;
+        /// <summary>
+        /// Should the window draw a title bar?
+        /// </summary>
         public bool ShouldDrawTitleBar
         {
             get
@@ -40,7 +56,6 @@ namespace MishaOS.Gui.Windows
                 this.DrawAll();
             }
         }
-        public int State;
         /// <summary>
         /// The window title
         /// </summary>
@@ -49,17 +64,15 @@ namespace MishaOS.Gui.Windows
         /// The titlebar color
         /// </summary>
         public Color TitlebarColor = Color.ForestGreen;
-
         public Color BackgroundColor { get; set; }
         public Color ForeColor { get; set; }
-
-        private bool _IsOpen = false;
         /// <summary>
         /// Checks if window is open.
         /// </summary>
         public bool IsOpen { get { return _IsOpen; } }
-
-        private System.Drawing.Point loc = new System.Drawing.Point(0, 0);
+        /// <summary>
+        /// The location of the window.
+        /// </summary>
         public System.Drawing.Point Location { get { return loc; } set { loc = value; } }
         /// <summary>
         /// Gets the location where the user can draw to. This will be (0,TitlebarHeight) + WindowLocation if title bar disabled. If the title bar is enabled, this will be (0,0) + Window Location
@@ -78,13 +91,20 @@ namespace MishaOS.Gui.Windows
                 }
             }
         }
-
+        /// <summary>
+        /// The size of the window
+        /// </summary>
         public Size Size
         {
             get; set;
         }
-
+        /// <summary>
+        /// A list of controls.
+        /// </summary>
         public List<Control> Controls = new List<Control>();
+        /// <summary>
+        /// Window Constructor
+        /// </summary>
         public Window()
         {
             Size = new Size(220, 200);
@@ -98,10 +118,7 @@ namespace MishaOS.Gui.Windows
 
             this.DrawAll();
         }
-        int CloseWidth = 10;
-        int CloseHeight = TitlebarHeight;
 
-        public static int TitlebarHeight = 10;
         /// <summary>
         /// Draws everything on the window: (titlebar, all controls, etc).
         /// </summary>
@@ -144,7 +161,6 @@ namespace MishaOS.Gui.Windows
             Draw();
 #pragma warning restore CS0618
         }
-        [Obsolete("Please call DrawAll() insted.")]
         /// <summary>
         /// Custom draw method. Do not call dirrectly.
         /// </summary>
@@ -159,7 +175,9 @@ namespace MishaOS.Gui.Windows
         {
             _IsOpen = false;
         }
-
+        /// <summary>
+        /// Updates everything on the window. Ex: checks if close button clicked.
+        /// </summary>
         public void UpdateAll()
         {
             if (this.IsOpen)
@@ -168,13 +186,28 @@ namespace MishaOS.Gui.Windows
                 if (MouseManager.MouseState == MouseState.Left)
                 {
                     //Check if Close button is clicked
-                    if (UiMouse.MouseY >= this.Location.Y && UiMouse.MouseY <= this.Location.Y + TitlebarHeight)
+                    if (UiMouse.MouseY >= this.Location.Y && UiMouse.MouseY <= this.Location.Y + TitlebarHeight && ShouldDrawCloseButton)
                     {
                         if (UiMouse.MouseX >= (this.Location.X + this.Size.Width - CloseWidth) && UiMouse.MouseX <= (this.Location.X + this.Size.Width - CloseWidth) + CloseWidth)
                         {
                             DesktopManager.CloseWindow(this);
+                            return;
                         }
                     }
+                    if (Utils.DoesMouseCollideWithArea(0, 0, this.Size.Width, TitlebarHeight) && ShouldDrawTitleBar && WindowMoveable)
+                    {
+                        WindowMoving = true;
+                        OldMouseLoc = new Point(UiMouse.MouseX, UiMouse.MouseY);
+                    }
+                }
+                else
+                {
+                    WindowMoving = false;
+                    OldMouseLoc = new Point();
+                }
+                if (WindowMoving)
+                {
+                    this.Location = new Point(UiMouse.MouseX - OldMouseLoc.X, UiMouse.MouseY - OldMouseLoc.Y);
                 }
             }
         }
@@ -192,7 +225,9 @@ namespace MishaOS.Gui.Windows
                 d.Update();
             }
         }
-
+        /// <summary>
+        /// Closes and disposes the window.
+        /// </summary>
         public void Dispose()
         {
             this.Close();

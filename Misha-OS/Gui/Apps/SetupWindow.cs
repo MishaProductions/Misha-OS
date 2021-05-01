@@ -40,6 +40,8 @@ namespace MishaOS.Gui.Windows
             this.BackgroundColor = Color.SteelBlue;
             this.ShouldDrawCloseButton = false;
             this.Size = new Size(Display.ScreenWidth, Display.ScreenHeight);
+            this.WindowMoveable = false;
+
             //Next
             next.Text = "Next";
             next.Size = new Size(100, 20);
@@ -143,7 +145,7 @@ namespace MishaOS.Gui.Windows
 
                 if (i == 0)
                 {
-                    error = "No hard drives detected. Please make sure that you have an ACHI controller.";
+                    error = "No hard drives detected. Please make sure that you have an PIX4 IDE controller.";
                     SetStage(6);
                 }
             }

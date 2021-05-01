@@ -54,6 +54,20 @@ namespace MishaOS.TextUI.Commands
                 {
                     g.CurrentDIR = Directory.GetDirectoryRoot(fs);
                 }
+                else if (NewName.Length == 2)
+                {
+                    if (NewName[1] == ':')
+                    {
+                        if (Directory.Exists(NewName + @"\"))
+                            g.CurrentDIR = NewName + @"\";
+                        else
+                            g.WriteLine("ERROR: Dirrectory " + NewName + @"\" + " Does not exist.");
+                    }
+                    else
+                    {
+                        g.WriteLine("ERROR: Dirrectory " + fs + @"\" + NewName + " Does not exist.");
+                    }
+                }
                 else
                 {
                     g.WriteLine("ERROR: Dirrectory " + fs + @"\" + NewName + " Does not exist.");
