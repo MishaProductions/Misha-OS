@@ -180,18 +180,31 @@ namespace MishaOS.Gui.Windows
                     stackTrace = "At Kernel.FS.Format()\n At SetupWindow::SetStage(). Varibles: SelectedDriveNum=" + SelectedDriveNum.ToString();
 
                     Kernel.FS.Format(SelectedDriveNum.ToString() + @":\", "FAT32", true);
-                    top2.Text = "20% complete - Creating Files";
+
+
+                    //Set progress
+                    top2.Text = "50% complete - Copying Files";
+                    //Update the screen
                     this.DrawAll();
                     Display.Render();
+                    //Set the stack trace
                     stackTrace = "At SetupWindow::SetStage() (Creating files & file system labels)";
-                    Kernel.FS.CreateFile(SelectedDriveNum + @":\installed.bif");
+
+                    //Create system files and folders
                     Kernel.FS.SetFileSystemLabel(SelectedDriveNum.ToString() + @":\", "MishaOS");
-                    top2.Text = "40% complete - Creating Files";
+                    Kernel.FS.CreateFile(SelectedDriveNum + @":\MishaOS\system.cfg");
+                    Kernel.FS.CreateDirectory(SelectedDriveNum.ToString() + @":\MishaOS");
+
+                    //Set progress
+                    top2.Text = "80% complete - Copying Files";
+                    //Update the screen
                     this.DrawAll();
                     Display.Render();
-                    stackTrace = "At SetupWindow::SetStage() part 2";
-                    Kernel.FS.CreateDirectory(SelectedDriveNum.ToString() + @":\System");
+                    //Set the stack trace
+                    stackTrace = "At SetupWindow::SetStage() (part=2)";
                     Cosmos.HAL.Global.PIT.Wait(5000);
+
+
                     top2.Text = "99% complete - Creating Files";
                     this.DrawAll();
                     Display.Render();

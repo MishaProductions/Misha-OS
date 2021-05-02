@@ -49,13 +49,14 @@ namespace MishaOS.Drivers
         {
             if (!StartedFS && EnableFileSystem)
             {
+                Console.WriteLine("Starting FileSystem Driver");
                 Kernel.FS = new CosmosVFS();
                 
                 VFSManager.RegisterVFS(Kernel.FS);
 
                 StartedFS = true;
             }
-
+            Console.WriteLine("Starting VGA Driver");
             VGAImage img = new VGAImage(320, 200);
             img.ParseData(Utils.BootScreen);
 
@@ -67,6 +68,9 @@ namespace MishaOS.Drivers
 
             //Render the screen
             VGADriverII.Display();
+
+            //Init stuff
+            MishaOSConfig.Init();
 
             //Wait 3 seconds
             DelayInMS(3000);
@@ -86,8 +90,8 @@ namespace MishaOS.Drivers
             }
 
             //Check if MishaOS is installed. If not, show a message
-
-            if (!File.Exists(@"0:\installed.bif"))
+            //!MishaOSConfig.IsInstalled()
+            if (!MishaOSConfig.IsInstalled())
             {
                 VGADriverII.Clear(0); // clear screen with black
 

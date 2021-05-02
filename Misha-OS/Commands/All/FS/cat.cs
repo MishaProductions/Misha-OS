@@ -12,13 +12,13 @@ namespace MishaOS.TextUI.Commands.All.General
         {
             string newcmdlane = cmdline.Replace("cat", "");
             string[] args = newcmdlane.Split();
-            if (args.Length == 0)
+            if (args.Length == 1)
             {
                 g.WriteLine("Bad Syntax. Use cat /? for help.");
             }
-            else if (args.Length == 1)
+            else if (args.Length == 2)
             {
-                if (args[0] == "/?")
+                if (args[1] == "/?")
                 {
                     g.WriteLine("CAT Help:");
                     g.WriteLine("=============");
@@ -26,9 +26,14 @@ namespace MishaOS.TextUI.Commands.All.General
                 }
                 else
                 {
+                    if (!File.Exists(args[1]))
+                    {
+                        g.WriteLine("Error: File "+args[1]+" does not exist!");
+                        return;
+                    }
                     try
                     {
-                        foreach (var item in File.ReadAllLines(args[0]))
+                        foreach (var item in File.ReadAllLines(args[1]))
                         {
                             g.WriteLine(item);
                         }
