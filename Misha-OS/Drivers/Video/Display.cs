@@ -1,10 +1,6 @@
-﻿using Cosmos.Core;
-using Cosmos.HAL;
-using Cosmos.System;
-using Cosmos.System.Graphics;
+﻿using Cosmos.System.Graphics;
 using MishaOS.Drivers.Video;
 using MishaOS.Drivers.Video.Screens;
-using MishaOS.Gui;
 using System.Drawing;
 
 namespace MishaOS.Drivers
@@ -52,19 +48,35 @@ namespace MishaOS.Drivers
         /// </summary>
         public static void Init()
         {
-            if (!BootManager.HasSVGA)
+            if (BootManager.HasVBE)
             {
-                driver = new VgaDriverHandler();
-                driver.Init(Display.ScreenWidth, Display.ScreenHeight, 0);
+                driver = new VbeHandler();
+                ScreenWidth = driver.SupportedVideoModes[0].Columns;
+                ScreenHeight = driver.SupportedVideoModes[0].Rows;
+
+                driver.Init(ScreenWidth, ScreenHeight, 32);
             }
+            //else if (BootManager.HasSVGA)
+            //{
+            //    driver = new SVGAIIHandler();
+            //    driver.Init(Display.ScreenWidth, Display.ScreenHeight, 0);
+
+            //    //reinit mouse
+            //    UiMouse.Init();
+            //}
             else
             {
-                driver = new SVGAIIHandler();
-                driver.Init(Display.ScreenWidth, Display.ScreenHeight, 0);
+                driver = new VgaDriverHandler();
+                ScreenWidth = driver.SupportedVideoModes[0].Columns;
+                ScreenHeight = driver.SupportedVideoModes[0].Rows;
 
-                //reinit mouse
-                UiMouse.Init();
+                driver.Init(ScreenWidth, ScreenHeight, 32);
             }
+        }
+
+        public static Mode[] GetModes()
+        {
+            return driver.SupportedVideoModes;
         }
         #endregion
     }

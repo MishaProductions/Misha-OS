@@ -10,6 +10,7 @@ namespace MishaOS.Drivers.Video.Screens
     public class VgaDriverHandler : VideoDriver
     {
         public override string Name => "320x200 VGA driver";
+        public override Mode[] SupportedVideoModes => new Mode[] { new Mode(320, 200, ColorDepth.ColorDepth32) };
 
         public override void Clear(Color color)
         {
@@ -80,6 +81,10 @@ namespace MishaOS.Drivers.Video.Screens
 
         public override void Init(int width, int height, int ColorDepth)
         {
+            if (Display.ScreenWidth != 320 | Display.ScreenHeight != 200)
+            {
+                throw new Exception("Unsupported screen res");
+            }
             VGADriverII.Initialize(VGAMode.Pixel320x200DB);
 
             Clear(Color.DodgerBlue);

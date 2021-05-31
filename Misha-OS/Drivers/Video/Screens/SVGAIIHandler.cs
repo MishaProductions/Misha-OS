@@ -1,4 +1,5 @@
-﻿using Cosmos.System.Graphics.Fonts;
+﻿using Cosmos.System.Graphics;
+using Cosmos.System.Graphics.Fonts;
 using MishaOS.Drivers.Video.Screens.SVGA;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace MishaOS.Drivers.Video.Screens
     public class SVGAIIHandler : VideoDriver
     {
         public override string Name => "SVGAII Display device";
+        public override Mode[] SupportedVideoModes => new Mode[] { new Mode(320, 200, ColorDepth.ColorDepth32), new Mode(640, 480, ColorDepth.ColorDepth32), new Mode(800, 600, ColorDepth.ColorDepth32) }; //I will make this list bigger as time goes on.
+
         private DoubleBufferedVMWareSVGAII d;
         public override void Clear(Color color)
         {

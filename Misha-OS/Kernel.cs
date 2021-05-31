@@ -44,10 +44,6 @@ namespace MishaOS
                     }
                     Display.Render();
                 }
-                else
-                {
-
-                }
             }
             catch (Exception ex)
             {

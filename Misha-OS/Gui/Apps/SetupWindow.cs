@@ -16,6 +16,8 @@ namespace MishaOS.Gui.Windows
         Label top = new Label();
         Label top2 = new Label();
         Control hardDisksPanel = new Control();
+        string stackTrace = "";
+        string errormsg = "";
         /// <summary>
         /// The stage varible.
         /// Stage 0 = Welcome Screen
@@ -54,18 +56,21 @@ namespace MishaOS.Gui.Windows
             top.Location = new Point(5, 20);
             top.ForeColor = Color.White;
             top.Text = "";
+            top.BackgroundColor = Color.Transparent;
             this.Controls.Add(top);
             //Top2
             top2.Location = new Point(5, 40);
             top2.ForeColor = Color.White;
             top2.Text = "";
+            top2.BackgroundColor = Color.Transparent;
             this.Controls.Add(top2);
             //hardDisksPanel
+            hardDisksPanel.Visible = false;
+            hardDisksPanel.BackgroundColor = Color.Transparent;
             hardDisksPanel.Location = new Point(5, 60);
             hardDisksPanel.Size = new Size(Display.ScreenWidth - 10, Display.ScreenHeight - 180);
-            hardDisksPanel.BackgroundColor = Color.Transparent;
-            hardDisksPanel.Visible = false;
             this.Controls.Add(hardDisksPanel);
+            this.DrawAll();
 
             //Set stage to 0. (welcome screen)
             SetStage(0);
@@ -174,12 +179,12 @@ namespace MishaOS.Gui.Windows
                 //Fix drawing issues
                 this.DrawAll();
                 Display.Render(); //update display because this takes awhile
-                string stackTrace = "";
+
                 try
                 {
                     stackTrace = "At Kernel.FS.Format()\n At SetupWindow::SetStage(). Varibles: SelectedDriveNum=" + SelectedDriveNum.ToString();
 
-                    Kernel.FS.Format(SelectedDriveNum.ToString() + @":\", "FAT32", true);
+                    //Kernel.FS.Format(SelectedDriveNum.ToString() + @":\", "FAT32", true);
 
 
                     //Set progress
@@ -188,7 +193,7 @@ namespace MishaOS.Gui.Windows
                     this.DrawAll();
                     Display.Render();
                     //Set the stack trace
-                    stackTrace = "At SetupWindow::SetStage() (Creating files & file system labels)";
+                    stackTrace = "At SetupWindow::SetStage() (Creating files)";
 
                     //Create system files and folders
                     Kernel.FS.SetFileSystemLabel(SelectedDriveNum.ToString() + @":\", "MishaOS");
@@ -213,7 +218,7 @@ namespace MishaOS.Gui.Windows
                 }
                 catch (Exception ex)
                 {
-                    error = ex.Message + "\nStack trace: " + stackTrace;
+                    errormsg = ex.Message;
                     SetStage(6);
                 }
             }
@@ -233,12 +238,12 @@ namespace MishaOS.Gui.Windows
             }
             else if (newStage == 6)
             {
-                top.Text = "Error during Setup: " + error;
-                top2.Text = "Please restart your computer.";
-                next.Visible = false;
-                next.Text = "";
+                top.Text = "Error during Setup: " + errormsg;
+                top2.Text = "reset your computer. Stack trace: " + stackTrace;
+                next.Text = "Reboot";
                 //Fix drawing issues
                 this.DrawAll();
+                newStage = 4; //hack when user presses next computer reboots
             }
         }
     }

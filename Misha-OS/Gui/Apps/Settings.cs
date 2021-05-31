@@ -1,8 +1,10 @@
 ﻿using Cosmos.Core;
+using Cosmos.System.Graphics;
 using MishaOS.Drivers;
 using MishaOS.Gui.Windows;
 using MishaOS.Gui.Windows.Controls;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace MishaOS.Gui.Apps
@@ -96,7 +98,7 @@ namespace MishaOS.Gui.Apps
             DisplaySize = new Button
             {
                 Location = new System.Drawing.Point(5, 25),
-                Size = new Size(220, 15),
+                Size = new Size(170, 15),
                 Text = "Change Display Size"
             };
             DisplaySize.OnClick += DisplaySize_OnClick;
@@ -107,44 +109,35 @@ namespace MishaOS.Gui.Apps
         Button DisplaySizeOptionB = new Button();
         private void DisplaySize_OnClick(object sender, EventArgs e)
         {
-            DisplaySizeOptionA = new Button
+            var modes = Display.GetModes();
+            int y = 45;
+            List<Button> btns = new List<Button>();
+            foreach (var item in modes)
             {
-                Text = "320x200",
-                Location = new System.Drawing.Point(5, 45),
-                Size = new Size(60, 15)
-            };
-            DisplaySizeOptionA.OnClick += A_OnClick;
-            DisplaySizeOptionA.Visible = true;
-            this.Controls.Add(DisplaySizeOptionA);
-
-            if (BootManager.HasSVGA)
-            {
-                DisplaySizeOptionB = new Button
+                var btn = new Button
                 {
-                    Text = "640x480",
-                    Location = new System.Drawing.Point(5, 65),
-                    Size = new Size(60, 15)
+                    Text = item. Columns+"x"+item.Rows,
+                    Location = new System.Drawing.Point(5, y),
+                    Size = new Size(60, 15),
+                    Tag = item
                 };
-                DisplaySizeOptionB.OnClick += B_OnClick;
-                DisplaySizeOptionB.Visible = true;
-                this.Controls.Add(DisplaySizeOptionB);
+                btn.OnClick += delegate (object sender2, EventArgs e2)
+                {
+                    var bb = (Button)sender2;
+                    var mode = (Mode)bb.Tag;
+                    Display.ScreenWidth = mode.Rows;
+                    Display.ScreenHeight = mode.Columns;
+                    Display.Init();
+                    foreach (var b in btns)
+                    {
+                        b.Visible = false;
+                    }
+                    btns.Clear();
+                };
+                y += 17;
+                btns.Add(btn);
+                this.Controls.Add(btn);
             }
-        }
-        private void B_OnClick(object sender, EventArgs e)
-        {
-            DisplaySizeOptionA.Visible = false;
-            DisplaySizeOptionB.Visible = false;
-            Display.ScreenWidth = 640;
-            Display.ScreenHeight = 480;
-            Display.Init();
-        }
-        private void A_OnClick(object sender, EventArgs e)
-        {
-            DisplaySizeOptionA.Visible = false;
-            DisplaySizeOptionB.Visible = false;
-            Display.ScreenWidth = 320;
-            Display.ScreenHeight = 200;
-            Display.Init();
         }
         public void AddInfoText(string text)
         {

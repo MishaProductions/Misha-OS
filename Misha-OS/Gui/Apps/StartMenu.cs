@@ -32,7 +32,7 @@ namespace MishaOS.Gui.Apps
                 //If we are clicking on something other then the startmenu, close
                 if (!Utils.DoesMouseCollideWithArea(Location.X, Location.Y, Size.Width, Size.Height + 15))
                 {
-                    DesktopManager.CloseWindow(this);
+                    //DesktopManager.CloseWindow(this);
                 }
             }
         }

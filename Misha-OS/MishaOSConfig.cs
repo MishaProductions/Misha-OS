@@ -69,7 +69,7 @@ namespace MishaOS
                 foreach (var item in Kernel.FS.GetVolumes())
                 {
                     Kernel.PrintDebug("Detected volume: " + item.mFullPath);
-
+                    
                     if (Directory.Exists(item.mFullPath + @"MishaOS"))
                     {
                         if (File.Exists(item.mFullPath + @"MishaOS\system.cfg"))

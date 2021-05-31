@@ -3,13 +3,11 @@ using Cosmos.HAL;
 using Cosmos.System.FileSystem;
 using Cosmos.System.FileSystem.VFS;
 using Cosmos.System.Graphics;
-using MishaOS.Commands;
 using MishaOS.Commands.All;
 using MishaOS.Gui;
 using MishaOS.Gui.Windows;
 using MishaOS.TextUI.Commands;
 using System;
-using System.IO;
 
 namespace MishaOS.Drivers
 {
@@ -28,34 +26,49 @@ namespace MishaOS.Drivers
                     Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VirtualBox, Cosmos.HAL.DeviceID.VBVGA) != null;
             }
         }
-
+        /// <summary>
+        /// Has SVGAII?
+        /// </summary>
         public static bool HasSVGA
         {
             get
             {
-                //Return false for now, because it's unstable
-                return false;//Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null;
+                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null;
             }
         }
+
+        public static bool HasVBE
+        {
+            get
+            {
+                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.Bochs, Cosmos.HAL.DeviceID.BGA) != null ||
+                    Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VirtualBox, Cosmos.HAL.DeviceID.VBVGA) != null || VBE.IsAvailable();
+            }
+        }
+
         /// <summary>
-        /// Should Misha OS Load the file system on boot? Set this to true if building on real hardware.
+        /// Should Misha OS Load the file system on boot? Set this to false if building on real hardware.
         /// </summary>
         public static bool EnableFileSystem = true;
         /// <summary>
         /// Set this to true if you are building for real hardware.
         /// </summary>
         private static bool StartedFS = false;
+        /// <summary>
+        /// Starts MishaOS
+        /// </summary>
         public static void Boot()
         {
             if (!StartedFS && EnableFileSystem)
             {
                 Console.WriteLine("Starting FileSystem Driver");
                 Kernel.FS = new CosmosVFS();
-                
                 VFSManager.RegisterVFS(Kernel.FS);
-
                 StartedFS = true;
             }
+
+            CommandParaser.IsGUI = false;
+
             Console.WriteLine("Starting VGA Driver");
             VGAImage img = new VGAImage(320, 200);
             img.ParseData(Utils.BootScreen);
@@ -79,7 +92,7 @@ namespace MishaOS.Drivers
             if (!EnableFileSystem)
             {
                 VGADriverII.Clear(0); // clear screen with black
-                VGAGraphics.DrawString(0, 0, "MishaOS has detected that you are using", VGAColor.White, VGAFont.Font8x8); 
+                VGAGraphics.DrawString(0, 0, "MishaOS has detected that you are using", VGAColor.White, VGAFont.Font8x8);
                 VGAGraphics.DrawString(0, 9, "real hardware or an unknown virtual", VGAColor.White, VGAFont.Font8x8);
                 VGAGraphics.DrawString(0, 18, "machine. File system support has", VGAColor.White, VGAFont.Font8x8);
                 VGAGraphics.DrawString(0, 27, "been disabled.", VGAColor.White, VGAFont.Font8x8);
@@ -130,7 +143,11 @@ namespace MishaOS.Drivers
                 InterfaceSelector();
             }
         }
-        static void DelayInMS(int ms)
+        /// <summary>
+        /// Waits in Milliseconds
+        /// </summary>
+        /// <param name="ms"></param>
+        private static void DelayInMS(int ms)
         {
             for (int i = 0; i < ms * 100000; i++)
             {
@@ -184,8 +201,14 @@ namespace MishaOS.Drivers
                 InterfaceSelector();
             }
         }
+        /// <summary>
+        /// Starts the GUI
+        /// </summary>
         private static void initGui()
         {
+            //disable vga
+            VGADriverII.SetMode(VGAMode.Text80x25);
+
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.Black;

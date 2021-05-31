@@ -27,7 +27,7 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-      <DebugEnabled>True</DebugEnabled>
+      <DebugEnabled>False</DebugEnabled>
       <StackCorruptionDetectionLevel>MethodFooters</StackCorruptionDetectionLevel>
       <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     </PropertyGroup>
