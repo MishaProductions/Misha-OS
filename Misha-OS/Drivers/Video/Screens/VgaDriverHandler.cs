@@ -1,5 +1,6 @@
 ﻿using Cosmos.HAL;
 using Cosmos.System.Graphics;
+using Cosmos.System.Graphics.Fonts;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -69,14 +70,29 @@ namespace MishaOS.Drivers.Video.Screens
         {
             try
             {
-                if (pen == Color.White)
-                    VGAGraphics.DrawString(x, y, str, VGAColor.White, VGAFont.Font3x5);
-                else if (pen == Color.Black)
-                    VGAGraphics.DrawString(x, y, str, VGAColor.Black, VGAFont.Font3x5);
-                else
-                    VGAGraphics.DrawString(x, y, str, VGAColor.Red, VGAFont.Font3x5);
+                var aFont = MishaOSConfig.DefaultFont;
+                foreach (char c in str)
+                {
+                    DrawChar(c, aFont, pen, x, y); ;
+                    x += aFont.Width;
+                }
             }
             catch { }
+        }
+        public void DrawChar(char c, Font aFont, Color pen, int x, int y)
+        {
+            int p = aFont.Height * (byte)c;
+
+            for (int cy = 0; cy < aFont.Height; cy++)
+            {
+                for (byte cx = 0; cx < aFont.Width; cx++)
+                {
+                    if (aFont.ConvertByteToBitAddres(aFont.Data[p + cy], cx + 1))
+                    {
+                        DrawPixel(pen, (ushort)((x) + (aFont.Width - cx)), (ushort)((y) + cy));
+                    }
+                }
+            }
         }
 
         public override void Init(int width, int height, int ColorDepth)

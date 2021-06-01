@@ -17,9 +17,9 @@ namespace MishaOS.Gui.Windows
         private bool _IsOpen = false;
         private Point loc = new Point(0, 0);
         private Point OldMouseLoc;
-        private int CloseWidth = 10;
+        private int CloseWidth { get { return MishaOSConfig.DefaultFont.Width + 2; } }
         private int CloseHeight = TitlebarHeight;
-        public static int TitlebarHeight = 10;
+        public static int TitlebarHeight = 15;
         private bool WindowMoving;
 
         /// <summary>
@@ -172,6 +172,7 @@ namespace MishaOS.Gui.Windows
         public virtual void Close()
         {
             _IsOpen = false;
+            
         }
         /// <summary>
         /// Updates everything on the window. Ex: checks if close button clicked.

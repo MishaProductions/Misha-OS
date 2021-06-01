@@ -6,6 +6,7 @@ using MishaOS.Drivers;
 using MishaOS.Gui.Windows;
 using MishaOS.Gui.Windows.Controls;
 using MishaOS.TextUI.Commands;
+using System;
 using System.Drawing;
 
 namespace MishaOS
@@ -57,43 +58,39 @@ namespace MishaOS
         public override void Update()
         {
             base.Update();
-            try
+            KeyEvent k;
+            bool IsKeyPressed = KeyboardManager.TryReadKey(out k);
+            if (!IsKeyPressed) //if the user did not press a key return 
+                return;
+            //Check the keys and peform action.
+            if (k.Key == ConsoleKeyEx.Enter)
             {
-                KeyEvent k;
-                bool IsKeyPressed = KeyboardManager.TryReadKey(out k);
-                if (!IsKeyPressed) //if the user did not press a key return 
-                    return;
-                //Check the keys and peform action.
-                if (k.Key == ConsoleKeyEx.Enter)
+                string Command = typingcommand;
+                typingcommand = "";
+                console.WriteLine();//Move down the cursor.
+                CommandParaser.ProcessCommand(console, Command); //Process the command
+                console.Write(console.CurrentDIR + " ");
+            }
+            else if (k.Key == ConsoleKeyEx.Spacebar)
+            {
+                typingcommand += " ";
+                console.Write(" ");
+            }
+            else if (k.Key == ConsoleKeyEx.Backspace)
+            {
+                if (StringindexX != 0)
                 {
-                    string Command = typingcommand;
-                    typingcommand = "";
-                    console.WriteLine();//Move down the cursor.
-                    CommandParaser.ProcessCommand(console, Command); //Process the command
-                    console.Write(console.CurrentDIR + " ");
-                }
-                else if (k.Key == ConsoleKeyEx.Spacebar)
-                {
-                    typingcommand += " ";
+                    StringindexX -= MishaOSConfig.DefaultFont.Width;
+                    typingcommand = typingcommand.Remove(typingcommand.Length - 1, 1);
                     console.Write(" ");
-                }
-                else if (k.Key == ConsoleKeyEx.Backspace)
-                {
-                    if (StringindexX != 0)
-                    {
-                        StringindexX -= 5;
-                        typingcommand = typingcommand.Remove(typingcommand.Length - 1, 1);
-                        console.Write(" ");
-                        StringindexX -= 5;
-                    }
-                }
-                else
-                {
-                    typingcommand += k.KeyChar;
-                    console.Write(k.KeyChar.ToString());
+                    StringindexX -= MishaOSConfig.DefaultFont.Width;
                 }
             }
-            catch { }
+            else
+            {
+                typingcommand += k.KeyChar;
+                console.Write(k.KeyChar.ToString());
+            }
         }
         /// <summary>
         /// Draws a string.
@@ -132,12 +129,12 @@ namespace MishaOS
             }
             if (newline)
             {
-                StringindexY += 10;
+                StringindexY += MishaOSConfig.DefaultFont.Height;
             }
             else
             {
                 if (a)
-                    StringindexX += 5;
+                    StringindexX += MishaOSConfig.DefaultFont.Width;
             }
         }
     }

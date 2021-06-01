@@ -32,15 +32,15 @@ namespace MishaOS
             {
                 if (CommandParaser.IsGUI)
                 {
-                    //TODO: maybe add threads to update the screen?
                     Display.Clear(Color.DodgerBlue);
 
                     DesktopManager.Update();
                     UiMouse.Update();
                     if (FPSCounter.ShouldRender)
                     {
-                        Display.DrawRectangle(0, 0, 40, 10, Color.Black);
-                        Display.DrawString("FPS: " + FPSCounter.FPS, Color.White, 0, 0);
+                        var str = "FPS: " + FPSCounter.FPS;
+                        Display.DrawRectangle(0, 0, MishaOSConfig.DefaultFont.Width * str.Length, MishaOSConfig.DefaultFont.Height, Color.Black);
+                        Display.DrawString(str, Color.White, 0, 0);
                     }
                     Display.Render();
                 }

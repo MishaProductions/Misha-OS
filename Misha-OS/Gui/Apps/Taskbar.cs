@@ -11,32 +11,36 @@ namespace MishaOS.Gui.Windows
     /// </summary>
     public class Taskbar : Window
     {
-        private StartMenu StartMenu;
+        public const int TaskbarHeight = 30;
+        public Button btnStart;
+        internal static StartMenu StartMenuInstance;
         public Taskbar()
         {
             this.Text = "Taskbar UI";
-            BackgroundColor = Color.ForestGreen;
+            BackgroundColor = Color.FromArgb(49, 54, 58);
 
-            this.Size = new Size(Display.ScreenWidth, 15);
-            this.Location = new Point(0, Display.ScreenHeight - 15);
+            this.Size = new Size(Display.ScreenWidth, TaskbarHeight);
+            this.Location = new Point(0, Display.ScreenHeight - TaskbarHeight);
             this.ShouldDrawTitleBar = false;
-
-
-            Button start = new Button
+            StartMenuInstance = new StartMenu(this);
+            btnStart = new Button
             {
                 Location = new Point(0, 0),
-                Size = new Size(30, 15),
+                Size = new Size(40, TaskbarHeight),
                 Text = "Start",
-                BackgroundColor = Color.Green
+                BackgroundColor = Color.FromArgb(49, 54, 40),
+                ForeColor = Color.White
             };
-            start.OnClick += Start_OnClick;
-            this.Controls.Add(start);
-        }
-        private void Start_OnClick(object sender, EventArgs e)
-        {
-            StartMenu = new StartMenu();
+            btnStart.OnClick += btnStart_OnClick;
 
-            DesktopManager.OpenWindow(StartMenu);
+            this.Controls.Add(btnStart);
+            DesktopManager.OpenWindow(StartMenuInstance);
+            StartMenuInstance.Close();
+        }
+        private void btnStart_OnClick(object sender, EventArgs e)
+        {
+            btnStart.BackgroundColor = Color.Green;
+            StartMenuInstance.Open();
         }
     }
 }

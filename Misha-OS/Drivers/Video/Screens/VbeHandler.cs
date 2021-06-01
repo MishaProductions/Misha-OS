@@ -40,7 +40,7 @@ namespace MishaOS.Drivers.Video.Screens
 
         public override void DrawString(string str, Color pen, int x, int y)
         {
-            backend.DrawString(str, PCScreenFont.Default, new Pen(pen), new Cosmos.System.Graphics.Point(x, y));
+            backend.DrawString(str, MishaOSConfig.DefaultFont, new Pen(pen), new Cosmos.System.Graphics.Point(x, y));
         }
 
         public override void Init(int width, int height, int ColorDepth)

@@ -1,4 +1,5 @@
-﻿using MishaOS.TextUI.Commands;
+﻿using Cosmos.HAL;
+using MishaOS.TextUI.Commands;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,9 @@ namespace MishaOS.Drivers
         /// <param name="Error"></param>
         public static void Panic(string Error)
         {
-            Display.Disable();
+            if (CommandParaser.IsGUI)
+                Display.Disable();
+            VGADriverII.SetMode(VGAMode.Text80x25);
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.ForegroundColor = ConsoleColor.White;
             Console.CursorVisible = false;
@@ -33,7 +36,7 @@ compatible with your computer's BIOS.
 If problems continue, disable or remove any newly installed hardware. 
 Disable BIOS memory options such as caching or shadowing.");
             CommandParaser.IsGUI = false;
-            while (true); //lock up
+            while (true) ; //lock up
         }
         /// <summary>
         /// Makes string look uglier

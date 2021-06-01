@@ -70,7 +70,7 @@ namespace MishaOS.Drivers
                 ScreenWidth = driver.SupportedVideoModes[0].Columns;
                 ScreenHeight = driver.SupportedVideoModes[0].Rows;
 
-                driver.Init(ScreenWidth, ScreenHeight, 32);
+                driver.Init(ScreenWidth, ScreenHeight, 4);
             }
         }
 

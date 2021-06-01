@@ -1,4 +1,5 @@
-﻿using MishaOS.Drivers;
+﻿using Cosmos.System.Graphics.Fonts;
+using MishaOS.Drivers;
 using System.Collections.Generic;
 using System.IO;
 
@@ -9,6 +10,7 @@ namespace MishaOS
         public static bool IsMishaOSInstalled { get; private set; }
         public static string BootVolume { get; private set; }
         public static string ConfigFilePath { get; private set; }
+        public static Font DefaultFont { get { return PCScreenFont.Default; } }
         internal static bool IsInstalled()
         {
             return IsMishaOSInstalled;

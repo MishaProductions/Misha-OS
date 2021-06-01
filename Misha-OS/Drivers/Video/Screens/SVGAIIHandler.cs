@@ -39,7 +39,7 @@ namespace MishaOS.Drivers.Video.Screens
 
         public override void DrawString(string str, Color pen, int x, int y)
         {
-            Font aFont = PCScreenFont.Default;
+            Font aFont = MishaOSConfig.DefaultFont;
             foreach (char c in str)
             {
                 DrawChar(c, aFont, pen, x, y);

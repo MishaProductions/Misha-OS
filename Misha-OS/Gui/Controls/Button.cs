@@ -10,6 +10,7 @@ namespace MishaOS.Gui.Windows.Controls
     public class Button : Control
     {
         private EventHandler OnClickEventHandler;
+        private string _Text = "Button";
         /// <summary>
         /// Invoked when button is clicked.
         /// </summary>
@@ -25,9 +26,7 @@ namespace MishaOS.Gui.Windows.Controls
             {
                 OnClickEventHandler -= value;
             }
-
         }
-        private string _Text = "Button";
         /// <summary>
         /// The text of the button
         /// </summary>
@@ -45,8 +44,6 @@ namespace MishaOS.Gui.Windows.Controls
         }
         public override void Draw()
         {
-            if (!Visible | this.ParrentWindow == null)
-                return;
             base.Draw();
             int x = this.Location.X;
             int y = this.Location.Y;

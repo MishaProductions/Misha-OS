@@ -1,4 +1,5 @@
-﻿using MishaOS.Commands;
+﻿using Cosmos.HAL;
+using MishaOS.Commands;
 using MishaOS.Commands.All;
 using MishaOS.Drivers;
 using MishaOS.Gui;
@@ -37,10 +38,6 @@ namespace MishaOS.TextUI.Commands
             else if (cmd.ToLower().StartsWith("dir"))
             {
                 new LsCommand().Execute(g, cmd);
-            }
-            else if (cmd.ToLower().StartsWith("crash"))
-            {
-                throw new System.Exception("Crash command ran.");
             }
             else if (cmd.ToLower().StartsWith("cd"))
             {
@@ -101,6 +98,10 @@ namespace MishaOS.TextUI.Commands
             {
                 new edit().Execute(g, cmd);
             }
+            else if (cmd.ToLower().StartsWith("crash"))
+            {
+                throw new System.Exception("Crash command executed.");
+            }
             else if (cmd.ToLower().StartsWith("mode"))
             {
                 var args = cmd.ToLower().Split();
@@ -126,6 +127,7 @@ namespace MishaOS.TextUI.Commands
                                 term = new TextTerm()
                             };
                             Display.Disable();
+                            VGADriverII.SetMode(VGAMode.Text80x25);
                             g.WriteLine("Now in text mode!");
                             g.Write(g.CurrentDIR);
                             while (IsGUI == false)

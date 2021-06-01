@@ -1,5 +1,6 @@
 ﻿using Cosmos.Core;
 using Cosmos.HAL;
+using Cosmos.HAL.Drivers;
 using Cosmos.System.FileSystem;
 using Cosmos.System.FileSystem.VFS;
 using Cosmos.System.Graphics;
@@ -41,8 +42,10 @@ namespace MishaOS.Drivers
         {
             get
             {
-                return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.Bochs, Cosmos.HAL.DeviceID.BGA) != null ||
-                    Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VirtualBox, Cosmos.HAL.DeviceID.VBVGA) != null || VBE.IsAvailable();
+                return VBE.IsAvailable() ||
+                    ((PCI.GetDevice(VendorID.VirtualBox, DeviceID.VBVGA)) != null) || //VirtualBox Video Adapter PCI Mode
+                    ((PCI.GetDevice(VendorID.Bochs, DeviceID.BGA)) != null) || //BOCHS vbe
+                    VBEDriver.ISAModeAvailable();
             }
         }
 

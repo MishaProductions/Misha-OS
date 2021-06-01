@@ -50,7 +50,7 @@ namespace MishaOS.Gui
                         if (w == win)
                         {
                             winindex = index;
-                            w.Dispose();
+                            w.Close();
                             break;
                         }
                     }

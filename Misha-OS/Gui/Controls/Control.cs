@@ -122,7 +122,7 @@ namespace MishaOS.Gui.Windows.Controls
             Draw();
         }
         /// <summary>
-        /// Draw function. Please do not call dirrectly, insted call DrawAll()
+        /// Draw function. Please do not call directly, instead call DrawAll()
         /// </summary>
         public virtual void Draw()
         {

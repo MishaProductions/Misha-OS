@@ -14,6 +14,9 @@ namespace MishaOS.Gui.Apps
         private int infoTextY = 40;
 
         public int CurrentTab = 0;
+        Button InfoTabbtn = new Button();
+        Button colorsBtn = new Button();
+        Button settingsTab = new Button();
         public Settings()
         {
             this.Text = "Setings";
@@ -39,30 +42,26 @@ namespace MishaOS.Gui.Apps
         {
             ColorTab();
         }
-        Button InfoTabbtn = new Button();
-        Button colorsBtn = new Button();
-        Button settingsTab = new Button();
         public void AddTabButtons()
         {
-
             settingsTab.Text = "Settings";
             settingsTab.Location = new System.Drawing.Point();
-            settingsTab.Size = new Size(50, 10);
+            settingsTab.Size = new Size(55, 15);
             settingsTab.OnClick += SettingsTab_OnClick;
             this.Controls.Add(settingsTab);
 
 
             colorsBtn.Text = "Colors";
-            colorsBtn.Location = new System.Drawing.Point(55, 0);
-            colorsBtn.Size = new Size(50, 10);
+            colorsBtn.Location = new System.Drawing.Point(60, 0);
+            colorsBtn.Size = new Size(55, 15);
             colorsBtn.OnClick += ColorsBtn_OnClick;
             this.Controls.Add(colorsBtn);
 
 
 
             InfoTabbtn.Text = "Info";
-            InfoTabbtn.Location = new System.Drawing.Point(110, 0);
-            InfoTabbtn.Size = new Size(50, 10);
+            InfoTabbtn.Location = new System.Drawing.Point(120, 0);
+            InfoTabbtn.Size = new Size(55, 15);
             InfoTabbtn.OnClick += InfoTabbtn_OnClick;
             this.Controls.Add(InfoTabbtn);
         }
@@ -104,9 +103,6 @@ namespace MishaOS.Gui.Apps
             DisplaySize.OnClick += DisplaySize_OnClick;
             this.Controls.Add(DisplaySize);
         }
-
-        Button DisplaySizeOptionA = new Button();
-        Button DisplaySizeOptionB = new Button();
         private void DisplaySize_OnClick(object sender, EventArgs e)
         {
             var modes = Display.GetModes();
@@ -125,8 +121,8 @@ namespace MishaOS.Gui.Apps
                 {
                     var bb = (Button)sender2;
                     var mode = (Mode)bb.Tag;
-                    Display.ScreenWidth = mode.Rows;
-                    Display.ScreenHeight = mode.Columns;
+                    Display.ScreenWidth = mode.Columns;
+                    Display.ScreenHeight = mode.Rows;
                     Display.Init();
                     foreach (var b in btns)
                     {
@@ -141,9 +137,9 @@ namespace MishaOS.Gui.Apps
         }
         public void AddInfoText(string text)
         {
-            Label lbl = new Label() { Text = text, ForeColor = Color.White, Location = new System.Drawing.Point(5, infoTextY) };
+            Label lbl = new Label() { Text = text, ForeColor = Color.White, Location = new System.Drawing.Point(5, infoTextY),BackgroundColor=Color.Transparent };
             this.Controls.Add(lbl);
-            infoTextY += 10;
+            infoTextY += 15;
         }
     }
 }
