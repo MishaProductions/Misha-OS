@@ -21,7 +21,7 @@ namespace MishaOS.Gui.Apps
         {
             this.Text = "Setings";
             this.BackgroundColor = Color.DodgerBlue;
-            this.Size = new Size(200, 150);
+            this.Size = new Size(250, 170);
             AddTabButtons();
             SettingsTab();
         }
