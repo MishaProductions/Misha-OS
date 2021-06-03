@@ -12,11 +12,10 @@ namespace MishaOS.Gui.Apps
     public class Settings : Window
     {
         private int infoTextY = 40;
-
         public int CurrentTab = 0;
-        Button InfoTabbtn = new Button();
-        Button colorsBtn = new Button();
-        Button settingsTab = new Button();
+        private Button InfoTabbtn = new Button();
+        private Button colorsBtn = new Button();
+        private Button settingsTab = new Button();
         public Settings()
         {
             this.Text = "Setings";
