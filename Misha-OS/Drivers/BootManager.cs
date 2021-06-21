@@ -37,7 +37,9 @@ namespace MishaOS.Drivers
                 return Cosmos.HAL.PCI.GetDevice(Cosmos.HAL.VendorID.VMWare, Cosmos.HAL.DeviceID.SVGAIIAdapter) != null;
             }
         }
-
+        /// <summary>
+        /// Has VBE
+        /// </summary>
         public static bool HasVBE
         {
             get

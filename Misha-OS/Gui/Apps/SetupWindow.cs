@@ -184,7 +184,7 @@ namespace MishaOS.Gui.Windows
                 {
                     stackTrace = "At Kernel.FS.Format()\n At SetupWindow::SetStage(). Varibles: SelectedDriveNum=" + SelectedDriveNum.ToString();
 
-                    //Kernel.FS.Format(SelectedDriveNum.ToString() + @":\", "FAT32", true);
+                    Kernel.FS.Format(SelectedDriveNum.ToString() + @":\", "FAT32", true);
 
 
                     //Set progress
