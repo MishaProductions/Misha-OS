@@ -66,30 +66,21 @@ namespace MishaOS
         }
         public static void Init()
         {
-            if (BootManager.EnableFileSystem)
+            foreach (var item in Kernel.FS.GetVolumes())
             {
-                foreach (var item in Kernel.FS.GetVolumes())
+                Kernel.PrintDebug("Detected volume: " + item.mFullPath);
+
+                if (Directory.Exists(item.mFullPath + @"MishaOS"))
                 {
-                    Kernel.PrintDebug("Detected volume: " + item.mFullPath);
-                    
-                    if (Directory.Exists(item.mFullPath + @"MishaOS"))
+                    if (File.Exists(item.mFullPath + @"MishaOS\system.cfg"))
                     {
-                        if (File.Exists(item.mFullPath + @"MishaOS\system.cfg"))
-                        {
-                            IsMishaOSInstalled = true;
-                            ConfigFilePath = item.mFullPath + @"MishaOS\system.cfg";
-                            BootVolume = item.mFullPath;
-                            Kernel.PrintDebug("Found boot volume: " + item.mFullPath);
-                            break;
-                        }
+                        IsMishaOSInstalled = true;
+                        ConfigFilePath = item.mFullPath + @"MishaOS\system.cfg";
+                        BootVolume = item.mFullPath;
+                        Kernel.PrintDebug("Found boot volume: " + item.mFullPath);
+                        break;
                     }
                 }
-
-            }
-            else
-            {
-                IsMishaOSInstalled = false;
-                BootVolume = "?";
             }
         }
     }
