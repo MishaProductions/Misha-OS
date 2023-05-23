@@ -1,3 +1,5 @@
+# Misha-OS is no longer supported and I don't have any motivation to update it to work with the latest version of Cosmos
+
 ![image](https://github.com/MishaTY/Misha-OS/blob/master/Images/project-banner.png)
 
 # Features
